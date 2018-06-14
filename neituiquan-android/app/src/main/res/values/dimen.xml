@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="smallText">12sp</dimen>
+
+    <dimen name="centerText">15sp</dimen>
+
+    <dimen name="bigText">20sp</dimen>
+    
+    <dimen name="superText">26sp</dimen>
+
+    <dimen name="toolBarHeight">50dp</dimen>
+
+    <dimen name="buttonHeight">40dp</dimen>
+</resources>

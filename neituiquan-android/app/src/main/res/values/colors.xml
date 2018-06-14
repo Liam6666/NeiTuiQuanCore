@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="colorAccent">#0DACFD</color>
+
+    <color name="themeColor">#0DACFD</color>
+
+    <color name="backgroundColor">#FFFFFF</color>
+    <color name="lineColor">#E7E7E7</color>
+
+    <color name="lowTextColor">#A1A1A1</color>
+    <color name="highTextColor">#333333</color>
+    
+    <color name="buttonActiveColor">#64ACFF</color>
+    <color name="buttonDisabledColor">#64ACFF</color>
+</resources>
