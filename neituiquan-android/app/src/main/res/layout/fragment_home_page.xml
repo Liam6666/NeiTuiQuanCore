@@ -32,11 +32,14 @@
                 android:background="@color/backgroundColor"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
+                app:tl_textSelectColor="@color/themeColor"
                 app:tl_textsize="@dimen/centerText"
-                app:tl_underline_color="@color/themeColor"
+                app:tl_textUnselectColor="@color/lowTextColor"
+                app:tl_underline_color="@color/lowTextColor"
+                app:tl_indicator_color="@color/themeColor"
                 app:tl_underline_height="1dp"
                 app:tl_tab_space_equal="true"
-                app:tl_indicator_width_equal_title="true"/>
+                app:tl_indicator_margin_bottom="5dp"/>
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 

@@ -118,10 +118,12 @@ public class HomePageFragment extends BaseFragment {
     private void initViewPager(){
         List<View> viewList = new ArrayList<>();
         viewList.add(View.inflate(getContext(),R.layout.item_home_page,null));
+        viewList.add(View.inflate(getContext(),R.layout.item_home_page,null));
+        viewList.add(View.inflate(getContext(),R.layout.item_home_page,null));
         homePageAdapter = new HomePageAdapter(getContext(),viewList);
         homeFG_viewPager.setAdapter(homePageAdapter);
         homeFG_viewPager.setOffscreenPageLimit(viewList.size());
-        homeFG_tabLayout.setViewPager(homeFG_viewPager,new String[]{"item1"});
+        homeFG_tabLayout.setViewPager(homeFG_viewPager,new String[]{"item1","item2","item3"});
         RecyclerView recyclerView = viewList.get(0).findViewById(R.id.item_recyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
