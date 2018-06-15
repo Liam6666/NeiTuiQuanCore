@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/tools"
+    android:background="@color/backgroundColor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/homeFG_appBarLayout"
+        android:background="@color/backgroundColor"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+        <com.youth.banner.Banner
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:id="@+id/homeFG_banner"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <View
+                android:id="@+id/homeFG_statusView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+            <com.flyco.tablayout.SlidingTabLayout
+                android:id="@+id/homeFG_tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/backgroundColor"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                app:tl_textsize="@dimen/centerText"
+                app:tl_underline_color="@color/themeColor"
+                app:tl_underline_height="1dp"
+                app:tl_tab_space_equal="true"
+                app:tl_indicator_width_equal_title="true"/>
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.view.ViewPager
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/homeFG_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+</android.support.design.widget.CoordinatorLayout>

@@ -1,25 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:background="@color/backgroundColor"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <android.support.v4.widget.DrawerLayout
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/themeColor"
+        android:id="@+id/mainUI_statusView"/>
+    <FrameLayout
+        android:id="@+id/mainUI_contentFrameLayout"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+    </FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/lineColor"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
         <LinearLayout
-            android:orientation="vertical"
+            android:id="@+id/mainUI_homePageLayout"
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <FrameLayout
-                android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/mainUI_homePageIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="2dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/home_fill"/>
+            <TextView
+                android:id="@+id/mainUI_homePageTv"
+                android:textColor="@color/themeColor"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></FrameLayout>
+                android:layout_height="wrap_content"
+                android:text="首页"
+                android:gravity="center"
+                android:textSize="@dimen/smallText"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_gravity="start"
+            android:id="@+id/mainUI_foundLayout"
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/mainUI_foundIcon"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:padding="2dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/form_light"/>
+            <TextView
+                android:id="@+id/mainUI_foundTv"
+                android:textColor="@color/lowTextColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="发现"
+                android:gravity="center"
+                android:textSize="@dimen/smallText"/>
         </LinearLayout>
-    </android.support.v4.widget.DrawerLayout>
+        <LinearLayout
+            android:id="@+id/mainUI_messageLayout"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/mainUI_messageIcon"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:padding="2dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/message_light"/>
+            <TextView
+                android:id="@+id/mainUI_messageTv"
+                android:textColor="@color/lowTextColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="消息"
+                android:gravity="center"
+                android:textSize="@dimen/smallText"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/mainUI_meLayout"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/mainUI_meIcon"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:padding="2dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/my"/>
+            <TextView
+                android:id="@+id/mainUI_meTv"
+                android:textColor="@color/lowTextColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="我的"
+                android:gravity="center"
+                android:textSize="@dimen/smallText"/>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
