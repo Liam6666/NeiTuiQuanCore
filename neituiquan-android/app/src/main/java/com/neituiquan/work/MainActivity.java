@@ -43,8 +43,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ImageView mainUI_meIcon;
     private TextView mainUI_meTv;
 
-    private HttpUtils httpUtils;
-
     private HomePageFragment homePageFragment;
 
 
@@ -64,7 +62,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         initStatusBar();
         mainUI_statusView.setVisibility(View.GONE);
-        httpUtils = new HttpUtils();
         initFragments();
     }
 
@@ -130,10 +127,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
 
-    }
-
-    public HttpUtils getHttpUtils() {
-        return httpUtils;
     }
 
     private FragmentTransaction createTransaction(){

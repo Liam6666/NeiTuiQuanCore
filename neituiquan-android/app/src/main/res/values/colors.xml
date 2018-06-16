@@ -9,8 +9,8 @@
     <color name="backgroundColor">#FFFFFF</color>
     <color name="lineColor">#E7E7E7</color>
 
-    <color name="lowTextColor">#A1A1A1</color>
-    <color name="highTextColor">#FFFFFF</color>
+    <color name="lowTextColor">#AAAAAA</color>
+    <color name="highTextColor">#2B2B2B</color>
     
     <color name="buttonActiveColor">#37DE8A</color>
     <color name="buttonDisabledColor">#00B38A</color>

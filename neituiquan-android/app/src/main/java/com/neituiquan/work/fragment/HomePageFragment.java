@@ -1,13 +1,18 @@
 package com.neituiquan.work.fragment;
 
+import android.animation.ArgbEvaluator;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.SizeUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
-import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
 import com.neituiquan.FinalData;
@@ -27,7 +29,9 @@ import com.neituiquan.base.BaseFragment;
 import com.neituiquan.entity.BannerEntity;
 import com.neituiquan.gson.BannerModel;
 import com.neituiquan.eventModel.BannerEventModel;
+import com.neituiquan.net.HttpFactory;
 import com.neituiquan.net.HttpUtils;
+import com.neituiquan.view.AppBarStateChangeListener;
 import com.neituiquan.work.MainActivity;
 import com.neituiquan.work.R;
 import com.youth.banner.Banner;
@@ -63,40 +67,39 @@ public class HomePageFragment extends BaseFragment {
     private ViewPager homeFG_viewPager;
     private View homeFG_statusView;
     private AppBarLayout homeFG_appBarLayout;
-
-    private HttpUtils httpUtils;
+    private Toolbar homeFG_toolbar;
+    private CollapsingToolbarLayout homeFG_collapsingLayout;
+    private LinearLayout homeFG_searchLayout;
 
     private HomePageAdapter homePageAdapter;
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return View.inflate(getContext(), R.layout.fragment_home_page,null);
+        return View.inflate(getContext(), R.layout.fragment_home_page, null);
     }
 
     @Override
     public void initList(Bundle savedInstanceState) {
         bindViews();
         initStatusBar();
-        httpUtils = ((MainActivity)getContext()).getHttpUtils();
-        String url = FinalData.UAT + "/getAllBanner";
-        httpUtils.get(url,new BannerEventModel());
         initViewPager();
+        changedSearchView();
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void bannerResponse(BannerEventModel eventModel){
-        if(eventModel.isSuccess){
+    public void bannerResponse(BannerEventModel eventModel) {
+        if (eventModel.isSuccess) {
             List<String> imgList = new ArrayList<>();
-            BannerModel bannerModel = new Gson().fromJson(eventModel.resultStr,BannerModel.class);
-            for(BannerEntity entity : bannerModel.data){
+            BannerModel bannerModel = new Gson().fromJson(eventModel.resultStr, BannerModel.class);
+            for (BannerEntity entity : bannerModel.data) {
                 imgList.add(entity.getImgUrl());
             }
             initBanner(imgList);
         }
     }
 
-    private void initBanner(List<String> imgList){
+    private void initBanner(List<String> imgList) {
         //设置banner样式
         homeFG_banner.setBannerStyle(BannerConfig.NUM_INDICATOR);
         //设置图片加载器
@@ -115,22 +118,22 @@ public class HomePageFragment extends BaseFragment {
         homeFG_banner.start();
     }
 
-    private void initViewPager(){
+    private void initViewPager() {
         List<View> viewList = new ArrayList<>();
-        viewList.add(View.inflate(getContext(),R.layout.item_home_page,null));
-        viewList.add(View.inflate(getContext(),R.layout.item_home_page,null));
-        viewList.add(View.inflate(getContext(),R.layout.item_home_page,null));
-        homePageAdapter = new HomePageAdapter(getContext(),viewList);
+        viewList.add(View.inflate(getContext(), R.layout.item_home_page, null));
+        viewList.add(View.inflate(getContext(), R.layout.item_home_page, null));
+        viewList.add(View.inflate(getContext(), R.layout.item_home_page, null));
+        homePageAdapter = new HomePageAdapter(getContext(), viewList);
         homeFG_viewPager.setAdapter(homePageAdapter);
         homeFG_viewPager.setOffscreenPageLimit(viewList.size());
-        homeFG_tabLayout.setViewPager(homeFG_viewPager,new String[]{"item1","item2","item3"});
+        homeFG_tabLayout.setViewPager(homeFG_viewPager, new String[]{"item1", "item2", "item3"});
         RecyclerView recyclerView = viewList.get(0).findViewById(R.id.item_recyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new RecyclerView.Adapter() {
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return new ViewHolder(View.inflate(getContext(),R.layout.item_tv,null));
+                return new ViewHolder(View.inflate(getContext(), R.layout.item_tv, null));
             }
 
             @Override
@@ -143,21 +146,55 @@ public class HomePageFragment extends BaseFragment {
                 return 100;
             }
         });
+
+        String url = FinalData.UAT + "/getAllBanner";
+        HttpFactory.getHttpUtils().get(url, new BannerEventModel());
     }
 
-    private void initStatusBar(){
+    private void initStatusBar() {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
                 int barHeight = BarUtils.getStatusBarHeight();
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1,barHeight);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, barHeight);
                 homeFG_statusView.setLayoutParams(params);
-                CoordinatorLayout.LayoutParams appBarParams = (CoordinatorLayout.LayoutParams) homeFG_appBarLayout.getLayoutParams();
+                CollapsingToolbarLayout.LayoutParams appBarParams = (CollapsingToolbarLayout.LayoutParams) homeFG_toolbar.getLayoutParams();
                 appBarParams.height += barHeight;
-                homeFG_appBarLayout.setLayoutParams(appBarParams);
+                homeFG_toolbar.setLayoutParams(appBarParams);
             }
         });
 
+    }
+
+    private void changedSearchView() {
+        final ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+        final int PAGE_COLOR_ONE = Color.parseColor("#00000000");
+        final int PAGE_COLOR_TWO = ContextCompat.getColor(getContext(),R.color.themeColor);
+        homeFG_appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if (state == State.EXPANDED) {
+                    //展开状态
+                } else if (state == State.COLLAPSED) {
+                    //折叠状态
+
+                } else {
+                    //中间状态
+                }
+            }
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                super.onOffsetChanged(appBarLayout, verticalOffset);
+//                appBarLayout.getTotalScrollRange()方法获取最大偏移值。
+//                Log.e("verticalOffset",""+verticalOffset);
+//                Log.e("verticalOffset",""+appBarLayout.getTotalScrollRange());
+                float value = (float) Math.abs(verticalOffset) / appBarLayout.getTotalScrollRange();
+//                Log.e("verticalOffset","value:"+value);
+                int color = (int) argbEvaluator.evaluate(value,PAGE_COLOR_ONE ,PAGE_COLOR_TWO);
+                homeFG_searchLayout.setBackgroundColor(color);
+            }
+        });
     }
 
     private void bindViews() {
@@ -166,9 +203,12 @@ public class HomePageFragment extends BaseFragment {
         homeFG_viewPager = findViewById(R.id.homeFG_viewPager);
         homeFG_statusView = findViewById(R.id.homeFG_statusView);
         homeFG_appBarLayout = findViewById(R.id.homeFG_appBarLayout);
+        homeFG_toolbar = findViewById(R.id.homeFG_toolbar);
+        homeFG_collapsingLayout = findViewById(R.id.homeFG_collapsingLayout);
+        homeFG_searchLayout = findViewById(R.id.homeFG_searchLayout);
     }
 
-    class GlideImageLoader extends ImageLoader{
+    class GlideImageLoader extends ImageLoader {
 
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {
@@ -176,7 +216,7 @@ public class HomePageFragment extends BaseFragment {
         }
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         public ViewHolder(View itemView) {
             super(itemView);
