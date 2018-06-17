@@ -7,11 +7,16 @@
     <color name="themeColor">#00B38A</color>
 
     <color name="backgroundColor">#FFFFFF</color>
-    <color name="lineColor">#E7E7E7</color>
+    <color name="lineColor">#88E7E7E7</color>
 
-    <color name="lowTextColor">#AAAAAA</color>
+    <color name="activeColor">#0500B38A</color>
+
+    <color name="lowTextColor">#A1A1A1</color>
+    <color name="TextColor">#A9A9A9</color>
     <color name="highTextColor">#2B2B2B</color>
     
     <color name="buttonActiveColor">#37DE8A</color>
     <color name="buttonDisabledColor">#00B38A</color>
+
+    <color name="red">#EE4335</color>
 </resources>

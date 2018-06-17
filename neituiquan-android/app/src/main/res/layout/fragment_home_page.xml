@@ -1,83 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tl="http://schemas.android.com/tools"
+    android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
-    app:layout_goneMarginTop="50dp">
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/homeFG_appBarLayout"
+    android:background="@color/themeColor"
+    app:srlPrimaryColor="@color/themeColor"
+    app:srlAccentColor="@color/highTextColor"
+    app:srlEnablePreviewInEditMode="true"
+    app:srlEnableRefresh="true"
+    app:srlEnableLoadMore="false">
+    <com.scwang.smartrefresh.layout.header.ClassicsHeader
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/backgroundColor">
-
-
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/homeFG_collapsingLayout"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <com.youth.banner.Banner
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/homeFG_banner"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                app:layout_scrollFlags="scroll" />
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/homeFG_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:contentInsetStart="0dp"
-                app:layout_collapseMode="pin">
-
-                <LinearLayout
-                    android:id="@+id/homeFG_searchLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <View
-                        android:id="@+id/homeFG_statusView"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="搜索"
-                        android:textColor="#000"
-                        android:gravity="center"/>
-                </LinearLayout>
-            </android.support.v7.widget.Toolbar>
-
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-
-
-        <com.flyco.tablayout.SlidingTabLayout
-            android:id="@+id/homeFG_tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/backgroundColor"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            app:tl_indicator_color="@color/themeColor"
-            app:tl_indicator_margin_bottom="0dp"
-            app:tl_tab_space_equal="true"
-            app:tl_textSelectColor="@color/themeColor"
-            app:tl_textUnselectColor="@color/lowTextColor"
-            app:tl_textsize="@dimen/centerText"
-            app:tl_underline_color="@color/lowTextColor"
-            app:tl_underline_height="1dp" />
-    </android.support.design.widget.AppBarLayout>
-
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/homeFG_viewPager"
+        android:layout_height="wrap_content"/>
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tl="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v4.view.ViewPager>
-</android.support.design.widget.CoordinatorLayout>
+        android:background="@color/backgroundColor"
+        app:layout_goneMarginTop="50dp">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/homeFG_appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/backgroundColor">
+
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/homeFG_collapsingLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_scrollFlags="scroll">
+                    <com.youth.banner.Banner
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/homeFG_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp" />
+                    <LinearLayout
+                        android:layout_margin="10dp"
+                        app:layout_scrollFlags="scroll"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="@dimen/toolBarHeight"
+                                android:layout_height="@dimen/toolBarHeight"
+                                android:src="@mipmap/pointer"/>
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="高新职位"
+                                android:textSize="@dimen/centerText"
+                                android:gravity="center"
+                                android:textColor="@color/highTextColor"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="@dimen/toolBarHeight"
+                                android:layout_height="@dimen/toolBarHeight"
+                                android:src="@mipmap/mailbox"/>
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="投递进度"
+                                android:textSize="@dimen/centerText"
+                                android:gravity="center"
+                                android:textColor="@color/highTextColor"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="@dimen/toolBarHeight"
+                                android:layout_height="@dimen/toolBarHeight"
+                                android:src="@mipmap/medal"/>
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="热门职位"
+                                android:textSize="@dimen/centerText"
+                                android:gravity="center"
+                                android:textColor="@color/highTextColor"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="@dimen/toolBarHeight"
+                                android:layout_height="@dimen/toolBarHeight"
+                                android:src="@mipmap/badge"/>
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="实习"
+                                android:textSize="@dimen/centerText"
+                                android:gravity="center"
+                                android:textColor="@color/highTextColor"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:background="@color/lineColor"/>
+
+                </LinearLayout>
+
+
+
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/homeFG_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    app:contentInsetStart="0dp"
+                    app:layout_collapseMode="pin">
+
+                    <LinearLayout
+                        android:id="@+id/homeFG_searchLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center">
+                        <View
+                            android:id="@+id/homeFG_statusView"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"/>
+                        <LinearLayout
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:background="@drawable/shape_search">
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:padding="8dp"
+                                android:src="@mipmap/search"/>
+                            <TextView
+                                android:textSize="@dimen/centerText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="搜索职位/公司"
+                                android:textColor="@color/lowTextColor"
+                                android:gravity="center_vertical"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.Toolbar>
+
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+
+            <com.flyco.tablayout.SlidingTabLayout
+                android:id="@+id/homeFG_tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/backgroundColor"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                app:tl_indicator_color="@color/themeColor"
+                app:tl_indicator_margin_bottom="0dp"
+                app:tl_tab_space_equal="false"
+                app:tl_textUnselectColor="@color/TextColor"
+                app:tl_textSelectColor="@color/themeColor"
+                app:tl_textsize="@dimen/centerText"
+                app:tl_underline_height="1dp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1sp"
+                android:background="@color/lineColor"/>
+        </android.support.design.widget.AppBarLayout>
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/homeFG_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v4.view.ViewPager>
+    </android.support.design.widget.CoordinatorLayout>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

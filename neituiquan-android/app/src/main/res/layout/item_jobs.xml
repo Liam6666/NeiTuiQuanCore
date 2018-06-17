@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/lineColor"/>
+
+    <LinearLayout
+        android:padding="10dp"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_item"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Android开发工程师"
+                android:textSize="@dimen/bigText"
+                android:textColor="@color/highTextColor"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:textSize="@dimen/bigText"
+                android:gravity="center_vertical|right"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="10k-15k"
+                android:textColor="@color/red"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/TextColor"
+                android:gravity="center_vertical"
+                android:text="苏州  大专  经验不限"/>
+
+
+            <TextView
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/TextColor"
+                android:gravity="center_vertical"
+                android:text="06月16日"/>
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textColor="@color/TextColor"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="五险一金"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:textSize="@dimen/smallText"
+                android:background="@drawable/shape_label"/>
+
+            <TextView
+                android:textColor="@color/TextColor"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="带薪年假"
+                android:paddingRight="10dp"
+                android:textSize="@dimen/smallText"
+                android:paddingLeft="10dp"
+                android:background="@drawable/shape_label"/>
+
+            <TextView
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="绩效奖金"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:textSize="@dimen/smallText"
+                android:textColor="@color/lowTextColor"
+                android:background="@drawable/shape_label"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:src="@mipmap/mailbox"/>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@color/TextColor"
+                android:textSize="@dimen/centerText"
+                android:text="江苏鼎思科技发展有限公司"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

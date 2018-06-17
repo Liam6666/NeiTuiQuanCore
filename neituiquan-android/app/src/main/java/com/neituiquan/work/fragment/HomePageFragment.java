@@ -101,19 +101,19 @@ public class HomePageFragment extends BaseFragment {
 
     private void initBanner(List<String> imgList) {
         //设置banner样式
-        homeFG_banner.setBannerStyle(BannerConfig.NUM_INDICATOR);
+        homeFG_banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         //设置图片加载器
         homeFG_banner.setImageLoader(new GlideImageLoader());
         //设置图片集合
         homeFG_banner.setImages(imgList);
         //设置banner动画效果
-        homeFG_banner.setBannerAnimation(Transformer.DepthPage);
+        homeFG_banner.setBannerAnimation(Transformer.Accordion);
         //设置自动轮播，默认为true
         homeFG_banner.isAutoPlay(true);
         //设置轮播时间
         homeFG_banner.setDelayTime(1500);
         //设置指示器位置（当banner模式中有指示器时）
-        homeFG_banner.setIndicatorGravity(BannerConfig.RIGHT);
+        homeFG_banner.setIndicatorGravity(BannerConfig.CENTER);
         //banner设置方法全部调用完毕时最后调用
         homeFG_banner.start();
     }
@@ -122,18 +122,20 @@ public class HomePageFragment extends BaseFragment {
         List<View> viewList = new ArrayList<>();
         viewList.add(View.inflate(getContext(), R.layout.item_home_page, null));
         viewList.add(View.inflate(getContext(), R.layout.item_home_page, null));
-        viewList.add(View.inflate(getContext(), R.layout.item_home_page, null));
+        String[] tabs = new String[]{
+                "推荐","最新"
+        };
         homePageAdapter = new HomePageAdapter(getContext(), viewList);
         homeFG_viewPager.setAdapter(homePageAdapter);
         homeFG_viewPager.setOffscreenPageLimit(viewList.size());
-        homeFG_tabLayout.setViewPager(homeFG_viewPager, new String[]{"item1", "item2", "item3"});
+        homeFG_tabLayout.setViewPager(homeFG_viewPager,tabs);
         RecyclerView recyclerView = viewList.get(0).findViewById(R.id.item_recyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new RecyclerView.Adapter() {
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return new ViewHolder(View.inflate(getContext(), R.layout.item_tv, null));
+                return new ViewHolder(View.inflate(getContext(), R.layout.item_jobs, null));
             }
 
             @Override
@@ -143,7 +145,27 @@ public class HomePageFragment extends BaseFragment {
 
             @Override
             public int getItemCount() {
-                return 100;
+                return 15;
+            }
+        });
+
+        RecyclerView recyclerView2 = viewList.get(1).findViewById(R.id.item_recyclerView);
+
+        recyclerView2.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView2.setAdapter(new RecyclerView.Adapter() {
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                return new ViewHolder(View.inflate(getContext(), R.layout.item_jobs, null));
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+            }
+
+            @Override
+            public int getItemCount() {
+                return 15;
             }
         });
 
