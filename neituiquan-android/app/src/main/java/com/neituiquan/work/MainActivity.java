@@ -16,10 +16,12 @@ import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseActivity;
+import com.neituiquan.base.BaseFragment;
 import com.neituiquan.eventModel.BannerEventModel;
 import com.neituiquan.net.HttpUtils;
 import com.neituiquan.net.RequestEventModel;
 import com.neituiquan.work.fragment.HomePageFragment;
+import com.neituiquan.work.fragment.UserFragment;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -44,7 +46,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private TextView mainUI_meTv;
 
     private HomePageFragment homePageFragment;
+    private UserFragment userFragment;
 
+    private BaseFragment currentFragment;
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -63,6 +67,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         initStatusBar();
         mainUI_statusView.setVisibility(View.GONE);
         initFragments();
+
+        //设置状态栏是否为浅色模式
+        BarUtils.setStatusBarLightMode(this,true);
     }
 
 
@@ -87,6 +94,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void initFragments(){
         homePageFragment = HomePageFragment.newInstance();
+        userFragment = UserFragment.newInstance();
         showHindFragment(1);
     }
 
@@ -107,8 +115,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             .show(homePageFragment)
                             .commit();
                 }else{
-                    createTransaction().show(homePageFragment).commit();
+                    createTransaction()
+                            .show(homePageFragment)
+                            .hide(currentFragment)
+                            .commit();
                 }
+                currentFragment = homePageFragment;
                 mainUI_homePageIcon.setImageResource(R.mipmap.home_fill);
                 mainUI_homePageTv.setTextColor(ContextCompat.getColor(this,R.color.themeColor));
                 break;
@@ -121,6 +133,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mainUI_messageTv.setTextColor(ContextCompat.getColor(this,R.color.themeColor));
                 break;
             case 4:
+                if(!userFragment.isAdded()){
+                    createTransaction()
+                            .add(R.id.mainUI_contentFrameLayout,userFragment)
+                            .show(userFragment)
+                            .commit();
+                }else{
+                    createTransaction()
+                            .show(userFragment)
+                            .hide(currentFragment)
+                            .commit();
+                }
+                currentFragment = userFragment;
                 mainUI_meIcon.setImageResource(R.mipmap.my_fill);
                 mainUI_meTv.setTextColor(ContextCompat.getColor(this,R.color.themeColor));
                 break;

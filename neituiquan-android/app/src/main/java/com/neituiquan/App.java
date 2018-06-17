@@ -2,6 +2,7 @@ package com.neituiquan;
 
 import android.app.Application;
 
+import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.Utils;
 
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
