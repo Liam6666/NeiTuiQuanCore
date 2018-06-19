@@ -24,6 +24,27 @@ public class UserResumeController {
         return service.updateUserResume(entity);
     }
 
+    @RequestMapping(method = RequestMethod.POST,path = "/updateUserResumeA")
+    public AbsEntity updateUserResumeA(UserResumeEntity.ResumeAEntity aEntity){
+        return service.updateUserResumeA(aEntity);
+    }
+
+    @RequestMapping(method = RequestMethod.POST,path = "/updateUserResumeP")
+    public AbsEntity updateUserResumeP(UserResumeEntity.ResumePEntity pEntity){
+        return service.updateUserResumeP(pEntity);
+    }
+
+    @RequestMapping(method = RequestMethod.POST,path = "/updateUserResumeS")
+    public AbsEntity updateUserResumeS(UserResumeEntity.ResumeSEntity sEntity){
+        return service.updateUserResumeS(sEntity);
+    }
+
+    @RequestMapping(method = RequestMethod.POST,path = "/updateUserResumeW")
+    public AbsEntity updateUserResumeW(UserResumeEntity.ResumeWEntity wEntity){
+        return service.updateUserResumeW(wEntity);
+    }
+
+
     @RequestMapping(method = RequestMethod.GET,path = "/delUserResume")
     public AbsEntity delUserResume(@RequestParam String userId){
         return service.delUserResume(userId);

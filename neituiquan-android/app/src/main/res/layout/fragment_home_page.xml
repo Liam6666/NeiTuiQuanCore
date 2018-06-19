@@ -17,11 +17,9 @@
     <android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tl="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/backgroundColor"
-        app:layout_goneMarginTop="50dp">
+        android:background="@color/backgroundColor">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/homeFG_appBarLayout"

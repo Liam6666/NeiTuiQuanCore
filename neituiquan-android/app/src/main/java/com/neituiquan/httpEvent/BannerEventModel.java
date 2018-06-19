@@ -1,4 +1,4 @@
-package com.neituiquan.eventModel;
+package com.neituiquan.httpEvent;
 
 import com.neituiquan.net.RequestEventModel;
 

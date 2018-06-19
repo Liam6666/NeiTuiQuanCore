@@ -12,6 +12,14 @@ public interface UserResumeDAO {
 
     boolean updateUserResume(UserResumeEntity entity);
 
+    boolean updateUserResumeA(UserResumeEntity.ResumeAEntity aEntity);
+
+    boolean updateUserResumeP(UserResumeEntity.ResumePEntity pEntity);
+
+    boolean updateUserResumeS(UserResumeEntity.ResumeSEntity sEntity);
+
+    boolean updateUserResumeW(UserResumeEntity.ResumeWEntity wEntity);
+
     boolean delUserResume(String userId);
 
     UserResumeEntity findUserResumeByUserId(String userId);

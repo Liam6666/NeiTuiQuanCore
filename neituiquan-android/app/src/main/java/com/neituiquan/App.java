@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.Utils;
+import com.neituiquan.utils.UserInfoUtils;
 
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
@@ -15,10 +16,24 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 
 public class App extends Application {
 
+    private UserInfoUtils userInfoUtils;
+
+    private static App APP_INSTANCE = null;
+
     @Override
     public void onCreate() {
         super.onCreate();
         Utils.init(this);
         BGASwipeBackHelper.init(this,null);
+        APP_INSTANCE = this;
+        userInfoUtils = new UserInfoUtils(this);
+    }
+
+    public UserInfoUtils getUserInfoUtils() {
+        return userInfoUtils;
+    }
+
+    public static App getAppInstance() {
+        return APP_INSTANCE;
     }
 }

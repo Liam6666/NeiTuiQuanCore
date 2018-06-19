@@ -23,9 +23,11 @@ public class UserResumeDAOImpl implements UserResumeDAO {
     @Override
     public boolean addUserResume(UserResumeEntity entity) {
         String sql = "insert into t_personal_resume values" +
-                "(?,?,?,?,?,?,?,?,?,?,?,?)";
+                "(?,?,?,?" +
+                ",?,?,?,?,?,?,?,?,?,?)";
         String[] params = new String[]{
-                entity.getId(),entity.getUserId(),entity.getIntroduction(),
+                entity.getId(),entity.getUserId(),entity.getBirthday(),
+                entity.getEducation(),entity.getIntroduction(),
                 entity.getWorkingAbility(),entity.getIsOpen(),entity.getWorkAge(),
                 entity.getTargetCity(),entity.getTargetWork(),entity.getTargetSalary(),
                 entity.getIsDeparture(),entity.getSort(),entity.getIsDel()
@@ -70,8 +72,74 @@ public class UserResumeDAOImpl implements UserResumeDAO {
 
     @Override
     public boolean updateUserResume(UserResumeEntity entity) {
-        return false;
+        String sql = "update t_personal_resume " +
+                "set birthday = ?,education = ?,introduction = ?," +
+                "workingAbility = ?,workAge = ?,targetCity = ?," +
+                "targetWork = ?,targetSalary = ? " +
+                "where id = ?";
+        String[] params = new String[]{
+                entity.getBirthday(),entity.getEducation(),entity.getIntroduction(),
+                entity.getWorkingAbility(),entity.getWorkAge(),entity.getTargetCity(),
+                entity.getTargetWork(),entity.getTargetSalary(),entity.getId()
+        };
+        jdbcTemplate.update(sql,params);
+        return true;
     }
+
+    @Override
+    public boolean updateUserResumeA(UserResumeEntity.ResumeAEntity aEntity) {
+        String sql = "update t_personal_resume_a " +
+                "set creationTime = ?,rewardName = ? " +
+                "where id = ?";
+        String[] params = new String[]{
+                aEntity.getCreationTime(),aEntity.getRewardName(),aEntity.getId()
+        };
+        jdbcTemplate.update(sql,params);
+        return true;
+    }
+
+    @Override
+    public boolean updateUserResumeP(UserResumeEntity.ResumePEntity pEntity) {
+        String sql = "update t_personal_resume_p " +
+                "set startTime = ?,endTime = ?,projectName = ?,responsibility = ?," +
+                "projectAbs = ?,link = ? " +
+                "where id = ?";
+        String[] params = new String[]{
+                pEntity.getStartTime(),pEntity.getEndTime(),pEntity.getProjectName(),pEntity.getResponsibility(),
+                pEntity.getProjectAbs(),pEntity.getLink(),pEntity.getId()
+        };
+        jdbcTemplate.update(sql,params);
+        return true;
+    }
+
+    @Override
+    public boolean updateUserResumeS(UserResumeEntity.ResumeSEntity sEntity) {
+        String sql = "update t_personal_resume_s " +
+                "set startTime = ?,endTime = ?,schoolName = ?," +
+                "education = ?,profession = ? " +
+                "where id = ?";
+        String[] params = new String[]{
+                sEntity.getStartTime(),sEntity.getEndTime(),sEntity.getSchoolName(),
+                sEntity.getEducation(),sEntity.getProfession(),sEntity.getId()
+        };
+        jdbcTemplate.update(sql,params);
+        return true;
+    }
+
+    @Override
+    public boolean updateUserResumeW(UserResumeEntity.ResumeWEntity wEntity) {
+        String sql = "update t_personal_resume_w " +
+                "set startTime = ?,endTime = ?,companyName = ?," +
+                "city = ?,jobTitle = ? " +
+                "where id = ?";
+        String[] params = new String[]{
+                wEntity.getStartTime(),wEntity.getEndTime(),wEntity.getCompanyName(),
+                wEntity.getCity(),wEntity.getJobTitle(),wEntity.getId()
+        };
+        jdbcTemplate.update(sql,params);
+        return true;
+    }
+
 
     @Override
     public boolean delUserResume(String userId) {
@@ -108,6 +176,7 @@ public class UserResumeDAOImpl implements UserResumeDAO {
             @Override
             public void processRow(ResultSet resultSet) throws SQLException {
                 UserResumeEntity.ResumeAEntity aEntity = new UserResumeEntity.ResumeAEntity();
+                aEntity.setId(resultSet.getString("id"));
                 aEntity.setUserId(resultSet.getString("userId"));
                 aEntity.setCreationTime(resultSet.getString("creationTime"));
                 aEntity.setRewardName(resultSet.getString("rewardName"));
@@ -125,6 +194,7 @@ public class UserResumeDAOImpl implements UserResumeDAO {
             @Override
             public void processRow(ResultSet resultSet) throws SQLException {
                 UserResumeEntity.ResumePEntity pEntity = new UserResumeEntity.ResumePEntity();
+                pEntity.setId(resultSet.getString("id"));
                 pEntity.setUserId(resultSet.getString("userId"));
                 pEntity.setStartTime(resultSet.getString("startTime"));
                 pEntity.setEndTime(resultSet.getString("endTime"));
@@ -146,6 +216,7 @@ public class UserResumeDAOImpl implements UserResumeDAO {
             @Override
             public void processRow(ResultSet resultSet) throws SQLException {
                 UserResumeEntity.ResumeSEntity sEntity = new UserResumeEntity.ResumeSEntity();
+                sEntity.setId(resultSet.getString("id"));
                 sEntity.setUserId(resultSet.getString("userId"));
                 sEntity.setStartTime(resultSet.getString("startTime"));
                 sEntity.setEndTime(resultSet.getString("endTime"));
@@ -166,6 +237,7 @@ public class UserResumeDAOImpl implements UserResumeDAO {
             @Override
             public void processRow(ResultSet resultSet) throws SQLException {
                 UserResumeEntity.ResumeWEntity wEntity = new UserResumeEntity.ResumeWEntity();
+                wEntity.setId(resultSet.getString("id"));
                 wEntity.setUserId(resultSet.getString("userId"));
                 wEntity.setStartTime(resultSet.getString("startTime"));
                 wEntity.setEndTime(resultSet.getString("endTime"));
@@ -226,6 +298,8 @@ public class UserResumeDAOImpl implements UserResumeDAO {
     private void setValues(UserResumeEntity entity,ResultSet resultSet) throws SQLException{
         entity.setId(resultSet.getString("id"));
         entity.setUserId(resultSet.getString("userId"));
+        entity.setBirthday(resultSet.getString("birthday"));
+        entity.setEducation(resultSet.getString("education"));
         entity.setIntroduction(resultSet.getString("introduction"));
         entity.setWorkingAbility(resultSet.getString("workingAbility"));
         entity.setIsOpen(resultSet.getString("isOpen"));

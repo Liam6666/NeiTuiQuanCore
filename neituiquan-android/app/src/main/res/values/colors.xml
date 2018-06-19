@@ -19,4 +19,6 @@
     <color name="buttonDisabledColor">#00B38A</color>
 
     <color name="red">#EE4335</color>
+
+    <color name="white">#FFFFFF</color>
 </resources>

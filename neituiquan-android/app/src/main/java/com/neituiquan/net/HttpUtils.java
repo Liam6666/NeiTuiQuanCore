@@ -65,6 +65,14 @@ public class HttpUtils {
             public void onResponse(Call call, Response response) throws IOException {
                 requestEventModel.resultStr = response.body().string();
                 EventBus.getDefault().post(requestEventModel);
+                if(response.code() != 200){
+                    requestEventModel.isSuccess = false;
+                    requestEventModel.errorMsg = response.message();
+                    if(FinalData.DEBUG){
+                        ToastUtils.showShort(response.message());
+                    }
+                    EventBus.getDefault().post(requestEventModel);
+                }
             }
         });
     }
@@ -99,6 +107,14 @@ public class HttpUtils {
             public void onResponse(Call call, Response response) throws IOException {
                 requestEventModel.resultStr = response.body().string();
                 EventBus.getDefault().post(requestEventModel);
+                if(response.code() != 200){
+                    requestEventModel.isSuccess = false;
+                    requestEventModel.errorMsg = response.message();
+                    if(FinalData.DEBUG){
+                        ToastUtils.showShort(response.message());
+                    }
+                    EventBus.getDefault().post(requestEventModel);
+                }
             }
         });
     }
@@ -126,6 +142,14 @@ public class HttpUtils {
             public void onResponse(Call call, Response response) throws IOException {
                 requestEventModel.resultStr = response.body().string();
                 EventBus.getDefault().post(requestEventModel);
+                if(response.code() != 200){
+                    requestEventModel.isSuccess = false;
+                    requestEventModel.errorMsg = response.message();
+                    if(FinalData.DEBUG){
+                        ToastUtils.showShort(response.message());
+                    }
+                    EventBus.getDefault().post(requestEventModel);
+                }
             }
         });
     }
@@ -161,6 +185,14 @@ public class HttpUtils {
             public void onResponse(Call call, Response response) throws IOException {
                 requestEventModel.resultStr = response.body().string();
                 EventBus.getDefault().post(requestEventModel);
+                if(response.code() != 200){
+                    requestEventModel.isSuccess = false;
+                    requestEventModel.errorMsg = response.message();
+                    if(FinalData.DEBUG){
+                        ToastUtils.showShort(response.message());
+                    }
+                    EventBus.getDefault().post(requestEventModel);
+                }
             }
 
         });

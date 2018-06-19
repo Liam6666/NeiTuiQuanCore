@@ -1,6 +1,5 @@
 package com.neituiquan.work;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,19 +12,11 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.PermissionUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.base.BaseFragment;
-import com.neituiquan.eventModel.BannerEventModel;
-import com.neituiquan.net.HttpUtils;
-import com.neituiquan.net.RequestEventModel;
 import com.neituiquan.work.fragment.HomePageFragment;
 import com.neituiquan.work.fragment.UserFragment;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -68,8 +59,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mainUI_statusView.setVisibility(View.GONE);
         initFragments();
 
-        //设置状态栏是否为浅色模式
-        BarUtils.setStatusBarLightMode(this,true);
     }
 
 
