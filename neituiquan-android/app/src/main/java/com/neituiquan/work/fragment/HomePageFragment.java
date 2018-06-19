@@ -12,7 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +27,9 @@ import com.neituiquan.adapter.HomePageAdapter;
 import com.neituiquan.base.BaseFragment;
 import com.neituiquan.entity.BannerEntity;
 import com.neituiquan.gson.BannerModel;
-import com.neituiquan.eventModel.BannerEventModel;
+import com.neituiquan.httpEvent.BannerEventModel;
 import com.neituiquan.net.HttpFactory;
-import com.neituiquan.net.HttpUtils;
 import com.neituiquan.view.AppBarStateChangeListener;
-import com.neituiquan.work.MainActivity;
 import com.neituiquan.work.R;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -169,7 +166,7 @@ public class HomePageFragment extends BaseFragment {
             }
         });
 
-        String url = FinalData.UAT + "/getAllBanner";
+        String url = FinalData.BASE_URL + "/getAllBanner";
         HttpFactory.getHttpUtils().get(url, new BannerEventModel());
     }
 

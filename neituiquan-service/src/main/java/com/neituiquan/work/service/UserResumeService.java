@@ -24,11 +24,44 @@ public class UserResumeService {
         entity.setIsOpen(FinalData.OPEN);
         entity.setIsDeparture(FinalData.DEPARTURE);
         resumeDAO.addUserResume(entity);
+        for(UserResumeEntity.ResumeAEntity aEntity : entity.getResumeAList()){
+            aEntity.setId(StringUtils.getUUID());
+        }
+        for(UserResumeEntity.ResumePEntity pEntity : entity.getResumePList()){
+            pEntity.setId(StringUtils.getUUID());
+        }
+        for(UserResumeEntity.ResumeSEntity sEntity : entity.getResumeSList()){
+            sEntity.setId(StringUtils.getUUID());
+        }
+        for(UserResumeEntity.ResumeWEntity wEntity : entity.getResumeWList()){
+            wEntity.setId(StringUtils.getUUID());
+        }
         return new AbsEntity();
     }
 
     public AbsEntity updateUserResume(UserResumeEntity entity){
         resumeDAO.updateUserResume(entity);
+        return new AbsEntity();
+    }
+
+
+    public AbsEntity updateUserResumeA(UserResumeEntity.ResumeAEntity aEntity){
+        resumeDAO.updateUserResumeA(aEntity);
+        return new AbsEntity();
+    }
+
+    public AbsEntity updateUserResumeP(UserResumeEntity.ResumePEntity pEntity){
+        resumeDAO.updateUserResumeP(pEntity);
+        return new AbsEntity();
+    }
+
+    public AbsEntity updateUserResumeS(UserResumeEntity.ResumeSEntity sEntity){
+        resumeDAO.updateUserResumeS(sEntity);
+        return new AbsEntity();
+    }
+
+    public AbsEntity updateUserResumeW(UserResumeEntity.ResumeWEntity wEntity){
+        resumeDAO.updateUserResumeW(wEntity);
         return new AbsEntity();
     }
 

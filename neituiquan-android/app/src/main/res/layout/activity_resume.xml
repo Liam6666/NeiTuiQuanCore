@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/resumeUI_refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
+        app:srlPrimaryColor="@color/themeColor"
+        app:srlAccentColor="@color/highTextColor"
+        app:srlEnablePreviewInEditMode="true"
+        app:srlEnableRefresh="false"
+        app:srlEnableLoadMore="false"
+        app:srlEnableOverScrollDrag="true">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ScrollView
+            android:id="@+id/resumeUI_scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/resumeUI_headBGLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+                    <View
+                        android:id="@+id/resumeUI_headBGView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@mipmap/def_bg"
+                        android:layout_gravity="center"/>
+                    <LinearLayout
+                        android:layout_marginBottom="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="bottom">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/resumeUI_headImg"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@mipmap/ic_launcher"
+                            android:layout_gravity="center"/>
+                        <TextView
+                            android:id="@+id/resumeUI_nameTv"
+                            android:layout_marginTop="10dp"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/centerText"
+                            android:textColor="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Augustine"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/resumeUI_mottoTv"
+                            android:textSize="@dimen/centerText"
+                            android:textColor="@color/white"
+                            android:maxLines="2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="AugustineAugustineAugustineAugustineAugustineAugustineAugustine"
+                            android:paddingLeft="50dp"
+                            android:paddingRight="50dp"
+                            android:gravity="center"/>
+                    </LinearLayout>
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/lineColor"/>
+
+                <TextView
+                    android:textSize="@dimen/centerText"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="基本信息"
+                    android:textStyle="bold"
+                    android:textColor="@color/highTextColor"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="最高学历："
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"/>
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:id="@+id/resumeUI_educationTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:text="大专"
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="15dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="工作年限："
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"/>
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:id="@+id/resumeUI_workAgeTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:text="3年"
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="15dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="出生年份："
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"/>
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:id="@+id/resumeUI_birthdayTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:text="1995.08.15"
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="15dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="所在城市："
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"/>
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:id="@+id/resumeUI_targetCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:text="北京"
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="15dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="联系电话："
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"/>
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:id="@+id/resumeUI_phoneTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:text="17835388472"
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="15dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="联系邮箱："
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"/>
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:id="@+id/resumeUI_emailTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:text="nice_ohoh@163.com"
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="15dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="期望岗位："
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"/>
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:id="@+id/resumeUI_targetWorkTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:text="Android开发工程师"
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="15dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="期望薪资："
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"/>
+
+                    <TextView
+                        android:textSize="@dimen/centerText"
+                        android:id="@+id/resumeUI_targetSalaryTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:text="30K"
+                        android:textColor="@color/highTextColor"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="15dp"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/lineColor"/>
+
+                <TextView
+                    android:textSize="@dimen/centerText"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="工作经历："
+                    android:textStyle="bold"
+                    android:textColor="@color/highTextColor"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"/>
+
+                <LinearLayout
+                    android:id="@+id/resumeUI_ELayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"></LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/lineColor"/>
+
+                <TextView
+                    android:textSize="@dimen/centerText"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="学习经历："
+                    android:textStyle="bold"
+                    android:textColor="@color/highTextColor"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"/>
+
+                <LinearLayout
+                    android:id="@+id/resumeUI_SLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"></LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/lineColor"/>
+
+                <TextView
+                    android:textSize="@dimen/centerText"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="项目经验："
+                    android:textStyle="bold"
+                    android:textColor="@color/highTextColor"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"/>
+
+                <LinearLayout
+                    android:id="@+id/resumeUI_PLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"></LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/lineColor"/>
+
+                <TextView
+                    android:textSize="@dimen/centerText"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="获奖经历："
+                    android:textStyle="bold"
+                    android:textColor="@color/highTextColor"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"/>
+
+                <LinearLayout
+                    android:id="@+id/resumeUI_ALayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"></LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/lineColor"/>
+
+                <TextView
+                    android:textSize="@dimen/centerText"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="自我描述："
+                    android:textStyle="bold"
+                    android:textColor="@color/highTextColor"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"/>
+
+                <TextView
+                    android:textSize="@dimen/centerText"
+                    android:id="@+id/resumeUI_introductionTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="1000dp"
+                    android:text="..."
+                    android:textColor="@color/highTextColor"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"/>
+
+            </LinearLayout>
+        </ScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/resumeUI_statusView"
+            android:background="@color/themeColor"/>
+        <LinearLayout
+            android:background="@color/themeColor"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolBarHeight"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="@dimen/toolBarHeight"
+                android:layout_height="match_parent"
+                android:src="@mipmap/back_white"
+                android:padding="15dp"/>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="title"
+                android:textSize="@dimen/centerText"
+                android:textColor="@color/white"
+                android:gravity="center"/>
+            <ImageView
+                android:layout_width="@dimen/toolBarHeight"
+                android:layout_height="match_parent"
+                android:src="@mipmap/shared"
+                android:padding="15dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>
+

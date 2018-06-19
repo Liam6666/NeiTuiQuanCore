@@ -7,13 +7,14 @@
     app:srlPrimaryColor="@color/themeColor"
     app:srlAccentColor="@color/highTextColor"
     app:srlEnablePreviewInEditMode="true"
-    app:srlEnableRefresh="true"
+    app:srlEnableRefresh="false"
     app:srlEnableLoadMore="false"
     app:srlEnableOverScrollDrag="true">
     <com.scwang.smartrefresh.layout.header.ClassicsHeader
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <ScrollView
+        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -30,125 +31,68 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center">
                     <TextView
+                        android:layout_marginLeft="15dp"
+                        android:id="@+id/userFG_nameTv"
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:text="Augustine"
+                        android:text="未登录"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/bigText"
                         android:textColor="@color/highTextColor"/>
                     <TextView
+                        android:layout_marginLeft="15dp"
+                        android:id="@+id/userFG_mottoTv"
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:text="找靠谱的人，介绍靠谱的工作"
+                        android:text="快去登录吧！"
                         android:textSize="@dimen/centerText"
                         android:textColor="@color/TextColor"
                         android:gravity="center_vertical" />
                 </LinearLayout>
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/userFG_headImg"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_margin="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
                     android:src="@mipmap/default_head"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_margin="10dp"
-                app:layout_scrollFlags="scroll"
+            <TextView
+                android:id="@+id/userFG_bindCompanyTv"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <ImageView
-                        android:padding="5dp"
-                        android:layout_width="@dimen/toolBarHeight"
-                        android:layout_height="@dimen/toolBarHeight"
-                        android:src="@mipmap/pen"/>
-                    <TextView
-                        android:layout_marginTop="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="我的简历"
-                        android:textSize="@dimen/centerText"
-                        android:gravity="center"
-                        android:textColor="@color/highTextColor"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <ImageView
-                        android:padding="5dp"
-                        android:layout_width="@dimen/toolBarHeight"
-                        android:layout_height="@dimen/toolBarHeight"
-                        android:src="@mipmap/folder"/>
-                    <TextView
-                        android:layout_marginTop="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="我的投递"
-                        android:textSize="@dimen/centerText"
-                        android:gravity="center"
-                        android:textColor="@color/highTextColor"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <ImageView
-                        android:padding="5dp"
-                        android:layout_width="@dimen/toolBarHeight"
-                        android:layout_height="@dimen/toolBarHeight"
-                        android:src="@mipmap/star"/>
-                    <TextView
-                        android:layout_marginTop="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="关注公司"
-                        android:textSize="@dimen/centerText"
-                        android:gravity="center"
-                        android:textColor="@color/highTextColor"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <ImageView
-                        android:padding="5dp"
-                        android:layout_width="@dimen/toolBarHeight"
-                        android:layout_height="@dimen/toolBarHeight"
-                        android:src="@mipmap/scan"/>
-                    <TextView
-                        android:layout_marginTop="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="寻找灵感"
-                        android:textSize="@dimen/centerText"
-                        android:gravity="center"
-                        android:textColor="@color/highTextColor"/>
-                </LinearLayout>
-            </LinearLayout>
+                android:layout_height="30dp"
+                android:text="绑定企业信息后才可以发布职位，点击去绑定"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="@dimen/smallText"
+                android:textColor="@drawable/selector_text"/>
+
+            <TextView
+                android:id="@+id/userFG_submitResumeTv"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="快去填写个人简历吧"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="@dimen/smallText"
+                android:textColor="@drawable/selector_text"/>
 
             <View
                 android:layout_width="match_parent"
@@ -156,6 +100,8 @@
                 android:background="@color/lineColor"/>
 
             <LinearLayout
+                android:clickable="true"
+                android:id="@+id/userFG_intentionLayout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
@@ -164,7 +110,7 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_marginRight="10dp"
                     android:padding="15dp"
                     android:src="@mipmap/form_favor_light" />
@@ -178,43 +124,7 @@
                     android:textColor="@color/highTextColor"/>
                 <ImageView
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:src="@mipmap/more_left"
-                    android:padding="15dp"/>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="@color/lineColor"/>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal"
-                android:background="@drawable/selector_item">
-
-                <ImageView
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:src="@mipmap/favor_light"
-                    android:padding="15dp"/>
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="收藏"
-                    android:gravity="center_vertical"
-                    android:textSize="@dimen/centerText"
-                    android:textColor="@color/highTextColor"/>
-                <ImageView
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="0dp"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:src="@mipmap/more_left"
@@ -227,13 +137,52 @@
                 android:background="@color/lineColor"/>
 
             <LinearLayout
+                android:clickable="true"
+                android:id="@+id/userFG_myResumeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
                 android:background="@drawable/selector_item">
 
                 <ImageView
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/resume"
+                    android:padding="15dp"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="我的简历"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/centerText"
+                    android:textColor="@color/highTextColor"/>
+                <ImageView
                     android:layout_marginLeft="10dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_left"
+                    android:padding="15dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineColor"/>
+
+            <LinearLayout
+                android:clickable="true"
+                android:id="@+id/userFG_blackHouseLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_item">
+
+                <ImageView
+                    android:layout_marginLeft="0dp"
                     android:layout_marginRight="10dp"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
@@ -249,7 +198,232 @@
                     android:textColor="@color/highTextColor"/>
                 <ImageView
                     android:layout_marginLeft="10dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_left"
+                    android:padding="15dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineColor"/>
+
+            <LinearLayout
+                android:clickable="true"
+                android:id="@+id/userFG_historyLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_item">
+
+                <ImageView
+                    android:layout_marginLeft="0dp"
                     android:layout_marginRight="10dp"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/histroy"
+                    android:padding="15dp"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="投递记录"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/centerText"
+                    android:textColor="@color/highTextColor"/>
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_left"
+                    android:padding="15dp"/>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/lineColor"/>
+
+
+            <LinearLayout
+                android:clickable="true"
+                android:id="@+id/userFG_publishLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_item">
+
+                <ImageView
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/position"
+                    android:padding="15dp"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="发布的职位"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/centerText"
+                    android:textColor="@color/highTextColor"/>
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_left"
+                    android:padding="15dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineColor"/>
+
+            <LinearLayout
+                android:clickable="true"
+                android:id="@+id/userFG_commentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_item">
+
+                <ImageView
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/comment"
+                    android:padding="15dp"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="评论回复"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/centerText"
+                    android:textColor="@color/highTextColor"/>
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_left"
+                    android:padding="15dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineColor"/>
+
+            <LinearLayout
+                android:clickable="true"
+                android:id="@+id/userFG_bindCompanyLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_item">
+
+                <ImageView
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/company"
+                    android:padding="15dp"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="绑定的企业"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/centerText"
+                    android:textColor="@color/highTextColor"/>
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_left"
+                    android:padding="15dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/lineColor"/>
+
+
+            <LinearLayout
+                android:clickable="true"
+                android:id="@+id/userFG_collectLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_item">
+
+                <ImageView
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/favor_light"
+                    android:padding="15dp"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="我的收藏"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/centerText"
+                    android:textColor="@color/highTextColor"/>
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_left"
+                    android:padding="15dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineColor"/>
+
+            <LinearLayout
+                android:clickable="true"
+                android:id="@+id/userFG_switcherRoleLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@drawable/selector_item">
+
+                <ImageView
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/role"
+                    android:padding="15dp"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="切换身份"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/centerText"
+                    android:textColor="@color/highTextColor"/>
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="0dp"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:src="@mipmap/more_left"
@@ -262,13 +436,15 @@
                 android:background="@color/lineColor"/>
 
             <LinearLayout
+                android:clickable="true"
+                android:id="@+id/userFG_feedbackLayout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
                 android:background="@drawable/selector_item">
 
                 <ImageView
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_marginRight="10dp"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
@@ -284,7 +460,7 @@
                     android:textColor="@color/highTextColor"/>
                 <ImageView
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="0dp"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:src="@mipmap/more_left"
@@ -297,13 +473,15 @@
                 android:background="@color/lineColor"/>
 
             <LinearLayout
+                android:clickable="true"
+                android:id="@+id/userFG_settingsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
                 android:background="@drawable/selector_item">
 
                 <ImageView
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_marginRight="10dp"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
@@ -319,7 +497,7 @@
                     android:textColor="@color/highTextColor"/>
                 <ImageView
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="0dp"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:src="@mipmap/more_left"

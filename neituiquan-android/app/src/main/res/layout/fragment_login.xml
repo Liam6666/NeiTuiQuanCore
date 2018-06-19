@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolBarHeight"
+        android:text="欢迎使用"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:textSize="@dimen/bigText"
+        android:textColor="@color/highTextColor"/>
+
+    <EditText
+        android:id="@+id/loginFG_phoneEdit"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolBarHeight"
+        android:hint="输入手机号"
+        android:background="@null"
+        android:textColorHint="@color/TextColor"
+        android:textColor="@color/highTextColor"
+        android:textSize="@dimen/centerText"
+        android:singleLine="true"
+        android:inputType="number"/>
+    <View
+        android:id="@+id/loginFG_phoneBottomView"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/themeColor"/>
+
+    <EditText
+        android:id="@+id/loginFG_passwordEdit"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolBarHeight"
+        android:hint="输入密码"
+        android:background="@null"
+        android:textColorHint="@color/TextColor"
+        android:textColor="@color/highTextColor"
+        android:textSize="@dimen/centerText"
+        android:singleLine="true"
+        android:inputType="textPassword"/>
+    <View
+        android:id="@+id/loginFG_passwordBottomView"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/lineColor"/>
+
+
+    <TextView
+        android:id="@+id/loginFG_loginTv"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/selector_button"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="登录"
+        android:textSize="@dimen/centerText"
+        android:textColor="@color/backgroundColor"/>
+
+    <TextView
+        android:id="@+id/loginFG_forgetPasswordTv"
+        android:textSize="@dimen/smallText"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="忘记密码"
+        android:gravity="center"
+        android:layout_margin="15dp"
+        android:textColor="@drawable/selector_text"/>
+
+</LinearLayout>

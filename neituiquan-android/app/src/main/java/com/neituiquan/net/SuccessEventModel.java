@@ -10,9 +10,20 @@ public class SuccessEventModel {
 
     public String response;
 
+    public int taskId;
+
     public SuccessEventModel(){}
 
     public SuccessEventModel(String response) {
         this.response = response;
+    }
+
+    public SuccessEventModel(String response, int taskId) {
+        this.response = response;
+        this.taskId = taskId;
+    }
+
+    public SuccessEventModel(int taskId) {
+        this.taskId = taskId;
     }
 }

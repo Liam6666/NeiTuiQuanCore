@@ -18,7 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"
+        <activity android:name=".account.AccountActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".ResumeActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".resume.EditResumeActivity"
             android:launchMode="singleTask"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>

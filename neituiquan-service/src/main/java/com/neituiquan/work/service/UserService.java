@@ -23,6 +23,9 @@ public class UserService {
         if(entity.getNickName() == null){
             entity.setNickName(entity.getAccount());
         }
+        entity.setHeadImg(FinalData.DEF_HEAD_IMG);
+        entity.setSex("男");
+        entity.setMotto(FinalData.DEF_MOTTO);
         int result = userDAO.register(entity);
         AbsEntity absEntity = new AbsEntity();
         if(result == -1){

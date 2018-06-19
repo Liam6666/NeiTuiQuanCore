@@ -42,8 +42,14 @@ public class FinalData {
 
     public static final String ROLE_COMM = "找人";
 
+    public static final String ROLE_HR = "HR";
+
 
     public static final String DEF_NICK_NAME = "";//默认昵称
+
+    public static final String DEF_HEAD_IMG = "1528955150501.jpeg";
+
+    public static final String DEF_MOTTO = "找靠谱的人，介绍靠谱的工作";
 
 
 }

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
+import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.neituiquan.net.RequestEventModel;
 import com.neituiquan.work.R;
@@ -37,6 +38,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         initView(savedInstanceState);
         initList(savedInstanceState);
         EventBus.getDefault().register(this);
+        //设置状态栏是否为浅色模式
+        BarUtils.setStatusBarLightMode(this,true);
     }
 
     public abstract void initView(Bundle savedInstanceState);
