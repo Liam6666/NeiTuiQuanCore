@@ -7,10 +7,7 @@ import com.neituiquan.work.entity.UserEntity;
 import com.neituiquan.work.service.UserService;
 import com.neituiquan.work.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -80,12 +77,12 @@ public class UserController {
 
 
     @RequestMapping(method = RequestMethod.POST,value = "/updateUser")
-    public AbsEntity updateUser(UserEntity entity){
+    public AbsEntity updateUser(@RequestBody UserEntity entity){
         return service.updateUser(entity);
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/updateLocation")
-    public AbsEntity updateLocation(UserEntity entity){
+    public AbsEntity updateLocation(@RequestBody UserEntity entity){
         return service.updateLocation(entity);
     }
 

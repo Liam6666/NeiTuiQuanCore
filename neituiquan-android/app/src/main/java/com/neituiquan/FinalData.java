@@ -2,6 +2,10 @@ package com.neituiquan;
 
 import android.Manifest;
 
+import com.neituiquan.gson.UserResumeModel;
+
+import java.lang.ref.SoftReference;
+
 /**
  * Created by Augustine on 2018/6/15.
  * <p>
@@ -25,5 +29,10 @@ public class FinalData {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE
     };
+
+    /**
+     * 用户简历实体类
+     */
+    public static SoftReference resumeModelSoftReference = new SoftReference(null);
 
 }

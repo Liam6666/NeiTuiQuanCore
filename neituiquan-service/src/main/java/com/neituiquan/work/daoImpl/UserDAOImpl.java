@@ -35,8 +35,8 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean updateUser(UserEntity entity) {
-        String sql = "update t_user set " +
-                "nickName = ?,motto = ?,sex = ?,email = ?" +
+        String sql = "update t_user " +
+                "set nickName = ?,motto = ?,sex = ?,email = ? " +
                 "where id = ?";
         String[] params = new String[]{
                 entity.getNickName(),entity.getMotto(),entity.getSex(),entity.getEmail(),entity.getId()
@@ -61,7 +61,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public UserEntity findUserById(String id) {
         final UserEntity entity = new UserEntity();
-        String sql = "select * from where id = ?";
+        String sql = "select * from t_user where id = ?";
         String[] params = new String[]{id};
         jdbcTemplate.query(sql, params, new RowCallbackHandler() {
             @Override

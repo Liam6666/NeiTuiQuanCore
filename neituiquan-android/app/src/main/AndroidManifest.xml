@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".account.AccountActivity"
             android:launchMode="singleTask"/>
-        <activity android:name=".ResumeActivity"
+        <activity android:name=".resume.ResumeActivity"
             android:launchMode="singleTask"/>
         <activity android:name=".resume.EditResumeActivity"
             android:launchMode="singleTask"/>

@@ -251,6 +251,84 @@ public class UserResumeDAOImpl implements UserResumeDAO {
     }
 
     @Override
+    public boolean addUserResumeA(UserResumeEntity.ResumeAEntity aEntity) {
+        String sql = "insert into t_personal_resume_a " +
+                "values (?,?,?,?)";
+        String[] params = new String[]{
+                aEntity.getId(),aEntity.getUserId(),aEntity.getCreationTime(),aEntity.getRewardName()
+        };
+        jdbcTemplate.update(sql,params);
+        return true;
+    }
+
+    @Override
+    public boolean addUserResumeP(UserResumeEntity.ResumePEntity pEntity) {
+        String sql = "insert into t_personal_resume_p " +
+                "values (?,?,?,?,?,?,?,?)";
+        String[] params = new String[]{
+                pEntity.getId(),pEntity.getUserId(),pEntity.getStartTime(),
+                pEntity.getEndTime(),pEntity.getProjectName(),pEntity.getResponsibility(),
+                pEntity.getProjectAbs(),pEntity.getLink()
+        };
+        jdbcTemplate.update(sql,params);
+        return true;
+    }
+
+    @Override
+    public boolean addUserResumeS(UserResumeEntity.ResumeSEntity sEntity) {
+        String sql = "insert into t_personal_resume_s " +
+                "values (?,?,?,?,?,?,?)";
+        String[] params = new String[]{
+                sEntity.getId(),sEntity.getUserId(),sEntity.getStartTime(),
+                sEntity.getEndTime(),sEntity.getSchoolName(),sEntity.getEducation(),
+                sEntity.getProfession()
+        };
+        jdbcTemplate.update(sql,params);
+        return true;
+    }
+
+    @Override
+    public boolean addUserResumeW(UserResumeEntity.ResumeWEntity wEntity) {
+        String sql = "insert into t_personal_resume_w " +
+                "values (?,?,?,?,?,?,?)";
+        String[] params = new String[]{
+                wEntity.getId(),wEntity.getUserId(),wEntity.getStartTime(),
+                wEntity.getEndTime(),wEntity.getCompanyName(),wEntity.getCity(),
+                wEntity.getJobTitle()
+        };
+        jdbcTemplate.update(sql,params);
+        return true;
+    }
+
+    @Override
+    public boolean delUserResumeA(String id) {
+        String sql = "delete from t_personal_resume_a where id = ?";
+        jdbcTemplate.update(sql,new String[]{id});
+        return true;
+    }
+
+    @Override
+    public boolean delUserResumeP(String id) {
+        String sql = "delete from t_personal_resume_p where id = ?";
+        jdbcTemplate.update(sql,new String[]{id});
+        return true;
+    }
+
+    @Override
+    public boolean delUserResumeS(String id) {
+        String sql = "delete from t_personal_resume_s where id = ?";
+        jdbcTemplate.update(sql,new String[]{id});
+        return true;
+    }
+
+    @Override
+    public boolean delUserResumeW(String id) {
+        String sql = "delete from t_personal_resume_w where id = ?";
+        jdbcTemplate.update(sql,new String[]{id});
+        return true;
+    }
+
+    @Override
     public List<UserResumeEntity> searchUserResume(UserResumeEntity entity,String sort,String way) {
         StringBuffer sql = new StringBuffer(
                 "select * from t_personal_resume where isDel = ?");

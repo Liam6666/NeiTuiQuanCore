@@ -34,7 +34,7 @@ public class CompanyController {
     }
 
     @RequestMapping(method = RequestMethod.POST,path = "/bindCompany")
-    public AbsEntity addCompany(CompanyEntity entity){
+    public AbsEntity addCompany(@RequestBody CompanyEntity entity){
         return service.addCompany(entity);
     }
 
@@ -45,7 +45,7 @@ public class CompanyController {
 
 
     @RequestMapping(method = RequestMethod.POST,path = "/updateCompany")
-    public AbsEntity updateCompany(CompanyEntity entity){
+    public AbsEntity updateCompany(@RequestBody CompanyEntity entity){
         return service.updateCompany(entity);
     }
 

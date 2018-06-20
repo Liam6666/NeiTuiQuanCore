@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.neituiquan.App;
@@ -19,11 +18,14 @@ import com.neituiquan.gson.UserResumeModel;
 import com.neituiquan.httpEvent.UserResumeEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.work.R;
+import com.neituiquan.work.resume.ResumeActivity;
 import com.neituiquan.work.account.AccountActivity;
 import com.neituiquan.work.resume.EditResumeActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.lang.ref.SoftReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -86,18 +88,21 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
                 if(userModel == null){
                     startActivity(new Intent(getContext(), AccountActivity.class));
                 }else{
-                    startToUserResume();
+                    startActivity(new Intent(getContext(), EditResumeActivity.class));
                 }
                 break;
             case R.id.userFG_mottoTv:
                 if(userModel == null){
                     startActivity(new Intent(getContext(), AccountActivity.class));
                 }else{
-                    startToUserResume();
+                    startActivity(new Intent(getContext(), EditResumeActivity.class));
                 }
                 break;
             case R.id.userFG_headImg:
 
+                break;
+            case R.id.userFG_myResumeLayout:
+                startToMyResume();
                 break;
         }
     }
@@ -108,6 +113,21 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         userFG_mottoTv.setText(userModel.data.getMotto());
 
         switcherMenuList();
+    }
+
+    public void startToMyResume(){
+        String url = FinalData.BASE_URL + "/getUserResume?userId=" + userModel.data.getId();
+        HttpFactory.getHttpUtils().get(url,new UserResumeEventModel());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void userResumeResult(UserResumeEventModel eventModel){
+        if(eventModel.isSuccess){
+            UserResumeModel resumeModel = new Gson().fromJson(eventModel.resultStr,UserResumeModel.class);
+            FinalData.resumeModelSoftReference = new SoftReference(resumeModel);
+            Intent intent = new Intent(getContext(),ResumeActivity.class);
+            startActivity(intent);
+        }
     }
 
     /**
@@ -155,29 +175,6 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         initUserInfo();
     }
 
-    /**
-     * 开始获取用户简历
-     *
-     * 获取成功后回调EventBus并开始跳转
-     *
-     */
-    private void startToUserResume(){
-        String url = FinalData.BASE_URL + "/getUserResume?userId=" + userModel.data.getId();
-        HttpFactory.getHttpUtils().get(url,new UserResumeEventModel());
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void userResumeResult(UserResumeEventModel eventModel){
-        if(eventModel.isSuccess){
-            UserResumeModel model = new Gson().fromJson(eventModel.resultStr, UserResumeModel.class);
-            Intent intent = new Intent(getContext(), EditResumeActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("resumeModel",model);
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
-    }
-
     private void bindViews() {
 
         userFG_nameTv = (TextView) findViewById(R.id.userFG_nameTv);
@@ -199,6 +196,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
 
         userFG_nameTv.setOnClickListener(this);
         userFG_mottoTv.setOnClickListener(this);
+        userFG_myResumeLayout.setOnClickListener(this);
 
     }
 

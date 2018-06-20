@@ -25,6 +25,8 @@ public abstract class BaseFragment extends Fragment {
 
     private View contentView;
 
+    private boolean isInit = false;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -52,6 +54,16 @@ public abstract class BaseFragment extends Fragment {
     public abstract View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
     public abstract void initList(Bundle savedInstanceState);
+
+    /**
+     * 懒加载方法
+     */
+    public void onLazyInitList(){
+        if(isInit){
+            return;
+        }
+        isInit = true;
+    }
 
     public <T extends View> T findViewById(int id){
         return getContentView().findViewById(id);

@@ -20,27 +20,27 @@ public class UserResumeController {
     }
 
     @RequestMapping(method = RequestMethod.POST,path = "/updateUserResume")
-    public AbsEntity updateUserResume(UserResumeEntity entity){
+    public AbsEntity updateUserResume(@RequestBody UserResumeEntity entity){
         return service.updateUserResume(entity);
     }
 
     @RequestMapping(method = RequestMethod.POST,path = "/updateUserResumeA")
-    public AbsEntity updateUserResumeA(UserResumeEntity.ResumeAEntity aEntity){
+    public AbsEntity updateUserResumeA(@RequestBody UserResumeEntity.ResumeAEntity aEntity){
         return service.updateUserResumeA(aEntity);
     }
 
     @RequestMapping(method = RequestMethod.POST,path = "/updateUserResumeP")
-    public AbsEntity updateUserResumeP(UserResumeEntity.ResumePEntity pEntity){
+    public AbsEntity updateUserResumeP(@RequestBody UserResumeEntity.ResumePEntity pEntity){
         return service.updateUserResumeP(pEntity);
     }
 
     @RequestMapping(method = RequestMethod.POST,path = "/updateUserResumeS")
-    public AbsEntity updateUserResumeS(UserResumeEntity.ResumeSEntity sEntity){
+    public AbsEntity updateUserResumeS(@RequestBody UserResumeEntity.ResumeSEntity sEntity){
         return service.updateUserResumeS(sEntity);
     }
 
     @RequestMapping(method = RequestMethod.POST,path = "/updateUserResumeW")
-    public AbsEntity updateUserResumeW(UserResumeEntity.ResumeWEntity wEntity){
+    public AbsEntity updateUserResumeW(@RequestBody UserResumeEntity.ResumeWEntity wEntity){
         return service.updateUserResumeW(wEntity);
     }
 
@@ -77,6 +77,46 @@ public class UserResumeController {
         return service.findUserResumeWByUserId(userId);
     }
 
+    @RequestMapping(method = RequestMethod.POST,path = "/addUserResumeA")
+    public AbsEntity addUserResumeA(@RequestBody UserResumeEntity.ResumeAEntity aEntity){
+        return service.addUserResumeA(aEntity);
+    }
+
+    @RequestMapping(method = RequestMethod.POST,path = "/addUserResumeP")
+    public AbsEntity addUserResumeP(@RequestBody UserResumeEntity.ResumePEntity pEntity){
+        return service.addUserResumeP(pEntity);
+    }
+
+    @RequestMapping(method = RequestMethod.POST,path = "/addUserResumeS")
+    public AbsEntity addUserResumeS(@RequestBody UserResumeEntity.ResumeSEntity sEntity){
+        return service.addUserResumeS(sEntity);
+    }
+
+    @RequestMapping(method = RequestMethod.POST,path = "/addUserResumeW")
+    public AbsEntity addUserResumeW(@RequestBody UserResumeEntity.ResumeWEntity wEntity){
+        return service.addUserResumeW(wEntity);
+    }
+
+    @RequestMapping(method = RequestMethod.GET,path = "/delUserResumeA")
+    public AbsEntity delUserResumeA(@RequestParam String id){
+        return service.delUserResumeA(id);
+    }
+
+    @RequestMapping(method = RequestMethod.GET,path = "/delUserResumeP")
+    public AbsEntity delUserResumeP(@RequestParam String id){
+        return service.delUserResumeP(id);
+    }
+
+    @RequestMapping(method = RequestMethod.GET,path = "/delUserResumeS")
+    public AbsEntity delUserResumeS(@RequestParam String id){
+        return service.delUserResumeS(id);
+    }
+
+    @RequestMapping(method = RequestMethod.GET,path = "/delUserResumeW")
+    public AbsEntity delUserResumeW(@RequestParam String id){
+        return service.delUserResumeW(id);
+    }
+
 
     /**
      * http://localhost:8080/searchUserResume?workAge=3&targetWork=全栈&targetCity=苏州&_sort=workAge&_way=asc
@@ -86,7 +126,7 @@ public class UserResumeController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET,path = "/searchUserResume")
-    public AbsEntity searchUserResume(UserResumeEntity entity,@RequestParam String _sort,@RequestParam String _way){
+    public AbsEntity searchUserResume(@RequestBody UserResumeEntity entity,@RequestParam String _sort,@RequestParam String _way){
         return service.searchUserResume(entity, _sort, _way);
     }
 

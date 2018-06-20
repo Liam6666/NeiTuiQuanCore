@@ -109,6 +109,50 @@ public class UserResumeService {
         return absEntity;
     }
 
+    public AbsEntity addUserResumeA(UserResumeEntity.ResumeAEntity aEntity){
+        aEntity.setId(StringUtils.getUUID());
+        resumeDAO.addUserResumeA(aEntity);
+        return new AbsEntity();
+    }
+
+    public AbsEntity addUserResumeP(UserResumeEntity.ResumePEntity pEntity){
+        pEntity.setId(StringUtils.getUUID());
+        resumeDAO.addUserResumeP(pEntity);
+        return new AbsEntity();
+    }
+
+    public AbsEntity addUserResumeS(UserResumeEntity.ResumeSEntity sEntity){
+        sEntity.setId(StringUtils.getUUID());
+        resumeDAO.addUserResumeS(sEntity);
+        return new AbsEntity();
+    }
+
+    public AbsEntity addUserResumeW(UserResumeEntity.ResumeWEntity wEntity){
+        wEntity.setId(StringUtils.getUUID());
+        resumeDAO.addUserResumeW(wEntity);
+        return new AbsEntity();
+    }
+
+    public AbsEntity delUserResumeA(String id){
+        resumeDAO.delUserResumeA(id);
+        return new AbsEntity();
+    }
+
+    public AbsEntity delUserResumeP(String id){
+        resumeDAO.delUserResumeP(id);
+        return new AbsEntity();
+    }
+
+    public AbsEntity delUserResumeS(String id){
+        resumeDAO.delUserResumeS(id);
+        return new AbsEntity();
+    }
+
+    public AbsEntity delUserResumeW(String id){
+        resumeDAO.delUserResumeW(id);
+        return new AbsEntity();
+    }
+
     public AbsEntity searchUserResume(UserResumeEntity entity,String sort,String way){
         List<UserResumeEntity> list = resumeDAO.searchUserResume(entity,sort,way);
         AbsEntity absEntity = new AbsEntity();

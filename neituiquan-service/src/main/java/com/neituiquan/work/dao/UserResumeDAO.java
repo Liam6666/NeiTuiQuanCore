@@ -32,6 +32,21 @@ public interface UserResumeDAO {
 
     List<UserResumeEntity.ResumeWEntity> findUserResumeWByUserId(String userId);
 
+    boolean addUserResumeA(UserResumeEntity.ResumeAEntity aEntity);
+
+    boolean addUserResumeP(UserResumeEntity.ResumePEntity pEntity);
+
+    boolean addUserResumeS(UserResumeEntity.ResumeSEntity sEntity);
+
+    boolean addUserResumeW(UserResumeEntity.ResumeWEntity wEntity);
+
+    boolean delUserResumeA(String id);
+
+    boolean delUserResumeP(String id);
+
+    boolean delUserResumeS(String id);
+
+    boolean delUserResumeW(String id);
 
     /**
      * 条件搜索

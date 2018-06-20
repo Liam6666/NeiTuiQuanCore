@@ -1,11 +1,9 @@
 package com.neituiquan.net;
 
 
-import android.widget.ImageView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.neituiquan.FinalData;
-import com.neituiquan.gson.AbsModel;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -77,6 +75,14 @@ public class HttpUtils {
         });
     }
 
+    public Call get(String url){
+        Request.Builder requestBuilder = new Request.Builder();
+        requestBuilder.method(GET,null);
+        requestBuilder.url(url);
+        final Request request = requestBuilder.build();
+        return okHttpClient.newCall(request);
+    }
+
 
     public void post(Map<String,String> params, String url,final RequestEventModel requestEventModel){
         FormBody.Builder formBody = new FormBody.Builder();
@@ -121,7 +127,8 @@ public class HttpUtils {
 
 
     public void post(String json, String url,final RequestEventModel requestEventModel){
-        RequestBody requestBody = FormBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+        RequestBody requestBody = FormBody
+                .create(MediaType.parse("application/json; charset=utf-8"), json);
         Request request = new Request.Builder()
                 .url(url)
                 .method(POST,requestBody)

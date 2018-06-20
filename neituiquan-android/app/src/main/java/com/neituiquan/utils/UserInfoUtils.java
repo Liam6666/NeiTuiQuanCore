@@ -24,6 +24,7 @@ public class UserInfoUtils {
     }
 
     public void saveUserInfo(String json){
+        sharedPreferences.edit().remove(KEY_NAME).commit();
         sharedPreferences.edit().putString(KEY_NAME,json).commit();
     }
 

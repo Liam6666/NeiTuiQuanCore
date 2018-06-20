@@ -26,8 +26,11 @@ import com.neituiquan.httpEvent.UpdateResumeEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.work.R;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.HashMap;
 
 /**
  * Created by Augustine on 2018/6/19.
@@ -40,9 +43,9 @@ import org.greenrobot.eventbus.ThreadMode;
 public class BaseInfoFragment extends BaseFragment implements View.OnClickListener {
 
     public static BaseInfoFragment newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         BaseInfoFragment fragment = new BaseInfoFragment();
         fragment.setArguments(args);
         return fragment;
@@ -65,6 +68,7 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
     private ScrollView baseInfoFG_scrollView;
     private LinearLayout baseInfoFG_linearLayout;
     private ImageView baseInfoFG_backImg;
+    private EditText baseInfoFG_mottoTv;
 
     private int keyboardHeight = 0;
 
@@ -101,18 +105,43 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
      * 保存修改的信息
      */
     private void saveChanged(){
+        resumeModel.data.setTargetCity(baseInfoFG_locationTv.getText().toString());
+        resumeModel.data.setTargetWork(baseInfoFG_targetWorkTv.getText().toString());
+        resumeModel.data.setTargetSalary(baseInfoFG_targetSalaryTv.getText().toString());
+        resumeModel.data.setIntroduction(baseInfoFG_introductionTv.getText().toString());
+        resumeModel.data.setEducation(baseInfoFG_educationTv.getText().toString());
+        resumeModel.data.setBirthday(baseInfoFG_birthdayTv.getText().toString());
+        resumeModel.data.setWorkAge(baseInfoFG_workAgeTv.getText().toString());
+        UserModel userModel = App.getAppInstance().getUserInfoUtils().getUserInfo();
+        userModel.data.setNickName(baseInfoFG_nameTv.getText().toString());
+        userModel.data.setSex(baseInfoFG_sexTv.getText().toString());
+        userModel.data.setEmail(baseInfoFG_emailTv.getText().toString());
+        userModel.data.setMotto(baseInfoFG_mottoTv.getText().toString());
         String json = new Gson().toJson(resumeModel.data);
         String url = FinalData.BASE_URL + "/updateUserResume";
         HttpFactory.getHttpUtils().post(json,url,new UpdateResumeEventModel(EditResumeActivity.UPDATE_RESUME));
+        HttpFactory.getHttpUtils().post(new Gson().toJson(userModel.data),FinalData.BASE_URL + "/updateUser",new UpdateResumeEventModel(EditResumeActivity.UPDATE_USER_INFO));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateResult(UpdateResumeEventModel eventModel){
-        if(eventModel.eventId != EditResumeActivity.UPDATE_RESUME){
-            return;
-        }
-        if(eventModel.isSuccess){
-            ToastUtils.showShort("修改成功");
+        switch (eventModel.eventId){
+            case EditResumeActivity.UPDATE_RESUME:
+                if(eventModel.isSuccess){
+                    ToastUtils.showShort("保存成功");
+                }
+                break;
+            case EditResumeActivity.UPDATE_USER_INFO:
+                if(eventModel.isSuccess){
+                    //更新用户信息
+                    App.getAppInstance().getUserInfoUtils().saveUserInfo(eventModel.resultStr);
+
+                    UserModel userModel = new Gson().fromJson(eventModel.resultStr,UserModel.class);
+
+                    //发送给UserFragment, 更新信息
+                    EventBus.getDefault().post(userModel);
+                }
+                break;
         }
     }
 
@@ -127,9 +156,10 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
         baseInfoFG_emailTv.setText(userModel.data.getEmail());
         baseInfoFG_targetWorkTv.setText(resumeModel.data.getTargetWork());
         baseInfoFG_targetSalaryTv.setText(resumeModel.data.getTargetSalary());
+        baseInfoFG_phoneTv.setText(userModel.data.getAccount());
 //        baseInfoFG_locationTv
         baseInfoFG_introductionTv.setText(resumeModel.data.getIntroduction());
-
+        baseInfoFG_mottoTv.setText(userModel.data.getMotto());
     }
 
     private void changedSoft(){
@@ -183,6 +213,7 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
         baseInfoFG_scrollView = findViewById(R.id.baseInfoFG_scrollView);
         baseInfoFG_linearLayout = findViewById(R.id.baseInfoFG_linearLayout);
         baseInfoFG_backImg = findViewById(R.id.baseInfoFG_backImg);
+        baseInfoFG_mottoTv = findViewById(R.id.baseInfoFG_mottoTv);
         baseInfoFG_backImg.setOnClickListener(this);
         baseInfoFG_saveTv.setOnClickListener(this);
     }

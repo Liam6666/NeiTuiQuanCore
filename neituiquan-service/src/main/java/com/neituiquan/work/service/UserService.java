@@ -64,7 +64,9 @@ public class UserService {
 
     public AbsEntity updateUser(UserEntity entity){
         userDAO.updateUser(entity);
-        return new AbsEntity();
+        AbsEntity absEntity = new AbsEntity();
+        absEntity.data = userDAO.findUserById(entity.getId());
+        return absEntity;
     }
 
     public AbsEntity updateLocation(UserEntity entity){

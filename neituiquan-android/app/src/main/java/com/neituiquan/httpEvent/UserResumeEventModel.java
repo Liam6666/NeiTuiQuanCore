@@ -9,4 +9,5 @@ import com.neituiquan.net.RequestEventModel;
  */
 
 public class UserResumeEventModel extends RequestEventModel {
+
 }

@@ -15,10 +15,13 @@
     <color name="TextColor">#A9A9A9</color>
     <color name="highTextColor">#2B2B2B</color>
     
-    <color name="buttonActiveColor">#37DE8A</color>
+    <color name="buttonActiveColor">#66AE8A</color>
     <color name="buttonDisabledColor">#00B38A</color>
 
     <color name="red">#EE4335</color>
+
+    <color name="errorButtonActiveColor">#AA4335</color>
+    <color name="errorButtonDisabledColor">#EE4335</color>
 
     <color name="white">#FFFFFF</color>
 </resources>
