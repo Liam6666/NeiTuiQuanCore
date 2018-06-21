@@ -70,9 +70,7 @@ public class UserController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        service.updateHeadImg(id,fileName);
-        absEntity.data = fileName;
-        return absEntity;
+        return service.updateHeadImg(id,fileName);
     }
 
 
@@ -86,4 +84,8 @@ public class UserController {
         return service.updateLocation(entity);
     }
 
+    @RequestMapping(method = RequestMethod.POST,value = "/updateRole")
+    public AbsEntity updateRole(@RequestBody UserEntity entity) {
+        return service.updateRole(entity);
+    }
 }

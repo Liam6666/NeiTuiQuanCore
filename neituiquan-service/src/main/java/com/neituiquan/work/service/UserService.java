@@ -59,7 +59,9 @@ public class UserService {
 
     public AbsEntity updateHeadImg(String id,String headImg){
         userDAO.updateHeadImg(id,headImg);
-        return new AbsEntity();
+        AbsEntity absEntity = new AbsEntity();
+        absEntity.data = userDAO.findUserById(id);
+        return absEntity;
     }
 
     public AbsEntity updateUser(UserEntity entity){
@@ -72,5 +74,12 @@ public class UserService {
     public AbsEntity updateLocation(UserEntity entity){
         userDAO.updateLocation(entity);
         return new AbsEntity();
+    }
+
+    public AbsEntity updateRole(UserEntity entity) {
+        AbsEntity absEntity = new AbsEntity();
+        userDAO.updateRole(entity);
+        absEntity.data = userDAO.findUserById(entity.getId());
+        return absEntity;
     }
 }

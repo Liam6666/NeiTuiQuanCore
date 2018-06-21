@@ -18,6 +18,8 @@ import com.neituiquan.gson.UserResumeModel;
 import com.neituiquan.httpEvent.UserResumeEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.work.R;
+import com.neituiquan.work.account.HeadImgActivity;
+import com.neituiquan.work.account.SwitcherRoleActivity;
 import com.neituiquan.work.resume.ResumeActivity;
 import com.neituiquan.work.account.AccountActivity;
 import com.neituiquan.work.resume.EditResumeActivity;
@@ -75,6 +77,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         userModel = App.getAppInstance().getUserInfoUtils().getUserInfo();
         if(userModel == null){
             //未登录
+            initOutLoginUI();
         }else{
             initUserInfo();
         }
@@ -87,24 +90,35 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
             case R.id.userFG_nameTv:
                 if(userModel == null){
                     startActivity(new Intent(getContext(), AccountActivity.class));
-                }else{
-                    startActivity(new Intent(getContext(), EditResumeActivity.class));
                 }
                 break;
             case R.id.userFG_mottoTv:
                 if(userModel == null){
                     startActivity(new Intent(getContext(), AccountActivity.class));
-                }else{
-                    startActivity(new Intent(getContext(), EditResumeActivity.class));
                 }
                 break;
             case R.id.userFG_headImg:
-
+                startActivity(new Intent(getContext(),HeadImgActivity.class));
                 break;
             case R.id.userFG_myResumeLayout:
                 startActivity(new Intent(getContext(),ResumeActivity.class));
                 break;
+            case R.id.userFG_switcherRoleLayout:
+                startActivity(new Intent(getContext(),SwitcherRoleActivity.class));
+                break;
         }
+    }
+
+    public void initOutLoginUI(){
+        userFG_publishLayout.setVisibility(View.GONE);
+        userFG_commentLayout.setVisibility(View.GONE);
+        userFG_bindCompanyLayout.setVisibility(View.GONE);
+        userFG_bindCompanyTv.setVisibility(View.GONE);
+        userFG_intentionLayout.setVisibility(View.VISIBLE);
+        userFG_myResumeLayout.setVisibility(View.VISIBLE);
+        userFG_blackHouseLayout.setVisibility(View.VISIBLE);
+        userFG_historyLayout.setVisibility(View.VISIBLE);
+        userFG_submitResumeTv.setVisibility(View.VISIBLE);
     }
 
     private void initUserInfo(){
@@ -184,7 +198,8 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         userFG_nameTv.setOnClickListener(this);
         userFG_mottoTv.setOnClickListener(this);
         userFG_myResumeLayout.setOnClickListener(this);
-
+        userFG_headImg.setOnClickListener(this);
+        userFG_switcherRoleLayout.setOnClickListener(this);
     }
 
 

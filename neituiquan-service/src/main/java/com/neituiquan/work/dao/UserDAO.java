@@ -20,4 +20,6 @@ public interface UserDAO {
 
     int register(UserEntity entity);
 
+    boolean updateRole(UserEntity entity);
+
 }

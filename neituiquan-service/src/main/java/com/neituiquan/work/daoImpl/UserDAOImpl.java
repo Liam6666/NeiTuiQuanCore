@@ -135,6 +135,13 @@ public class UserDAOImpl implements UserDAO {
         return 0;
     }
 
+    @Override
+    public boolean updateRole(UserEntity entity) {
+        String sql = "update t_user set roleName = ? where id = ?";
+        jdbcTemplate.update(sql,new String[]{entity.getRoleName(),entity.getId()});
+        return true;
+    }
+
     private void setValues(UserEntity entity, ResultSet resultSet) throws SQLException{
         entity.setId(resultSet.getString("id"));
         entity.setAccount(resultSet.getString("account"));

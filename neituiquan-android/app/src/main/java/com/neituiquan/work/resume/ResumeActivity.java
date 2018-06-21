@@ -27,6 +27,7 @@ import com.neituiquan.base.BaseActivity;
 import com.neituiquan.entity.UserResumeEntity;
 import com.neituiquan.gson.UserModel;
 import com.neituiquan.gson.UserResumeModel;
+import com.neituiquan.httpEvent.AddResumeEventModel;
 import com.neituiquan.httpEvent.RefreshResumeEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.work.R;
@@ -78,6 +79,8 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
     private TextView resumeUI_introductionTv;
     private View resumeUI_statusView;
     private ImageView resumeUI_backImg;
+    private FrameLayout resumeUI_emptyLayout;
+    private TextView resumeUI_addResumeTv;
 
     private UserModel userModel;
 
@@ -95,7 +98,7 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
         bindViews();
         initStatusBar();
         userModel = App.getAppInstance().getUserInfoUtils().getUserInfo();
-        initValues();
+        refresh();
     }
 
     /**
@@ -164,21 +167,41 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
                 intent.putExtra("editType",editType);
                 intent.putExtra("resumeModel",resumeModel);
                 break;
+            case R.id.resumeUI_addResumeTv:
+                //去添加简历
+                addResume();
+                break;
+            case R.id.resumeUI_headImg:
+
+                break;
         }
         if(intent != null){
             startActivity(intent);
         }
     }
 
-    private boolean refreshFlag = false;
-
     @Override
     protected void onResume() {
         super.onResume();
-        if(refreshFlag){
+        refresh();
+    }
+
+    private void addResume(){
+        String url = FinalData.BASE_URL + "/addUserResume";
+        UserResumeEntity entity = new UserResumeEntity();
+        entity.setUserId(App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId());
+
+        String json = new Gson().toJson(entity);
+
+        HttpFactory.getHttpUtils().post(json,url,new AddResumeEventModel());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void addResumeResult(AddResumeEventModel eventModel){
+        if(eventModel.isSuccess){
+            resumeUI_emptyLayout.setVisibility(View.GONE);
             refresh();
         }
-        refreshFlag = true;
     }
 
     /**
@@ -195,7 +218,12 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
             if(eventModel.isSuccess){
                 resumeModel = new Gson().fromJson(eventModel.resultStr,UserResumeModel.class);
                 userModel = App.getAppInstance().getUserInfoUtils().getUserInfo();
-                initValues();
+                if(resumeModel.code == 0){
+                    initValues();
+                }else{
+                    //未添加简历
+                    resumeUI_emptyLayout.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -323,6 +351,9 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
         resumeUI_introductionTv = (TextView) findViewById(R.id.resumeUI_introductionTv);
         resumeUI_statusView = (View) findViewById(R.id.resumeUI_statusView);
         resumeUI_backImg = (ImageView) findViewById(R.id.resumeUI_backImg);
+        resumeUI_emptyLayout = findViewById(R.id.resumeUI_emptyLayout);
+        resumeUI_addResumeTv = findViewById(R.id.resumeUI_addResumeTv);
+
 
         resumeUI_backImg.setOnClickListener(this);
         resumeUI_editBaseInfoLayout.setOnClickListener(this);
@@ -330,6 +361,8 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
         resumeUI_editSchoolLayout.setOnClickListener(this);
         resumeUI_editProjectLayout.setOnClickListener(this);
         resumeUI_editAWLayout.setOnClickListener(this);
+        resumeUI_addResumeTv.setOnClickListener(this);
+        resumeUI_headImg.setOnClickListener(this);
     }
 
 

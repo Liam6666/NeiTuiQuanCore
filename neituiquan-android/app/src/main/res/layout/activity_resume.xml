@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -529,13 +528,51 @@
                     android:layout_height="wrap_content"
                     android:minHeight="200dp"
                     android:textColor="@color/highTextColor"
-                    android:gravity="center_vertical"
+                    android:gravity="left"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"/>
 
             </LinearLayout>
         </ScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <FrameLayout
+        android:visibility="gone"
+        android:id="@+id/resumeUI_emptyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor">
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/empty"
+                android:layout_gravity="center"/>
+            <TextView
+                android:layout_margin="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="未找到简历"
+                android:gravity="center"
+                android:textSize="@dimen/centerText"
+                android:textColor="@color/highTextColor"/>
+            <TextView
+                android:id="@+id/resumeUI_addResumeTv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/selector_button"
+                android:text="立即添加"
+                android:textColor="@color/white"
+                android:textSize="@dimen/centerText"
+                android:gravity="center"
+                android:layout_margin="15dp"/>
+        </LinearLayout>
+
+
+    </FrameLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -570,6 +607,5 @@
                 android:padding="15dp"/>
         </LinearLayout>
     </LinearLayout>
-
 </FrameLayout>
 

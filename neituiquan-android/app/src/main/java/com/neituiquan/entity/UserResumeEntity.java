@@ -1,6 +1,7 @@
 package com.neituiquan.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,16 +51,16 @@ public class UserResumeEntity implements Serializable{
     private  String isDel;
 
     //个人成就经历
-    private List<ResumeAEntity> resumeAList;
+    private List<ResumeAEntity> resumeAList = new ArrayList<>();
 
     //项目经验
-    private List<ResumePEntity> resumePList;
+    private List<ResumePEntity> resumePList = new ArrayList<>();
 
     //学习经历
-    private List<ResumeSEntity> resumeSList;
+    private List<ResumeSEntity> resumeSList = new ArrayList<>();
 
     //个人工作简历
-    private List<ResumeWEntity> resumeWList;
+    private List<ResumeWEntity> resumeWList = new ArrayList<>();
 
     public String getSort() {
         return sort;

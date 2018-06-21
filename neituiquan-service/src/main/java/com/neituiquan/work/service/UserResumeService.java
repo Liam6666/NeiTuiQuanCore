@@ -23,6 +23,7 @@ public class UserResumeService {
         entity.setIsDel(FinalData.NO_DEL);
         entity.setIsOpen(FinalData.OPEN);
         entity.setIsDeparture(FinalData.DEPARTURE);
+        entity.setSort("0");
         resumeDAO.addUserResume(entity);
         for(UserResumeEntity.ResumeAEntity aEntity : entity.getResumeAList()){
             aEntity.setId(StringUtils.getUUID());
@@ -74,6 +75,10 @@ public class UserResumeService {
         AbsEntity absEntity = new AbsEntity();
         UserResumeEntity entity = resumeDAO.findUserResumeByUserId(userId);
         absEntity.data = entity;
+        if(entity == null){
+            absEntity.code = -1;
+            absEntity.msg = "未添加简历";
+        }
         return absEntity;
     }
 
