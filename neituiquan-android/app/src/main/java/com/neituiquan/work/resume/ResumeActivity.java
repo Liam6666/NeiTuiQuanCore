@@ -1,5 +1,6 @@
 package com.neituiquan.work.resume;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,12 +20,15 @@ import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.gson.UserModel;
 import com.neituiquan.gson.UserResumeModel;
+import com.neituiquan.httpEvent.RefreshResumeEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.work.R;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.IOException;
-import java.lang.ref.SoftReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
@@ -76,6 +80,8 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
 
     private UserResumeModel resumeModel;
 
+    public static final int REFRESH_ID = 2222;
+
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_resume);
@@ -86,9 +92,8 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
         bindViews();
         initStatusBar();
         userModel = App.getAppInstance().getUserInfoUtils().getUserInfo();
-        resumeModel = (UserResumeModel) FinalData.resumeModelSoftReference.get();
         if(resumeModel == null){
-            refreshUserResumeModel();
+            refresh();
         }else{
             initValues();
         }
@@ -122,26 +127,31 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
                 intent = new Intent(this,EditResumeActivity.class);
                 editType = 0;
                 intent.putExtra("editType",editType);
+                intent.putExtra("resumeModel",resumeModel);
                 break;
             case R.id.resumeUI_editWorkLayout:
                 intent = new Intent(this,EditResumeActivity.class);
                 editType = 1;
                 intent.putExtra("editType",editType);
+                intent.putExtra("resumeModel",resumeModel);
                 break;
             case R.id.resumeUI_editSchoolLayout:
                 intent = new Intent(this,EditResumeActivity.class);
                 editType = 2;
                 intent.putExtra("editType",editType);
+                intent.putExtra("resumeModel",resumeModel);
                 break;
             case R.id.resumeUI_editProjectLayout:
                 intent = new Intent(this,EditResumeActivity.class);
                 editType = 3;
                 intent.putExtra("editType",editType);
+                intent.putExtra("resumeModel",resumeModel);
                 break;
             case R.id.resumeUI_editAWLayout:
                 intent = new Intent(this,EditResumeActivity.class);
                 editType = 4;
                 intent.putExtra("editType",editType);
+                intent.putExtra("resumeModel",resumeModel);
                 break;
         }
         if(intent != null){
@@ -155,43 +165,28 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
     protected void onResume() {
         super.onResume();
         if(refreshFlag){
-            refreshUserResumeModel();
+            refresh();
         }
         refreshFlag = true;
     }
 
     /**
-     * 当内存不足被回收时，重新请求
-     *
-     * 或作为刷新方法
+     * 刷新方法
      */
-    private void refreshUserResumeModel(){
-        final Handler handler = new Handler(){
-            @Override
-            public void dispatchMessage(Message msg) {
-                super.dispatchMessage(msg);
-                if(msg.what == 322){
-                    userModel = App.getAppInstance().getUserInfoUtils().getUserInfo();
-                    resumeModel = (UserResumeModel) FinalData.resumeModelSoftReference.get();
-                    initValues();
-                }
-            }
-        };
+    private void refresh(){
         String url = FinalData.BASE_URL + "/getUserResume?userId=" + userModel.data.getId();
-        HttpFactory.getHttpUtils().get(url).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+        HttpFactory.getHttpUtils().get(url,new RefreshResumeEventModel(REFRESH_ID));
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshResult(RefreshResumeEventModel eventModel){
+        if(eventModel.eventId == REFRESH_ID){
+            if(eventModel.isSuccess){
+                resumeModel = new Gson().fromJson(eventModel.resultStr,UserResumeModel.class);
+                userModel = App.getAppInstance().getUserInfoUtils().getUserInfo();
+                initValues();
             }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String result = response.body().string();
-                UserResumeModel model = new Gson().fromJson(result,UserResumeModel.class);
-                FinalData.resumeModelSoftReference = new SoftReference(model);
-                handler.sendEmptyMessage(322);
-            }
-        });
+        }
     }
 
 

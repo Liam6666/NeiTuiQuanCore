@@ -30,9 +30,5 @@ public class FinalData {
             Manifest.permission.READ_PHONE_STATE
     };
 
-    /**
-     * 用户简历实体类
-     */
-    public static SoftReference resumeModelSoftReference = new SoftReference(null);
 
 }

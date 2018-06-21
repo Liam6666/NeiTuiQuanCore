@@ -120,17 +120,15 @@ public class EditAWFragment extends BaseFragment implements View.OnClickListener
     public void saveChangedResult(UpdateResumeEventModel eventModel){
         if(eventModel.eventId == EditResumeActivity.UPDATE_RESUME_A){
             if(eventModel.isSuccess){
-                AWListFragment awListFragment = (AWListFragment) getFragmentManager().findFragmentByTag("awListFragment");
-                awListFragment.refresh();
+                ((EditResumeActivity)getContext()).refresh();
                 getFragmentManager().popBackStack();
             }
         }else if(eventModel.eventId == EditResumeActivity.SAVED_RESUME_A){
             /**
              * 新增
              */
-            AWListFragment awListFragment = (AWListFragment) getFragmentManager().findFragmentByTag("awListFragment");
-            awListFragment.refresh();
             if(eventModel.isSuccess){
+                ((EditResumeActivity)getContext()).refresh();
                 getFragmentManager().popBackStack();
             }
 
@@ -139,8 +137,7 @@ public class EditAWFragment extends BaseFragment implements View.OnClickListener
              * 删除
              */
             if(eventModel.isSuccess){
-                AWListFragment awListFragment = (AWListFragment) getFragmentManager().findFragmentByTag("awListFragment");
-                awListFragment.refresh();
+                ((EditResumeActivity)getContext()).refresh();
                 getFragmentManager().popBackStack();
             }
         }

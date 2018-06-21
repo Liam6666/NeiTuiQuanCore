@@ -65,6 +65,8 @@ public abstract class BaseFragment extends Fragment {
         isInit = true;
     }
 
+    public void refresh(){}
+
     public <T extends View> T findViewById(int id){
         return getContentView().findViewById(id);
     }

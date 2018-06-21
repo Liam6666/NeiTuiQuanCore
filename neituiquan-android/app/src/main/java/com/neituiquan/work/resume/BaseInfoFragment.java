@@ -120,7 +120,9 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
         String json = new Gson().toJson(resumeModel.data);
         String url = FinalData.BASE_URL + "/updateUserResume";
         HttpFactory.getHttpUtils().post(json,url,new UpdateResumeEventModel(EditResumeActivity.UPDATE_RESUME));
-        HttpFactory.getHttpUtils().post(new Gson().toJson(userModel.data),FinalData.BASE_URL + "/updateUser",new UpdateResumeEventModel(EditResumeActivity.UPDATE_USER_INFO));
+        String json2 = new Gson().toJson(userModel.data);
+        String url2 = FinalData.BASE_URL + "/updateUser";
+        HttpFactory.getHttpUtils().post(json2,url2,new UpdateResumeEventModel(EditResumeActivity.UPDATE_USER_INFO));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -128,7 +130,7 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
         switch (eventModel.eventId){
             case EditResumeActivity.UPDATE_RESUME:
                 if(eventModel.isSuccess){
-                    ToastUtils.showShort("保存成功");
+//                    ToastUtils.showShort("保存成功");
                 }
                 break;
             case EditResumeActivity.UPDATE_USER_INFO:
@@ -140,6 +142,13 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
 
                     //发送给UserFragment, 更新信息
                     EventBus.getDefault().post(userModel);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((EditResumeActivity)getContext()).finish();
+                        }
+                    },100);
                 }
                 break;
         }

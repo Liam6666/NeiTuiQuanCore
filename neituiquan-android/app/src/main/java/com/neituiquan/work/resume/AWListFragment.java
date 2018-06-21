@@ -71,6 +71,12 @@ public class AWListFragment extends BaseFragment implements View.OnClickListener
     }
 
     @Override
+    public void refresh() {
+        super.refresh();
+        initValues();
+    }
+
+    @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
@@ -91,36 +97,6 @@ public class AWListFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
-    public void refresh(){
-        final Handler handler = new Handler(){
-            @Override
-            public void dispatchMessage(Message msg) {
-                super.dispatchMessage(msg);
-                if(msg.what == 123){
-                    resumeModel = (UserResumeModel) FinalData.resumeModelSoftReference.get();
-                    awFG_contentLayout.removeAllViews();
-                    for(int i = 0 ; i < resumeModel.data.getResumeAList().size() ; i ++){
-                        awFG_contentLayout.addView(createItem(i));
-                    }
-                }
-            }
-        };
-        String url = FinalData.BASE_URL + "/getUserResume?userId=" + App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId();
-        HttpFactory.getHttpUtils().get(url).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String result = response.body().string();
-                UserResumeModel model = new Gson().fromJson(result,UserResumeModel.class);
-                FinalData.resumeModelSoftReference = new SoftReference(model);
-                handler.sendEmptyMessage(123);
-            }
-        });
-    }
 
     private LinearLayout createItem(int index){
         final UserResumeEntity.ResumeAEntity aEntity = resumeModel.data.getResumeAList().get(index);

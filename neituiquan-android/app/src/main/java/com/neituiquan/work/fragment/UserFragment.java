@@ -102,7 +102,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
 
                 break;
             case R.id.userFG_myResumeLayout:
-                startToMyResume();
+                startActivity(new Intent(getContext(),ResumeActivity.class));
                 break;
         }
     }
@@ -115,20 +115,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         switcherMenuList();
     }
 
-    public void startToMyResume(){
-        String url = FinalData.BASE_URL + "/getUserResume?userId=" + userModel.data.getId();
-        HttpFactory.getHttpUtils().get(url,new UserResumeEventModel());
-    }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void userResumeResult(UserResumeEventModel eventModel){
-        if(eventModel.isSuccess){
-            UserResumeModel resumeModel = new Gson().fromJson(eventModel.resultStr,UserResumeModel.class);
-            FinalData.resumeModelSoftReference = new SoftReference(resumeModel);
-            Intent intent = new Intent(getContext(),ResumeActivity.class);
-            startActivity(intent);
-        }
-    }
 
     /**
      * 根据不同的用户身份切换不同的UI

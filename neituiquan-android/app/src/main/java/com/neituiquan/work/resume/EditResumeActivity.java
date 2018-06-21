@@ -17,12 +17,15 @@ import com.neituiquan.base.BaseActivity;
 import com.neituiquan.base.BaseFragment;
 import com.neituiquan.gson.UserModel;
 import com.neituiquan.gson.UserResumeModel;
+import com.neituiquan.httpEvent.RefreshResumeEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.work.R;
 
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.IOException;
-import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +73,10 @@ public class EditResumeActivity extends BaseActivity{
 
     private UserModel userModel;
 
+    private BaseFragment currentFragment;
+
+    private static final int REFRESH_ID = 1929;
+
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_edit_resume);
@@ -84,67 +91,63 @@ public class EditResumeActivity extends BaseActivity{
         }
         editType = getIntent().getIntExtra("editType",-1);
         userModel = App.getAppInstance().getUserInfoUtils().getUserInfo();
-        resumeModel = (UserResumeModel) FinalData.resumeModelSoftReference.get();
-        if(resumeModel == null){
-            refreshUserResumeModel();
-        }else{
-            initFragments();
-        }
+        resumeModel = (UserResumeModel) getIntent().getSerializableExtra("resumeModel");
+        initFragments();
     }
 
     /**
-     * 当内存不足被回收时，重新请求
+     * 刷新数据
      *
      */
-    private void refreshUserResumeModel(){
-        final Handler handler = new Handler(){
-            @Override
-            public void dispatchMessage(Message msg) {
-                super.dispatchMessage(msg);
-                if(msg.what == 111){
-                    resumeModel = (UserResumeModel) FinalData.resumeModelSoftReference.get();
-                    initFragments();
-                }
-            }
-        };
+    public void refresh(){
         String url = FinalData.BASE_URL + "/getUserResume?userId=" + userModel.data.getId();
-        HttpFactory.getHttpUtils().get(url).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+        HttpFactory.getHttpUtils().get(url,new RefreshResumeEventModel(REFRESH_ID));
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshResult(RefreshResumeEventModel eventModel){
+        if(eventModel.eventId == REFRESH_ID){
+            if(eventModel.isSuccess){
+                resumeModel = new Gson().fromJson(eventModel.resultStr,UserResumeModel.class);
+                userModel = App.getAppInstance().getUserInfoUtils().getUserInfo();
+                currentFragment.refresh();
             }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String result = response.body().string();
-                UserResumeModel model = new Gson().fromJson(result,UserResumeModel.class);
-                FinalData.resumeModelSoftReference = new SoftReference(model);
-                handler.sendEmptyMessage(111);
-            }
-        });
+        }
     }
 
 
     private void initFragments(){
-        baseInfoFragment = BaseInfoFragment.newInstance();
-        awListFragment = AWListFragment.newInstance();
-        fragmentList.add(baseInfoFragment);
-        fragmentList.add(awListFragment);
         FragmentTransaction transaction = createTransaction();
-        if(!baseInfoFragment.isAdded()){
-            transaction.add(R.id.editResumeUI_frameLayout,baseInfoFragment,"baseInfoFragment");
+        switch (editType){
+            case 0:
+                baseInfoFragment = BaseInfoFragment.newInstance();
+                currentFragment = baseInfoFragment;
+                if(!baseInfoFragment.isAdded()){
+                    transaction.add(R.id.editResumeUI_frameLayout,baseInfoFragment,"baseInfoFragment");
+                }
+                break;
+            case 1:
+                awListFragment = AWListFragment.newInstance();
+                currentFragment = awListFragment;
+                if(!awListFragment.isAdded()){
+                    transaction.add(R.id.editResumeUI_frameLayout,awListFragment,"awListFragment");
+                }
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
         }
-        if(!awListFragment.isAdded()){
-            transaction.add(R.id.editResumeUI_frameLayout,awListFragment,"awListFragment");
-        }
-        for(BaseFragment fragment : fragmentList){
-            transaction.hide(fragment);
-        }
-        transaction.show(fragmentList.get(editType))
+        transaction.show(currentFragment)
                 .runOnCommit(new Runnable() {
                     @Override
                     public void run() {
-                        fragmentList.get(editType).onLazyInitList();
+                        currentFragment.onLazyInitList();
                     }
                 });
         transaction.commit();
