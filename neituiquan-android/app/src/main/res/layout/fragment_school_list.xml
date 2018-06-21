@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor">
+
+    <LinearLayout
+        android:elevation="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolBarHeight"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/schoolFG_backImg"
+            android:layout_width="@dimen/toolBarHeight"
+            android:layout_height="match_parent"
+            android:src="@mipmap/back_left"
+            android:padding="15dp"/>
+        <TextView
+            android:text="学习经历"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="@dimen/centerText"
+            android:textColor="@color/highTextColor"/>
+        <TextView
+            android:text=""
+            android:layout_width="@dimen/toolBarHeight"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="@dimen/centerText"
+            android:textColor="@color/themeColor"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/schoolFG_contentLayout"
+                android:background="@drawable/shape_edit_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"></LinearLayout>
+
+            <TextView
+                android:id="@+id/schoolFG_addTv"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="添加"
+                android:textColor="@color/white"
+                android:textSize="@dimen/centerText"
+                android:background="@drawable/selector_button"
+                android:gravity="center"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -36,11 +36,11 @@
                     android:id="@+id/resumeUI_headBGLayout"
                     android:layout_width="match_parent"
                     android:layout_height="300dp">
-                    <View
+                    <ImageView
+                        android:scaleType="fitXY"
                         android:id="@+id/resumeUI_headBGView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@mipmap/def_bg"
                         android:layout_gravity="center"/>
                     <LinearLayout
                         android:layout_marginBottom="20dp"
@@ -356,6 +356,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:paddingBottom="10dp"
                     android:id="@+id/resumeUI_ELayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -402,6 +403,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:paddingBottom="10dp"
                     android:id="@+id/resumeUI_SLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -449,6 +451,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:paddingBottom="10dp"
                     android:id="@+id/resumeUI_PLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -496,6 +499,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:paddingBottom="10dp"
                     android:id="@+id/resumeUI_ALayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -518,11 +522,12 @@
                     android:paddingRight="15dp"/>
 
                 <TextView
+                    android:layout_marginBottom="80dp"
                     android:textSize="@dimen/centerText"
                     android:id="@+id/resumeUI_introductionTv"
                     android:layout_width="match_parent"
-                    android:layout_height="1000dp"
-                    android:text="..."
+                    android:layout_height="wrap_content"
+                    android:minHeight="200dp"
                     android:textColor="@color/highTextColor"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"

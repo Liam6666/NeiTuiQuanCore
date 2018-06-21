@@ -1,10 +1,11 @@
 package com.neituiquan.work.resume;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -13,11 +14,17 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ImageUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseActivity;
+import com.neituiquan.entity.UserResumeEntity;
 import com.neituiquan.gson.UserModel;
 import com.neituiquan.gson.UserResumeModel;
 import com.neituiquan.httpEvent.RefreshResumeEventModel;
@@ -28,12 +35,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 /**
  * Created by Augustine on 2018/6/19.
@@ -51,7 +54,7 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
     private SmartRefreshLayout resumeUI_refreshLayout;
     private ScrollView resumeUI_scrollView;
     private FrameLayout resumeUI_headBGLayout;
-    private View resumeUI_headBGView;
+    private ImageView resumeUI_headBGView;
     private CircleImageView resumeUI_headImg;
     private TextView resumeUI_nameTv;
     private TextView resumeUI_mottoTv;
@@ -92,11 +95,19 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
         bindViews();
         initStatusBar();
         userModel = App.getAppInstance().getUserInfoUtils().getUserInfo();
-        if(resumeModel == null){
-            refresh();
-        }else{
-            initValues();
-        }
+        initValues();
+    }
+
+    /**
+     * 不允许编辑
+     */
+    private void noEdit(){
+        resumeUI_editBaseInfoLayout.setVisibility(View.GONE);
+        resumeUI_editWorkLayout.setVisibility(View.GONE);
+        resumeUI_editProjectLayout.setVisibility(View.GONE);
+        resumeUI_editAWLayout.setVisibility(View.GONE);
+        resumeUI_editSchoolLayout.setVisibility(View.GONE);
+
     }
 
     private void initStatusBar() {
@@ -189,10 +200,24 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-
+    /**
+     * 避免多次虚化图片
+     */
+    private boolean isInitHeadImg = false;
 
     private void initValues(){
-        Glide.with(this).load(FinalData.IMG + userModel.data.getHeadImg()).into(resumeUI_headImg);
+        if(!isInitHeadImg){
+            Glide.with(this).load(FinalData.IMG + userModel.data.getHeadImg())
+                    .asBitmap().into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    resumeUI_headImg.setImageBitmap(resource);
+                    Bitmap bgBitmap = ImageUtils.stackBlur(resource,25);
+                    resumeUI_headBGView.setImageBitmap(bgBitmap);
+                    isInitHeadImg = true;
+                }
+            });
+        }
         resumeUI_nameTv.setText(userModel.data.getNickName());
         resumeUI_mottoTv.setText(userModel.data.getMotto());
         resumeUI_educationTv.setText(resumeModel.data.getEducation());
@@ -203,13 +228,78 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
         resumeUI_emailTv.setText(userModel.data.getEmail());
         resumeUI_targetWorkTv.setText(resumeModel.data.getTargetWork());
         resumeUI_targetSalaryTv.setText(resumeModel.data.getTargetSalary());
+        resumeUI_introductionTv.setText(resumeModel.data.getIntroduction());
+        resumeUI_PLayout.removeAllViews();
+        resumeUI_ALayout.removeAllViews();
+        resumeUI_SLayout.removeAllViews();
+        resumeUI_ELayout.removeAllViews();
+        for(UserResumeEntity.ResumePEntity pEntity : resumeModel.data.getResumePList()){
+            resumeUI_PLayout.addView(createProjectItems(pEntity));
+        }
+        for(UserResumeEntity.ResumeAEntity aEntity : resumeModel.data.getResumeAList()){
+            resumeUI_ALayout.addView(createAWItems(aEntity));
+        }
+        for(UserResumeEntity.ResumeSEntity sEntity : resumeModel.data.getResumeSList()){
+            resumeUI_SLayout.addView(createSchoolItems(sEntity));
+        }
+        for(UserResumeEntity.ResumeWEntity wEntity : resumeModel.data.getResumeWList()){
+            resumeUI_ELayout.addView(createSchoolItems(wEntity));
+        }
+    }
+
+    private LinearLayout createProjectItems(UserResumeEntity.ResumePEntity pEntity){
+        LinearLayout itemView = (LinearLayout) View.inflate(this,R.layout.item_project,null);
+        TextView itemProject_timeTv = itemView.findViewById(R.id.itemProject_timeTv);
+        TextView itemProject_nameTv = itemView.findViewById(R.id.itemProject_nameTv);
+        TextView itemProject_responsibilityTv = itemView.findViewById(R.id.itemProject_responsibilityTv);
+        TextView itemProject_absTv = itemView.findViewById(R.id.itemProject_absTv);
+        itemProject_timeTv.setText(pEntity.getStartTime() + "——" + pEntity.getEndTime());
+        itemProject_nameTv.setText(pEntity.getProjectName());
+        itemProject_responsibilityTv.setText(pEntity.getResponsibility());
+        itemProject_absTv.setText(pEntity.getProjectAbs());
+        return itemView;
+    }
+
+    private LinearLayout createAWItems(UserResumeEntity.ResumeAEntity aEntity){
+        LinearLayout itemView = (LinearLayout) View.inflate(this,R.layout.item_aw,null);
+        TextView itemAW_timeTv = itemView.findViewById(R.id.itemAW_timeTv);
+        TextView itemAW_absTv = itemView.findViewById(R.id.itemAW_absTv);
+        itemAW_timeTv.setText(aEntity.getCreationTime());
+        itemAW_absTv.setText(aEntity.getRewardName());
+        return itemView;
+    }
+
+    private LinearLayout createSchoolItems(UserResumeEntity.ResumeSEntity sEntity){
+        LinearLayout itemView = (LinearLayout) View.inflate(this,R.layout.item_school,null);
+        TextView itemSchool_timeTv = itemView.findViewById(R.id.itemSchool_timeTv);
+        TextView itemSchool_nameTv = itemView.findViewById(R.id.itemSchool_nameTv);
+        TextView itemSchool_professionTv = itemView.findViewById(R.id.itemSchool_professionTv);
+        TextView itemSchool_educationTv = itemView.findViewById(R.id.itemSchool_educationTv);
+        itemSchool_timeTv.setText(sEntity.getStartTime() + "——" + sEntity.getEndTime());
+        itemSchool_nameTv.setText(sEntity.getSchoolName());
+        itemSchool_professionTv.setText(sEntity.getProfession());
+        itemSchool_educationTv.setText(sEntity.getEducation());
+        return itemView;
+    }
+
+    private LinearLayout createSchoolItems(UserResumeEntity.ResumeWEntity wEntity){
+        LinearLayout itemView = (LinearLayout) View.inflate(this,R.layout.item_work,null);
+        TextView itemWork_timeTv = itemView.findViewById(R.id.itemWork_timeTv);
+        TextView itemWork_nameTv = itemView.findViewById(R.id.itemWork_nameTv);
+        TextView itemWork_cityTv = itemView.findViewById(R.id.itemWork_cityTv);
+        TextView itemWork_jobTitleTv = itemView.findViewById(R.id.itemWork_jobTitleTv);
+        itemWork_timeTv.setText(wEntity.getStartTime() + "——" + wEntity.getEndTime());
+        itemWork_nameTv.setText(wEntity.getCompanyName());
+        itemWork_cityTv.setText(wEntity.getCity());
+        itemWork_jobTitleTv.setText(wEntity.getJobTitle());
+        return itemView;
     }
 
     private void bindViews() {
         resumeUI_refreshLayout = (com.scwang.smartrefresh.layout.SmartRefreshLayout) findViewById(R.id.resumeUI_refreshLayout);
         resumeUI_scrollView = (ScrollView) findViewById(R.id.resumeUI_scrollView);
         resumeUI_headBGLayout = (FrameLayout) findViewById(R.id.resumeUI_headBGLayout);
-        resumeUI_headBGView = (View) findViewById(R.id.resumeUI_headBGView);
+        resumeUI_headBGView = (ImageView) findViewById(R.id.resumeUI_headBGView);
         resumeUI_headImg = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.resumeUI_headImg);
         resumeUI_nameTv = (TextView) findViewById(R.id.resumeUI_nameTv);
         resumeUI_mottoTv = (TextView) findViewById(R.id.resumeUI_mottoTv);

@@ -1,8 +1,6 @@
 package com.neituiquan.work.resume;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,21 +8,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.neituiquan.App;
-import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseFragment;
 import com.neituiquan.entity.UserResumeEntity;
 import com.neituiquan.gson.UserResumeModel;
-import com.neituiquan.net.HttpFactory;
 import com.neituiquan.work.R;
-
-import java.io.IOException;
-import java.lang.ref.SoftReference;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 /**
  * Created by Augustine on 2018/6/20.

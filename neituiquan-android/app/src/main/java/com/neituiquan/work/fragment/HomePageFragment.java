@@ -132,7 +132,7 @@ public class HomePageFragment extends BaseFragment {
         recyclerView.setAdapter(new RecyclerView.Adapter() {
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return new ViewHolder(View.inflate(getContext(), R.layout.item_jobs, null));
+                return new ViewHolder(View.inflate(getContext(), R.layout.item_jobs_edit, null));
             }
 
             @Override
@@ -152,7 +152,7 @@ public class HomePageFragment extends BaseFragment {
         recyclerView2.setAdapter(new RecyclerView.Adapter() {
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return new ViewHolder(View.inflate(getContext(), R.layout.item_jobs, null));
+                return new ViewHolder(View.inflate(getContext(), R.layout.item_jobs_edit, null));
             }
 
             @Override

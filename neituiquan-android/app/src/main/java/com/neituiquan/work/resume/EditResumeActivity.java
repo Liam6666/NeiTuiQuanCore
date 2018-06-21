@@ -55,6 +55,21 @@ public class EditResumeActivity extends BaseActivity{
      */
     private AWListFragment awListFragment;
 
+    /**
+     * 项目经历
+     */
+    private ProjectListFragment projectListFragment;
+
+    /**
+     * 学习经历
+     */
+    private SchoolListFragment schoolListFragment;
+
+    /**
+     * 工作经历
+     */
+    private WorkListFragment workListFragment;
+
     public static final int UPDATE_RESUME = 0;
 
     public static final int UPDATE_USER_INFO = 1;
@@ -65,9 +80,25 @@ public class EditResumeActivity extends BaseActivity{
 
     public static final int DEL_RESUME_A = 4;
 
-    private int editType = 0;
+    public static final int UPDATE_RESUME_P = 5;
 
-    private List<BaseFragment> fragmentList = new ArrayList<>();
+    public static final int SAVED_RESUME_P = 6;
+
+    public static final int DEL_RESUME_P = 7;
+
+    public static final int UPDATE_RESUME_W = 8;
+
+    public static final int SAVED_RESUME_W = 9;
+
+    public static final int DEL_RESUME_W = 10;
+
+    public static final int UPDATE_RESUME_S = 11;
+
+    public static final int SAVED_RESUME_S = 12;
+
+    public static final int DEL_RESUME_S = 13;
+
+    private int editType = 0;
 
     private UserResumeModel resumeModel;
 
@@ -127,22 +158,35 @@ public class EditResumeActivity extends BaseActivity{
                 }
                 break;
             case 1:
+                workListFragment = WorkListFragment.newInstance();
+                currentFragment = workListFragment;
+                if(!workListFragment.isAdded()){
+                    transaction.add(R.id.editResumeUI_frameLayout,workListFragment,"workListFragment");
+                }
+                break;
+            case 2:
+                schoolListFragment = SchoolListFragment.newInstance();
+                currentFragment = schoolListFragment;
+                if(!schoolListFragment.isAdded()){
+                    transaction.add(R.id.editResumeUI_frameLayout,schoolListFragment,"schoolListFragment");
+                }
+                break;
+            case 3:
+                projectListFragment = ProjectListFragment.newInstance();
+                currentFragment = projectListFragment;
+                if(!projectListFragment.isAdded()){
+                    transaction.add(R.id.editResumeUI_frameLayout,projectListFragment,"projectListFragment");
+                }
+                break;
+            case 4:
                 awListFragment = AWListFragment.newInstance();
                 currentFragment = awListFragment;
                 if(!awListFragment.isAdded()){
                     transaction.add(R.id.editResumeUI_frameLayout,awListFragment,"awListFragment");
                 }
                 break;
-            case 2:
-
-                break;
-            case 3:
-
-                break;
-            case 4:
-
-                break;
         }
+
         transaction.show(currentFragment)
                 .runOnCommit(new Runnable() {
                     @Override

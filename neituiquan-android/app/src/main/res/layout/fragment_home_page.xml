@@ -64,7 +64,7 @@
                                 android:layout_marginTop="5dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="高新职位"
+                                android:text="高薪职位"
                                 android:textSize="@dimen/centerText"
                                 android:gravity="center"
                                 android:textColor="@color/highTextColor"/>
