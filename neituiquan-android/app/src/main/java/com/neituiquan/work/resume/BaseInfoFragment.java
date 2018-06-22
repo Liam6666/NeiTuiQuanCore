@@ -196,7 +196,7 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
         KeyboardUtils.registerSoftInputChangedListener(getActivity(), new KeyboardUtils.OnSoftInputChangedListener() {
             @Override
             public void onSoftInputChanged(int height) {
-                if(keyboardHeight == 0){
+                if(height != 0){
                     keyboardHeight = height;
                 }
             }

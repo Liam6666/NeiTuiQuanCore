@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="150dp"
+    android:layout_height="150dp">
+
+    <ImageView
+        android:id="@+id/item_contentImg"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="fitXY"/>
+
+    <ImageView
+        android:id="@+id/item_delImg"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@mipmap/s_del"
+        android:layout_gravity="right"
+        android:layout_margin="2dp"/>
+</FrameLayout>

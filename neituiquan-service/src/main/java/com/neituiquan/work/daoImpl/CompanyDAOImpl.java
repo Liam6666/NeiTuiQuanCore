@@ -26,7 +26,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     @Override
     public boolean addCompanyImg(List<CompanyImgEntity> imgEntityList) {
         for(CompanyImgEntity entity : imgEntityList){
-            String sql = "insert into t_company_img values" +
+            String sql = "insert into t_company_img values " +
                     "(?,?,?,?,?)";
             String[] params = new String[]{
                     entity.getId(),entity.getCompanyId(),entity.getImgUrl(),entity.getSort(),FinalData.NO_DEL
@@ -52,7 +52,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     @Override
     public boolean addCompany(CompanyEntity entity) {
-        String sql = "insert into t_company values" +
+        String sql = "insert into t_company values " +
                 "(?,?,?,?,?,?,?,?,?,?,?,?)";
         String[] params = new String[]{
                 entity.getId(),entity.getUserId(),entity.getCompanyName(),
@@ -75,8 +75,8 @@ public class CompanyDAOImpl implements CompanyDAO {
     @Override
     public boolean updateCompany(CompanyEntity entity) {
         String sql = "update t_company set " +
-                "companyName = ?,province = ?,city = ?,address = ?,introduce = ?" +
-                "creationTime = ?,peopleNum = ?,linkUrl = ?,labels = ?" +
+                "companyName = ?,province = ?,city = ?,address = ?,introduce = ? " +
+                "creationTime = ?,peopleNum = ?,linkUrl = ?,labels = ? " +
                 "where id = ?";
         String[] params = new String[]{
                 entity.getCompanyName(),entity.getProvince(),entity.getCity(),entity.getAddress(),entity.getIntroduce(),

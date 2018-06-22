@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
@@ -237,5 +238,12 @@ public class EditResumeActivity extends BaseActivity{
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        KeyboardUtils.unregisterSoftInputChangedListener(this);
+        KeyboardUtils.fixSoftInputLeaks(this);
+        super.onDestroy();
     }
 }

@@ -42,7 +42,9 @@ public class CompanyService {
         entity.setId(StringUtils.getUUID());
         entity.setIsDel(FinalData.NO_DEL);
         companyDAO.addCompany(entity);
-        return new AbsEntity();
+        AbsEntity absEntity = new AbsEntity();
+        absEntity.data = companyDAO.findCompanyById(entity.getId());
+        return absEntity;
     }
 
     public AbsEntity delCompany(String id){
@@ -58,6 +60,9 @@ public class CompanyService {
     public AbsEntity findCompanyById(String id){
         AbsEntity absEntity = new AbsEntity();
         absEntity.data = companyDAO.findCompanyById(id);
+        if(absEntity.data == null){
+            absEntity.code = -1;
+        }
         return absEntity;
     }
 

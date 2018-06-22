@@ -2,6 +2,8 @@ package com.neituiquan.net;
 
 
 
+import android.util.Log;
+
 import com.blankj.utilcode.util.ToastUtils;
 import com.neituiquan.FinalData;
 
@@ -33,6 +35,8 @@ public class HttpUtils {
     private static final String GET = "GET";
 
     private static final String POST = "POST";
+
+    private static final String TAG = "HttpUtils";
 
     public HttpUtils(){
         okHttpClient = new OkHttpClient()

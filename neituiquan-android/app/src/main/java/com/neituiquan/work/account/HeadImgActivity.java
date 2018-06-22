@@ -135,9 +135,6 @@ public class HeadImgActivity extends BaseActivity implements View.OnClickListene
                     }
                 }
                 break;
-
-            default:
-                break;
         }
     }
 

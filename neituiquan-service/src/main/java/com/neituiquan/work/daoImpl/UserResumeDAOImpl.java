@@ -3,6 +3,7 @@ package com.neituiquan.work.daoImpl;
 import com.neituiquan.work.base.FinalData;
 import com.neituiquan.work.dao.UserResumeDAO;
 import com.neituiquan.work.entity.UserResumeEntity;
+import com.neituiquan.work.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
@@ -334,15 +335,15 @@ public class UserResumeDAOImpl implements UserResumeDAO {
                 "select * from t_personal_resume where isDel = ?");
         List<String> paramsList = new ArrayList<>();
         paramsList.add(FinalData.NO_DEL);
-        if(entity.getWorkAge() != null){
+        if(!StringUtils.isEmpty(entity.getWorkAge())){
             sql.append(" and workAge = ?");
             paramsList.add(entity.getWorkAge());
         }
-        if(entity.getTargetCity() != null){
+        if(!StringUtils.isEmpty(entity.getTargetCity())){
             sql.append(" and targetCity like ?");
             paramsList.add("%"+entity.getTargetCity()+"%");
         }
-        if(entity.getTargetWork() != null){
+        if(!StringUtils.isEmpty(entity.getTargetWork())){
             sql.append(" and targetWork like ?");
             paramsList.add("%"+entity.getTargetWork()+"%");
         }

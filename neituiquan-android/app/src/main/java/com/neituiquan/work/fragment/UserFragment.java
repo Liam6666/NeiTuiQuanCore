@@ -9,25 +9,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseFragment;
 import com.neituiquan.gson.UserModel;
-import com.neituiquan.gson.UserResumeModel;
-import com.neituiquan.httpEvent.UserResumeEventModel;
-import com.neituiquan.net.HttpFactory;
 import com.neituiquan.work.R;
 import com.neituiquan.work.account.HeadImgActivity;
 import com.neituiquan.work.account.SwitcherRoleActivity;
+import com.neituiquan.work.company.BindCompanyActivity;
 import com.neituiquan.work.resume.ResumeActivity;
 import com.neituiquan.work.account.AccountActivity;
-import com.neituiquan.work.resume.EditResumeActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.lang.ref.SoftReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -105,6 +99,9 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.userFG_switcherRoleLayout:
                 startActivity(new Intent(getContext(),SwitcherRoleActivity.class));
+                break;
+            case R.id.userFG_bindCompanyLayout:
+                startActivity(new Intent(getContext(),BindCompanyActivity.class));
                 break;
         }
     }
@@ -200,6 +197,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         userFG_myResumeLayout.setOnClickListener(this);
         userFG_headImg.setOnClickListener(this);
         userFG_switcherRoleLayout.setOnClickListener(this);
+        userFG_bindCompanyLayout.setOnClickListener(this);
     }
 
 

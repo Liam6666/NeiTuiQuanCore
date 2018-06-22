@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@drawable/shape_dialog_bg"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="200dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="请输入"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:textSize="@dimen/centerText"
+        android:textColor="@color/themeColor"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/lineColor"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <EditText
+            android:id="@+id/dialog_inputEdit"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:textSize="@dimen/centerText"
+            android:textColor="@color/highTextColor"
+            android:hint="请输入"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"/>
+        <View
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:background="@color/themeColor"/>
+        <TextView
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="bottom"
+            android:id="@+id/dialog_executeTv"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/selector_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="确定"
+            android:textSize="@dimen/centerText"
+            android:textColor="@color/backgroundColor"/>
+    </FrameLayout>
+
+</LinearLayout>
