@@ -67,6 +67,7 @@ public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.
         Date date = c.getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
         holder.item_timeTv.setText(sdf.format(date));
+        holder.item_labelsLayout.removeAllViews();
         try {
             JSONArray jsonArray = new JSONArray(entity.getLabels());
             for(int i = 0; i < jsonArray.length() ; i ++){
