@@ -17,6 +17,8 @@ import com.neituiquan.work.R;
 import com.neituiquan.work.account.HeadImgActivity;
 import com.neituiquan.work.account.SwitcherRoleActivity;
 import com.neituiquan.work.company.BindCompanyActivity;
+import com.neituiquan.work.jobs.ReleaseJobListActivity;
+import com.neituiquan.work.jobs.ReleaseJobsActivity;
 import com.neituiquan.work.resume.ResumeActivity;
 import com.neituiquan.work.account.AccountActivity;
 
@@ -102,6 +104,9 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.userFG_bindCompanyLayout:
                 startActivity(new Intent(getContext(),BindCompanyActivity.class));
+                break;
+            case R.id.userFG_publishLayout:
+                startActivity(new Intent(getContext(),ReleaseJobListActivity.class));
                 break;
         }
     }
@@ -198,6 +203,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         userFG_headImg.setOnClickListener(this);
         userFG_switcherRoleLayout.setOnClickListener(this);
         userFG_bindCompanyLayout.setOnClickListener(this);
+        userFG_publishLayout.setOnClickListener(this);
     }
 
 

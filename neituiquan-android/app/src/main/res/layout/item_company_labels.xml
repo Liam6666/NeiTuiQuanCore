@@ -5,8 +5,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="35dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
     android:background="@drawable/shape_label_theme"
-    android:text="标签"
     android:gravity="center"
     android:textColor="@color/highTextColor">
 

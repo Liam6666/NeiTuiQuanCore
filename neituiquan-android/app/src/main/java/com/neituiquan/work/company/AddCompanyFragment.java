@@ -104,7 +104,7 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
                     LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) bindCompanyFG_introduceLayout.getLayoutParams();
-                    params.height += SizeUtils.dp2px(200);
+                    params.height += SizeUtils.dp2px(500);
                     bindCompanyFG_introduceLayout.setLayoutParams(params);
                     LinearLayout.LayoutParams emptyParams = (LinearLayout.LayoutParams) bindCompanyFG_emptyView.getLayoutParams();
                     emptyParams.height = keyboardHeight;

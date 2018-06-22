@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@color/backgroundColor"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <View
+        android:background="@color/backgroundColor"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/releaseJobUI_statusView"/>
+    <LinearLayout
+        android:elevation="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolBarHeight"
+        android:background="@color/white">
+        <ImageView
+            android:id="@+id/releaseJobUI_backImg"
+            android:layout_width="@dimen/toolBarHeight"
+            android:layout_height="match_parent"
+            android:src="@mipmap/back_left"
+            android:padding="15dp"/>
+        <TextView
+            android:text="发布的职位"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="@dimen/centerText"
+            android:textColor="@color/highTextColor"/>
+        <ImageView
+            android:id="@+id/releaseJobUI_addImg"
+            android:layout_width="@dimen/toolBarHeight"
+            android:layout_height="match_parent"
+            android:src="@mipmap/add"
+            android:padding="15dp"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/releaseJobUI_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+</LinearLayout>

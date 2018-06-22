@@ -177,7 +177,7 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
                     LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) baseInfoFG_introductionLayout.getLayoutParams();
-                    params.height += SizeUtils.dp2px(200);
+                    params.height += SizeUtils.dp2px(500);
                     baseInfoFG_introductionLayout.setLayoutParams(params);
                     LinearLayout.LayoutParams emptyParams = (LinearLayout.LayoutParams) baseInfoFG_emptyView.getLayoutParams();
                     emptyParams.height = keyboardHeight;

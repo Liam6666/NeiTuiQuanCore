@@ -2,10 +2,10 @@ package com.neituiquan.work.base;
 
 public class FinalData {
 
-//    public static final String STATIC_FILE_PATH = "C:/static/";
+    public static final String STATIC_FILE_PATH = "C:/static/";
 
 
-    public static final String STATIC_FILE_PATH = "C:/Users/liang02.wang/Downloads/";
+//    public static final String STATIC_FILE_PATH = "C:/Users/liang02.wang/Downloads/";
 
 
     public static final String SUCCESS = "success";
