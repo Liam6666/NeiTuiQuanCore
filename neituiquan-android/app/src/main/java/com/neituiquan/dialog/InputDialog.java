@@ -1,6 +1,7 @@
 package com.neituiquan.dialog;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;

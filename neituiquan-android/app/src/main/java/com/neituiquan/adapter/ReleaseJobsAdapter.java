@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.TimeUtils;
 import com.neituiquan.entity.JobsEntity;
 import com.neituiquan.work.R;
 
@@ -16,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -45,8 +43,18 @@ public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.
     }
 
     public void refresh(List<JobsEntity> entityList){
-        entityList.clear();
-        entityList.addAll(entityList);
+        this.entityList.clear();
+        this.entityList.addAll(entityList);
+        notifyDataSetChanged();
+    }
+
+    public void del(String id){
+        for(JobsEntity entity : entityList){
+            if(entity.getId().equals(id)){
+                entityList.remove(entity);
+                break;
+            }
+        }
         notifyDataSetChanged();
     }
 
@@ -86,6 +94,15 @@ public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.
                 }
             }
         });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(callBack != null){
+                    callBack.onLongItemClick(entity,position);
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -118,5 +135,6 @@ public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.
 
         public void onItemClick(JobsEntity entity,int position);
 
+        public void onLongItemClick(JobsEntity entity, int position);
     }
 }

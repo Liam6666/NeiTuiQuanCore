@@ -1,5 +1,6 @@
 package com.neituiquan.work.dao;
 
+import com.neituiquan.work.entity.JobListEntity;
 import com.neituiquan.work.entity.JobsEntity;
 
 import java.util.List;
@@ -17,4 +18,7 @@ public interface JobsDAO {
     List<JobsEntity> findJobsByUserId(String userId);
 
     List<JobsEntity> findJobsByCompanyId(String companyId);
+
+    List<JobListEntity> getJobsList(String city,String title);
+
 }

@@ -2,6 +2,7 @@ package com.neituiquan.work.daoImpl;
 
 import com.neituiquan.work.base.FinalData;
 import com.neituiquan.work.dao.JobsDAO;
+import com.neituiquan.work.entity.JobListEntity;
 import com.neituiquan.work.entity.JobsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -52,11 +53,13 @@ public class JobsDAOImpl implements JobsDAO {
         String sql = "update t_jobs set " +
                 "title = ?,labels = ?,education = ?," +
                 "minSalary = ?,maxSalary = ?," +
-                "description = ?,sort = ?";
+                "description = ?,sort = ?,workAge = ? " +
+                "where id = ?";
         String[] params = new String[]{
                 entity.getTitle(),entity.getLabels(),entity.getEducation(),
                 entity.getMinSalary(),entity.getMaxSalary(),
-                entity.getDescription(),entity.getSort()
+                entity.getDescription(),entity.getSort(),entity.getWorkAge(),
+                entity.getId()
         };
         jdbcTemplate.update(sql,params);
         return true;
@@ -64,7 +67,7 @@ public class JobsDAOImpl implements JobsDAO {
 
     @Override
     public boolean delJobs(String id) {
-        String sql = "update t_jobs set idDel = ? where id = ?";
+        String sql = "update t_jobs set isDel = ? where id = ?";
         jdbcTemplate.update(sql,new String[]{FinalData.DEL,id});
         return true;
     }
@@ -119,6 +122,33 @@ public class JobsDAOImpl implements JobsDAO {
         return entityList;
     }
 
+    @Override
+    public List<JobListEntity> getJobsList(String city, String title) {
+        List<JobListEntity> list = new ArrayList<>();
+        String sql =
+                "select " +
+                "j.id,j.userId,j.title,j.labels,j.education," +
+                "j.city,j.workAge,j.minSalary,j.maxSalary," +
+                "j.createTime,c.id,c.companyName,c.address " +
+                "from t_jobs j , t_company c " +
+                "where 1=1 " +
+                "and j.city like ? and j.title like ? and j.companyId = c.id";
+        String[] params = new String[]{
+                "%"+city+"%","%"+title+"%"
+        };
+        jdbcTemplate.query(sql, params, new RowCallbackHandler() {
+            @Override
+            public void processRow(ResultSet resultSet) throws SQLException {
+                JobListEntity entity = new JobListEntity();
+                setJosListValues(entity,resultSet);
+                if(entity.getJobsId() != null){
+                    list.add(entity);
+                }
+            }
+        });
+        return list;
+    }
+
 
     private void setValues(JobsEntity entity,ResultSet resultSet) throws SQLException{
         entity.setId(resultSet.getString("id"));
@@ -135,7 +165,22 @@ public class JobsDAOImpl implements JobsDAO {
         entity.setSort(resultSet.getString("sort"));
         entity.setCreateTime(resultSet.getString("createTime"));
         entity.setIsDel(resultSet.getString("isDel"));
+    }
 
 
+    private void setJosListValues(JobListEntity entity,ResultSet resultSet) throws SQLException{
+        entity.setJobsId(resultSet.getString("j.id"));
+        entity.setUserId(resultSet.getString("j.userId"));
+        entity.setCompanyId(resultSet.getString("c.id"));
+        entity.setTitle(resultSet.getString("j.title"));
+        entity.setLabels(resultSet.getString("j.labels"));
+        entity.setEducation(resultSet.getString("j.education"));
+        entity.setCity(resultSet.getString("j.city"));
+        entity.setWorkAge(resultSet.getString("j.workAge"));
+        entity.setMinSalary(resultSet.getString("j.minSalary"));
+        entity.setMaxSalary(resultSet.getString("j.maxSalary"));
+        entity.setCreateTime(resultSet.getString("j.createTime"));
+        entity.setCompanyName(resultSet.getString("c.companyName"));
+        entity.setAddress(resultSet.getString("c.address"));
     }
 }

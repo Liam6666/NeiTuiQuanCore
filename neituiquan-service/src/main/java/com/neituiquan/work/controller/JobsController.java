@@ -43,4 +43,9 @@ public class JobsController {
     public AbsEntity findJobsByCompanyId(@RequestParam String companyId){
         return service.findJobsByCompanyId(companyId);
     }
+
+    @RequestMapping(method = RequestMethod.GET,path = "/getJobsList")
+    public AbsEntity getJobsList(@RequestParam String city,@RequestParam String title){
+        return service.getJobsList(city, title);
+    }
 }

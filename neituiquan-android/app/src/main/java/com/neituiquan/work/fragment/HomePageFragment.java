@@ -24,6 +24,7 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
 import com.neituiquan.FinalData;
 import com.neituiquan.adapter.HomePageAdapter;
+import com.neituiquan.adapter.HomePageJobAdapter;
 import com.neituiquan.base.BaseFragment;
 import com.neituiquan.entity.BannerEntity;
 import com.neituiquan.gson.BannerModel;
@@ -70,6 +71,8 @@ public class HomePageFragment extends BaseFragment {
 
     private HomePageAdapter homePageAdapter;
 
+    private HomePageJobAdapter homePageJobAdapter;
+
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return View.inflate(getContext(), R.layout.fragment_home_page, null);
@@ -81,6 +84,9 @@ public class HomePageFragment extends BaseFragment {
         initStatusBar();
         initViewPager();
         changedSearchView();
+        String url = FinalData.BASE_URL + "/getAllBanner";
+        HttpFactory.getHttpUtils().get(url, new BannerEventModel());
+        
     }
 
 
@@ -118,9 +124,8 @@ public class HomePageFragment extends BaseFragment {
     private void initViewPager() {
         List<View> viewList = new ArrayList<>();
         viewList.add(View.inflate(getContext(), R.layout.item_home_page, null));
-        viewList.add(View.inflate(getContext(), R.layout.item_home_page, null));
         String[] tabs = new String[]{
-                "推荐","最新"
+                "职位列表"
         };
         homePageAdapter = new HomePageAdapter(getContext(), viewList);
         homeFG_viewPager.setAdapter(homePageAdapter);
@@ -129,45 +134,8 @@ public class HomePageFragment extends BaseFragment {
         RecyclerView recyclerView = viewList.get(0).findViewById(R.id.item_recyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new RecyclerView.Adapter() {
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return new ViewHolder(View.inflate(getContext(), R.layout.item_jobs_edit, null));
-            }
 
-            @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-            }
-
-            @Override
-            public int getItemCount() {
-                return 15;
-            }
-        });
-
-        RecyclerView recyclerView2 = viewList.get(1).findViewById(R.id.item_recyclerView);
-
-        recyclerView2.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView2.setAdapter(new RecyclerView.Adapter() {
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return new ViewHolder(View.inflate(getContext(), R.layout.item_jobs_edit, null));
-            }
-
-            @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-            }
-
-            @Override
-            public int getItemCount() {
-                return 15;
-            }
-        });
-
-        String url = FinalData.BASE_URL + "/getAllBanner";
-        HttpFactory.getHttpUtils().get(url, new BannerEventModel());
     }
 
     private void initStatusBar() {

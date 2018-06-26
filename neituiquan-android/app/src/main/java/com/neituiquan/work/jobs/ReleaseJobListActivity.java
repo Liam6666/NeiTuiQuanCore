@@ -9,11 +9,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
 import com.neituiquan.adapter.ReleaseJobsAdapter;
 import com.neituiquan.base.BaseActivity;
+import com.neituiquan.dialog.MenuDialog;
 import com.neituiquan.entity.JobsEntity;
 import com.neituiquan.gson.JobsListModel;
 import com.neituiquan.httpEvent.ReleaseJobListEventModel;
@@ -23,7 +25,6 @@ import com.neituiquan.work.R;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
 
 /**
  * Created by Augustine on 2018/6/22.
@@ -40,9 +41,15 @@ public class ReleaseJobListActivity extends BaseActivity implements View.OnClick
 
     private ReleaseJobsAdapter releaseJobsAdapter;
 
+    private static final int INIT = 0;
+
+    private static final int DEL = 1;
+
     private int page = 1;
 
     private int offset = 15;
+
+    private MenuDialog menuDialog;
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -53,7 +60,8 @@ public class ReleaseJobListActivity extends BaseActivity implements View.OnClick
     public void initList(Bundle savedInstanceState) {
         bindViews();
         initStatusBar();
-
+        menuDialog = new MenuDialog(this);
+        menuDialog.setMenuDialogCallBack(menuDialogCallBack);
     }
 
     @Override
@@ -64,22 +72,37 @@ public class ReleaseJobListActivity extends BaseActivity implements View.OnClick
 
     private void initValues(){
         String url = FinalData.BASE_URL + "/findJobsByUserId?userId=" + App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId();
-        HttpFactory.getHttpUtils().get(url,new ReleaseJobListEventModel());
+        HttpFactory.getHttpUtils().get(url,new ReleaseJobListEventModel(INIT));
+    }
+
+    private void del(String id){
+        String url = FinalData.BASE_URL + "/delJobs?id="+id;
+        HttpFactory.getHttpUtils().get(url,new ReleaseJobListEventModel(DEL));
+
+        releaseJobsAdapter.del(id);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getJobsListResult(ReleaseJobListEventModel eventModel){
-        if(eventModel.isSuccess){
-            JobsListModel jobsListModel = new Gson().fromJson(eventModel.resultStr,JobsListModel.class);
-            if(releaseJobsAdapter == null){
-                //初始化
-                releaseJobsAdapter = new ReleaseJobsAdapter(this,jobsListModel.data);
-                releaseJobUI_listView.setAdapter(releaseJobsAdapter);
-                releaseJobsAdapter.setCallBack(itemClickCallBack);
-            }else{
-                releaseJobsAdapter.refresh(jobsListModel.data);
-            }
+        switch (eventModel.eventId){
+            case INIT:
+                if(eventModel.isSuccess){
+                    JobsListModel jobsListModel = new Gson().fromJson(eventModel.resultStr,JobsListModel.class);
+                    if(releaseJobsAdapter == null){
+                        //初始化
+                        releaseJobsAdapter = new ReleaseJobsAdapter(this,jobsListModel.data);
+                        releaseJobUI_listView.setAdapter(releaseJobsAdapter);
+                        releaseJobsAdapter.setCallBack(itemClickCallBack);
+                    }else{
+                        releaseJobsAdapter.refresh(jobsListModel.data);
+                    }
+                }
+                break;
+            case DEL:
+
+                break;
         }
+
     }
 
     ReleaseJobsAdapter.ReleaseJobsAdapterCallBack itemClickCallBack = new ReleaseJobsAdapter.ReleaseJobsAdapterCallBack() {
@@ -88,6 +111,31 @@ public class ReleaseJobListActivity extends BaseActivity implements View.OnClick
             Intent intent = new Intent(ReleaseJobListActivity.this,ReleaseJobsActivity.class);
             intent.putExtra("jobsEntity",entity);
             startActivity(intent);
+        }
+
+        @Override
+        public void onLongItemClick(JobsEntity entity, int position) {
+            menuDialog.show(entity);
+        }
+    };
+
+    MenuDialog.MenuDialogCallBack menuDialogCallBack = new MenuDialog.MenuDialogCallBack() {
+        @Override
+        public void onMenuItemSelector(int index,Object selectorObj) {
+            JobsEntity entity = (JobsEntity) selectorObj;
+            Intent intent;
+            switch (index){
+                case MenuDialog.VIEW:
+                case MenuDialog.EDIT:
+                    intent = new Intent(ReleaseJobListActivity.this,ReleaseJobsActivity.class);
+                    intent.putExtra("jobsEntity",entity);
+                    startActivity(intent);
+                    break;
+                case MenuDialog.DEL:
+                    del(entity.getId());
+                    break;
+            }
+            menuDialog.dismiss();
         }
     };
 

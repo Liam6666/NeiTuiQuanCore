@@ -20,7 +20,7 @@ public class FinalData {
 
     public static final String UDT = "http://193.112.17.87:8080";
 
-    public static final String BASE_URL = UDT;
+    public static final String BASE_URL = UAT;
 
 //    public static final String UAT = "http://192.168.0.105:8080";
 

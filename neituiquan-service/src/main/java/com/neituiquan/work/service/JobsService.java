@@ -3,6 +3,7 @@ package com.neituiquan.work.service;
 import com.neituiquan.work.base.AbsEntity;
 import com.neituiquan.work.base.FinalData;
 import com.neituiquan.work.daoImpl.JobsDAOImpl;
+import com.neituiquan.work.entity.JobListEntity;
 import com.neituiquan.work.entity.JobsEntity;
 import com.neituiquan.work.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,14 @@ public class JobsService {
     public AbsEntity findJobsByCompanyId(String companyId){
         AbsEntity absEntity = new AbsEntity();
         List<JobsEntity> list = jobsDAO.findJobsByCompanyId(companyId);
+        absEntity.dataTotalCount = list.size();
+        absEntity.data = list;
+        return absEntity;
+    }
+
+    public AbsEntity getJobsList(String city, String title){
+        AbsEntity absEntity = new AbsEntity();
+        List<JobListEntity> list = jobsDAO.getJobsList(city,title);
         absEntity.dataTotalCount = list.size();
         absEntity.data = list;
         return absEntity;

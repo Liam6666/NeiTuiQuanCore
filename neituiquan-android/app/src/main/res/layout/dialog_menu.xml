@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@drawable/shape_dialog_bg"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="250dp">
+    <TextView
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="@dimen/centerText"
+        android:text="请选择"
+        android:gravity="center_vertical"
+        android:textColor="@color/themeColor"/>
+    <View
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/lineColor"/>
+    <RadioGroup
+        android:id="@+id/dialog_radioGroup"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RadioButton
+            android:id="@+id/dialog_radioBtn1"
+            android:layout_weight="1"
+            android:text="查看"
+            android:textSize="@dimen/centerText"
+            android:textColor="@color/highTextColor"
+            android:checked="false"
+            android:buttonTint="@color/themeColor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <RadioButton
+            android:id="@+id/dialog_radioBtn2"
+            android:layout_weight="1"
+            android:text="编辑"
+            android:textSize="@dimen/centerText"
+            android:textColor="@color/highTextColor"
+            android:checked="false"
+            android:buttonTint="@color/themeColor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <RadioButton
+            android:id="@+id/dialog_radioBtn3"
+            android:layout_weight="1"
+            android:text="删除"
+            android:textSize="@dimen/centerText"
+            android:textColor="@color/highTextColor"
+            android:checked="false"
+            android:buttonTint="@color/themeColor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RadioGroup>
+    <TextView
+        android:id="@+id/dialog_executeTv"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/selector_button"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="确定"
+        android:textSize="@dimen/centerText"
+        android:textColor="@color/backgroundColor"/>
+</LinearLayout>
