@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class JobListEntity implements Serializable {
 
+    public int itemType = 0;
+
     private String jobsId;
 
     private String userId;
@@ -29,6 +31,13 @@ public class JobListEntity implements Serializable {
     private String companyName;
 
     private String address;
+
+    public JobListEntity(int itemType) {
+        this.itemType = itemType;
+    }
+
+    public JobListEntity() {
+    }
 
     public String getJobsId() {
         return jobsId;

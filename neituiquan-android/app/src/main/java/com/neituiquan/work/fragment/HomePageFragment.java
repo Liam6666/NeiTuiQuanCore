@@ -5,20 +5,26 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
@@ -28,10 +34,18 @@ import com.neituiquan.adapter.HomePageJobAdapter;
 import com.neituiquan.base.BaseFragment;
 import com.neituiquan.entity.BannerEntity;
 import com.neituiquan.gson.BannerModel;
+import com.neituiquan.gson.JobsModel;
 import com.neituiquan.httpEvent.BannerEventModel;
+import com.neituiquan.httpEvent.GetJobListEventModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.utils.PositionUtils;
 import com.neituiquan.view.AppBarStateChangeListener;
+import com.neituiquan.view.AutoLoadRecyclerView;
+import com.neituiquan.work.MainActivity;
 import com.neituiquan.work.R;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -49,7 +63,9 @@ import java.util.List;
  * email:nice_ohoh@163.com
  */
 
-public class HomePageFragment extends BaseFragment {
+public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerView.OnLoadMoreCallBack, OnRefreshListener {
+
+    public static final String LOCATION_TAG = "GaoDeMap";
 
     public static HomePageFragment newInstance() {
 
@@ -60,6 +76,7 @@ public class HomePageFragment extends BaseFragment {
         return fragment;
     }
 
+    private SmartRefreshLayout homeFG_refreshLayout;
     private Banner homeFG_banner;
     private SlidingTabLayout homeFG_tabLayout;
     private ViewPager homeFG_viewPager;
@@ -71,7 +88,53 @@ public class HomePageFragment extends BaseFragment {
 
     private HomePageAdapter homePageAdapter;
 
+    private int index;
+
+    private String currentCity;
+
+    private String currentTitle;
+
+    private static final int INIT_JOBS = 0;
+
+    private static final int LOAD_MORE = 1;
+
+    private AutoLoadRecyclerView homeFG_recyclerView;
+
     private HomePageJobAdapter homePageJobAdapter;
+
+    private PositionUtils positionUtils;
+
+    private AMapLocationListener locationListener = new AMapLocationListener() {
+
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            if(FinalData.DEBUG){
+                Log.e(LOCATION_TAG, aMapLocation.getErrorCode()+"");
+                Log.e(LOCATION_TAG, aMapLocation.getErrorInfo());
+                Log.e(LOCATION_TAG, aMapLocation.getLatitude()+"");
+                Log.e(LOCATION_TAG, aMapLocation.getLongitude()+"");
+                Log.e(LOCATION_TAG, aMapLocation.getAddress());
+                Log.e(LOCATION_TAG, aMapLocation.getCountry());
+                Log.e(LOCATION_TAG, aMapLocation.getProvince());
+                Log.e(LOCATION_TAG, aMapLocation.getCity());
+                Log.e(LOCATION_TAG, aMapLocation.getDistrict());
+                Log.e(LOCATION_TAG, aMapLocation.getStreet());
+            }
+            //定位成功
+            if(aMapLocation.getErrorCode() == 0){
+                currentCity = aMapLocation.getCity();
+                currentTitle = "";
+            }else{
+                currentCity = "北京市";
+                currentTitle = "";
+            }
+            String url = FinalData.BASE_URL +
+                    "/getJobsList?city="+currentCity+"&title="+currentTitle+"&index="+index;
+            loadJobsList(url);
+        }
+    };
+
+
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,11 +147,17 @@ public class HomePageFragment extends BaseFragment {
         initStatusBar();
         initViewPager();
         changedSearchView();
-        String url = FinalData.BASE_URL + "/getAllBanner";
-        HttpFactory.getHttpUtils().get(url, new BannerEventModel());
-        
+        loadBanner();
+        positionUtils = new PositionUtils();
+        positionUtils.initGaoDeLocation(getContext(),locationListener);
+        homeFG_refreshLayout.setOnRefreshListener(this);
+        ((MainActivity)getContext()).getLoadingDialog().show();
     }
 
+    private void loadBanner(){
+        String url = FinalData.BASE_URL + "/getAllBanner";
+        HttpFactory.getHttpUtils().get(url, new BannerEventModel());
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void bannerResponse(BannerEventModel eventModel) {
@@ -131,11 +200,60 @@ public class HomePageFragment extends BaseFragment {
         homeFG_viewPager.setAdapter(homePageAdapter);
         homeFG_viewPager.setOffscreenPageLimit(viewList.size());
         homeFG_tabLayout.setViewPager(homeFG_viewPager,tabs);
-        RecyclerView recyclerView = viewList.get(0).findViewById(R.id.item_recyclerView);
+        homeFG_recyclerView = viewList.get(0).findViewById(R.id.item_recyclerView);
+    }
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        ((MainActivity)getContext()).getLoadingDialog().show();
+        index = 0;
+        homeFG_recyclerView.loadComplete();
+        positionUtils.initGaoDeLocation(getContext(),locationListener);
+    }
 
+    @Override
+    public void onLoadMore() {
+        index ++;
+        String url = FinalData.BASE_URL +
+                "/getJobsList?city="+currentCity+"&title="+currentTitle+"&index="+index;
+        HttpFactory.getHttpUtils().get(url,new GetJobListEventModel(LOAD_MORE));
+    }
+
+    private void loadJobsList(String url){
+        HttpFactory.getHttpUtils().get(url,new GetJobListEventModel(INIT_JOBS));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getJobsResult(GetJobListEventModel eventModel){
+        ((MainActivity)getContext()).getLoadingDialog().dismiss();
+        if(!eventModel.isSuccess){
+            ToastUtils.showShort(eventModel.errorMsg);
+            return;
+        }
+        JobsModel jobsModel = new Gson().fromJson(eventModel.resultStr,JobsModel.class);
+        switch (eventModel.eventId){
+            case INIT_JOBS:
+                if(homePageJobAdapter == null){
+                    homeFG_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    homeFG_recyclerView.setOnLoadMoreCallBack(this);
+                    homePageJobAdapter = new HomePageJobAdapter(getContext(),jobsModel.data);
+                    homeFG_recyclerView.setAdapter(homePageJobAdapter);
+                }else{
+                    homePageJobAdapter.refresh(jobsModel.data);
+                    homeFG_refreshLayout.finishRefresh();
+                }
+                break;
+            case LOAD_MORE:
+                if(jobsModel.dataTotalCount == 0){
+                    //加载完毕
+                    index --;
+                    return;
+                }
+                homePageJobAdapter.addNewData(jobsModel.data);
+                homeFG_recyclerView.loadComplete();
+                break;
+        }
     }
 
     private void initStatusBar() {
@@ -184,7 +302,20 @@ public class HomePageFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        positionUtils.getLocationClient().stopLocation();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        positionUtils.getLocationClient().onDestroy();
+    }
+
     private void bindViews() {
+        homeFG_refreshLayout = findViewById(R.id.homeFG_refreshLayout);
         homeFG_banner = findViewById(R.id.homeFG_banner);
         homeFG_tabLayout = findViewById(R.id.homeFG_tabLayout);
         homeFG_viewPager = findViewById(R.id.homeFG_viewPager);
@@ -195,6 +326,8 @@ public class HomePageFragment extends BaseFragment {
         homeFG_searchLayout = findViewById(R.id.homeFG_searchLayout);
     }
 
+
+
     class GlideImageLoader extends ImageLoader {
 
         @Override
@@ -203,10 +336,4 @@ public class HomePageFragment extends BaseFragment {
         }
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
 }

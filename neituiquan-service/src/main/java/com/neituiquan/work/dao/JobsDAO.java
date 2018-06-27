@@ -19,6 +19,6 @@ public interface JobsDAO {
 
     List<JobsEntity> findJobsByCompanyId(String companyId);
 
-    List<JobListEntity> getJobsList(String city,String title);
+    List<JobListEntity> getJobsList(String city,String title,String index);
 
 }

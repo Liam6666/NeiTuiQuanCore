@@ -4,6 +4,8 @@ import com.neituiquan.work.base.FinalData;
 import com.neituiquan.work.dao.JobsDAO;
 import com.neituiquan.work.entity.JobListEntity;
 import com.neituiquan.work.entity.JobsEntity;
+import com.neituiquan.work.utils.PageUtils;
+import com.neituiquan.work.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
@@ -123,7 +125,7 @@ public class JobsDAOImpl implements JobsDAO {
     }
 
     @Override
-    public List<JobListEntity> getJobsList(String city, String title) {
+    public List<JobListEntity> getJobsList(String city, String title,String index) {
         List<JobListEntity> list = new ArrayList<>();
         String sql =
                 "select " +
@@ -133,9 +135,13 @@ public class JobsDAOImpl implements JobsDAO {
                 "from t_jobs j , t_company c " +
                 "where 1=1 " +
                 "and j.city like ? and j.title like ? and j.companyId = c.id";
+        if(StringUtils.isEmpty(title)){
+            title = "";
+        }
         String[] params = new String[]{
                 "%"+city+"%","%"+title+"%"
         };
+        sql = PageUtils.limit(sql,index);
         jdbcTemplate.query(sql, params, new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet resultSet) throws SQLException {

@@ -27,10 +27,14 @@ public class FinalData {
 
     public static final String IMG = BASE_URL + "/img?name=";
 
+    public static final int PAGE_SIZE = 15;
+
     public static final String[] PERMISSIONS = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.READ_PHONE_STATE
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
     };
 
 

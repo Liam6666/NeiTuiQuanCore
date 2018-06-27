@@ -16,6 +16,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
 }
 
 dependencies {
@@ -38,4 +45,5 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.10'
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-7'
+    implementation files('libs/AMap_Location_V4.0.1_20180426.jar')
 }

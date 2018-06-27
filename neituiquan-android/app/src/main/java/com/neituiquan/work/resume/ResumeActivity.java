@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -99,6 +100,7 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
         initStatusBar();
         userModel = App.getAppInstance().getUserInfoUtils().getUserInfo();
         refresh();
+        getLoadingDialog().show();
     }
 
     /**
@@ -214,6 +216,7 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void refreshResult(RefreshResumeEventModel eventModel){
+        getLoadingDialog().dismiss();
         if(eventModel.eventId == REFRESH_ID){
             if(eventModel.isSuccess){
                 resumeModel = new Gson().fromJson(eventModel.resultStr,UserResumeModel.class);

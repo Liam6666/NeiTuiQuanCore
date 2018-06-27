@@ -9,6 +9,7 @@ import android.view.WindowManager;
 
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.neituiquan.dialog.LoadingDialog;
 import com.neituiquan.net.RequestEventModel;
 import com.neituiquan.work.R;
 
@@ -28,6 +29,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
 
     private BGASwipeBackHelper mSwipeBackHelper;
 
+    private LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         initSwipeBackFinish();
@@ -36,10 +39,16 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         getSupportActionBar().hide();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         initView(savedInstanceState);
+        loadingDialog = new LoadingDialog(this);
         initList(savedInstanceState);
         EventBus.getDefault().register(this);
         //设置状态栏是否为浅色模式
         BarUtils.setStatusBarLightMode(this,true);
+
+    }
+
+    public LoadingDialog getLoadingDialog() {
+        return loadingDialog;
     }
 
     public abstract void initView(Bundle savedInstanceState);

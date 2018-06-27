@@ -58,9 +58,9 @@ public class JobsService {
         return absEntity;
     }
 
-    public AbsEntity getJobsList(String city, String title){
+    public AbsEntity getJobsList(String city, String title,String index){
         AbsEntity absEntity = new AbsEntity();
-        List<JobListEntity> list = jobsDAO.getJobsList(city,title);
+        List<JobListEntity> list = jobsDAO.getJobsList(city,title,index);
         absEntity.dataTotalCount = list.size();
         absEntity.data = list;
         return absEntity;

@@ -45,7 +45,7 @@ public class JobsController {
     }
 
     @RequestMapping(method = RequestMethod.GET,path = "/getJobsList")
-    public AbsEntity getJobsList(@RequestParam String city,@RequestParam String title){
-        return service.getJobsList(city, title);
+    public AbsEntity getJobsList(@RequestParam String city,@RequestParam String title,@RequestParam String index){
+        return service.getJobsList(city, title,index);
     }
 }

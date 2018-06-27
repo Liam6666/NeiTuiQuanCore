@@ -5,7 +5,9 @@ package com.neituiquan.net;
 import android.util.Log;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.neituiquan.App;
 import com.neituiquan.FinalData;
+import com.neituiquan.dialog.LoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -38,6 +40,7 @@ public class HttpUtils {
 
     private static final String TAG = "HttpUtils";
 
+
     public HttpUtils(){
         okHttpClient = new OkHttpClient()
                 .newBuilder()
@@ -47,6 +50,7 @@ public class HttpUtils {
 
 
     public void get(String url,final RequestEventModel requestEventModel){
+
         Request.Builder requestBuilder = new Request.Builder();
         requestBuilder.method(GET,null);
         requestBuilder.url(url);
@@ -89,6 +93,7 @@ public class HttpUtils {
 
 
     public void post(Map<String,String> params, String url,final RequestEventModel requestEventModel){
+
         FormBody.Builder formBody = new FormBody.Builder();
         if(params != null){
             for(String key : params.keySet()){
@@ -131,6 +136,7 @@ public class HttpUtils {
 
 
     public void post(String json, String url,final RequestEventModel requestEventModel){
+
         RequestBody requestBody = FormBody
                 .create(MediaType.parse("application/json; charset=utf-8"), json);
         Request request = new Request.Builder()
@@ -167,6 +173,7 @@ public class HttpUtils {
 
 
     public void uploadMultiFile(File file,String url,final RequestEventModel requestEventModel) {
+
         String imageType = "multipart/form-data";
         RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpg"), file);
         RequestBody requestBody = new MultipartBody.Builder()

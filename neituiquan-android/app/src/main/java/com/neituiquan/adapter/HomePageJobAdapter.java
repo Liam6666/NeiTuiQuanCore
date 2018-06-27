@@ -13,6 +13,12 @@ import com.neituiquan.entity.JobListEntity;
 import com.neituiquan.work.R;
 import com.neituiquan.work.fragment.HomePageFragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,28 +33,78 @@ public class HomePageJobAdapter extends RecyclerView.Adapter<HomePageJobAdapter.
 
     private List<JobListEntity> entityList;
 
+    private static final int EMPTY = -1;
+
+    private static final int DEFAULT = 0;
+
     public HomePageJobAdapter(Context context, List<JobListEntity> entityList) {
         this.context = context;
         this.entityList = entityList;
     }
 
+    public void addNewData(List<JobListEntity> entityList){
+        this.entityList.addAll(entityList);
+        notifyDataSetChanged();
+    }
+
+    public void refresh(List<JobListEntity> entityList){
+        this.entityList.clear();
+        notifyDataSetChanged();
+        this.entityList.addAll(entityList);
+        notifyDataSetChanged();
+    }
+
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.item_jobs_edit,parent,false);
-        return new ItemViewHolder(itemView);
+        View itemView = null;
+        switch (viewType){
+            case EMPTY:
+                itemView = LayoutInflater.from(context).inflate(R.layout.item_empty,parent,false);
+                break;
+            case DEFAULT:
+                itemView = LayoutInflater.from(context).inflate(R.layout.item_jobs_edit,parent,false);
+                break;
+        }
+        return new ItemViewHolder(itemView,viewType);
     }
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         JobListEntity entity = entityList.get(position);
-        holder.item_title.setText(entity.getTitle());
-        holder.item_salaryTv.setText(entity.getMinSalary() + "K—" +entity.getMaxSalary()+ "K");
-        holder.id_labels.setText(entity.getLabels());
-        holder.item_companyNameTv.setText(entity.getCompanyName());
+        if(entity.itemType == DEFAULT){
+            holder.item_title.setText(entity.getTitle());
+            holder.item_salaryTv.setText(entity.getMinSalary() + "K—" +entity.getMaxSalary()+ "K");
+            holder.item_labelsLayout.removeAllViews();
+            try {
+                JSONArray jsonArray = new JSONArray(entity.getLabels());
+                for(int i = 0 ; i < jsonArray.length() ; i ++){
+                    View item = LayoutInflater.from(context).inflate(R.layout.item_jobs_label,holder.item_labelsLayout,false);
+                    holder.item_labelsLayout.addView(item);
+                    ((TextView)item).setText(jsonArray.getString(i));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            holder.id_labels.setText(entity.getCity() +"  "+ entity.getEducation() + "  "+ entity.getWorkAge());
+            holder.item_companyNameTv.setText(entity.getCompanyName());
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(Long.parseLong(entity.getCreateTime()));
+            Date date = c.getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+            holder.item_timeTv.setText(sdf.format(date));
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return entityList.get(position).itemType;
     }
 
     @Override
     public int getItemCount() {
+        if(entityList.size() == 0){
+            entityList.add(new JobListEntity(EMPTY));
+        }
         return entityList.size();
     }
 
@@ -62,14 +118,16 @@ public class HomePageJobAdapter extends RecyclerView.Adapter<HomePageJobAdapter.
         TextView item_companyNameTv;
 
 
-        public ItemViewHolder(View itemView) {
+        public ItemViewHolder(View itemView,int viewType) {
             super(itemView);
-            item_title = (TextView) itemView.findViewById(R.id.item_title);
-            item_salaryTv = (TextView) itemView.findViewById(R.id.item_salaryTv);
-            id_labels = (TextView) itemView.findViewById(R.id.id_labels);
-            item_timeTv = (TextView) itemView.findViewById(R.id.item_timeTv);
-            item_labelsLayout = (LinearLayout) itemView.findViewById(R.id.item_labelsLayout);
-            item_companyNameTv = (TextView) itemView.findViewById(R.id.item_companyNameTv);
+            if(viewType == DEFAULT){
+                item_title = (TextView) itemView.findViewById(R.id.item_title);
+                item_salaryTv = (TextView) itemView.findViewById(R.id.item_salaryTv);
+                id_labels = (TextView) itemView.findViewById(R.id.id_labels);
+                item_timeTv = (TextView) itemView.findViewById(R.id.item_timeTv);
+                item_labelsLayout = (LinearLayout) itemView.findViewById(R.id.item_labelsLayout);
+                item_companyNameTv = (TextView) itemView.findViewById(R.id.item_companyNameTv);
+            }
         }
     }
 }

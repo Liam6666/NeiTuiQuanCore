@@ -52,4 +52,6 @@ public class FinalData {
     public static final String DEF_MOTTO = "找靠谱的人，介绍靠谱的工作";
 
 
+    public static final int PAGE_SIZE = 15;
+
 }

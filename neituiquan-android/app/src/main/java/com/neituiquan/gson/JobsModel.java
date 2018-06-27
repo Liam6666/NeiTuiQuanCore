@@ -1,6 +1,8 @@
 package com.neituiquan.gson;
 
-import com.neituiquan.entity.JobsEntity;
+import com.neituiquan.entity.JobListEntity;
+
+import java.util.List;
 
 /**
  * Created by Augustine on 2018/6/22.
@@ -10,5 +12,5 @@ import com.neituiquan.entity.JobsEntity;
 
 public class JobsModel extends AbsModel {
 
-    public JobsEntity data;
+    public List<JobListEntity> data;
 }
