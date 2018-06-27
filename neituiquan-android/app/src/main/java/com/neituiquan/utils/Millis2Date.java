@@ -1,18 +1,17 @@
-package com.neituiquan.work;
-
-
-import com.neituiquan.work.utils.PageUtils;
-import com.neituiquan.work.utils.StringUtils;
+package com.neituiquan.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Test {
+/**
+ * Created by Augustine on 2018/6/27.
+ * <p>
+ * email:nice_ohoh@163.com
+ */
 
-    public static void main(String[] args) {
-        System.out.println(millis2Date("15298851234332"));
-    }
+public class Millis2Date {
+
 
     public static String millis2Date(String millis){
         Calendar c = Calendar.getInstance();
@@ -25,4 +24,5 @@ public class Test {
         }
         return dateFormat.format(date);
     }
+
 }

@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -24,6 +26,7 @@ import com.neituiquan.gson.UserModel;
 import com.neituiquan.gson.UserResumeModel;
 import com.neituiquan.httpEvent.UpdateResumeEventModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.utils.PositionUtils;
 import com.neituiquan.work.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -74,6 +77,20 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
 
     private UserResumeModel resumeModel;
 
+    private PositionUtils positionUtils;
+
+    private AMapLocationListener locationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            ((EditResumeActivity)getContext()).getLoadingDialog().dismiss();
+            if(aMapLocation.getErrorCode() == 0){
+                baseInfoFG_locationTv.setText(aMapLocation.getCity());
+            }else{
+                baseInfoFG_locationTv.setText("未知位置");
+            }
+        }
+    };
+
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return View.inflate(getContext(), R.layout.fragment_base_info,null);
@@ -85,6 +102,9 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
         changedSoft();
         resumeModel = ((EditResumeActivity)getContext()).getResumeModel();
         initValues();
+        ((EditResumeActivity)getContext()).getLoadingDialog().show();
+        positionUtils = new PositionUtils();
+        positionUtils.initGaoDeLocation(getContext(),locationListener);
     }
 
 
@@ -105,6 +125,8 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
      * 保存修改的信息
      */
     private void saveChanged(){
+        ((EditResumeActivity)getContext()).getLoadingDialog().show();
+
         resumeModel.data.setTargetCity(baseInfoFG_locationTv.getText().toString());
         resumeModel.data.setTargetWork(baseInfoFG_targetWorkTv.getText().toString());
         resumeModel.data.setTargetSalary(baseInfoFG_targetSalaryTv.getText().toString());
@@ -123,10 +145,12 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
         String json2 = new Gson().toJson(userModel.data);
         String url2 = FinalData.BASE_URL + "/updateUser";
         HttpFactory.getHttpUtils().post(json2,url2,new UpdateResumeEventModel(EditResumeActivity.UPDATE_USER_INFO));
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateResult(UpdateResumeEventModel eventModel){
+        ((EditResumeActivity)getContext()).getLoadingDialog().dismiss();
         switch (eventModel.eventId){
             case EditResumeActivity.UPDATE_RESUME:
                 if(eventModel.isSuccess){
@@ -201,6 +225,18 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
                 }
             }
         });
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        positionUtils.getLocationClient().stopLocation();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        positionUtils.getLocationClient().onDestroy();
     }
 
     private void bindViews() {

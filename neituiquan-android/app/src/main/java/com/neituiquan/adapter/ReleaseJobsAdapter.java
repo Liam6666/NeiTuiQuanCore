@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.neituiquan.entity.JobsEntity;
+import com.neituiquan.utils.Millis2Date;
 import com.neituiquan.work.R;
 
 import org.json.JSONArray;
@@ -70,11 +71,8 @@ public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.
         holder.item_titleTv.setText(entity.getTitle());
         holder.item_salaryTv.setText(entity.getMinSalary() +"—" + entity.getMaxSalary());
         holder.item_absTv.setText(entity.getEducation() + " " + entity.getCity() +" "+ entity.getWorkAge() );
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(Long.parseLong(entity.getCreateTime()));
-        Date date = c.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
-        holder.item_timeTv.setText(sdf.format(date));
+        String time = Millis2Date.millis2Date(entity.getCreateTime());
+        holder.item_timeTv.setText(time);
         holder.item_labelsLayout.removeAllViews();
         try {
             JSONArray jsonArray = new JSONArray(entity.getLabels());

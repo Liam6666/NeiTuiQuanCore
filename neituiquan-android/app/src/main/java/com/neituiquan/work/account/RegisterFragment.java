@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
+import com.blankj.utilcode.constant.RegexConstants;
+import com.blankj.utilcode.util.PhoneUtils;
+import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.neituiquan.App;
@@ -16,6 +21,7 @@ import com.neituiquan.base.BaseFragment;
 import com.neituiquan.httpEvent.RegisterEventModel;
 import com.neituiquan.gson.UserModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.utils.PositionUtils;
 import com.neituiquan.work.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -57,6 +63,45 @@ public class RegisterFragment extends BaseFragment implements View.OnFocusChange
     private int unFocusColor;
 
 
+    //纬度
+    private  String latitude = "";
+
+    //经度
+    private  String longitude = "";
+
+    //定位精确信息
+    private  String accuracy = "";
+
+    //省
+    private  String province = "";
+
+    //城市
+    private  String city = "";
+
+    //城区信息
+    private  String district = "";
+
+    private AMapLocationListener locationListener = new AMapLocationListener() {
+
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            ((AccountActivity)getContext()).getLoadingDialog().dismiss();
+            //定位成功
+            if(aMapLocation.getErrorCode() == 0){
+                latitude = String.valueOf(aMapLocation.getLatitude());
+                longitude = String.valueOf(aMapLocation.getLongitude());
+                accuracy = aMapLocation.getAddress();
+                province = aMapLocation.getProvince();
+                city = aMapLocation.getCity();
+                district = aMapLocation.getDistrict();
+            }
+        }
+    };
+
+    private PositionUtils positionUtils;
+
+
+
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return View.inflate(getContext(), R.layout.fragment_register,null);
@@ -66,7 +111,9 @@ public class RegisterFragment extends BaseFragment implements View.OnFocusChange
     public void initList(Bundle savedInstanceState) {
         bindViews();
         initFocus();
-
+        ((AccountActivity)getContext()).getLoadingDialog().show();
+        positionUtils = new PositionUtils();
+        positionUtils.initGaoDeLocation(getContext(),locationListener);
     }
 
 
@@ -83,14 +130,29 @@ public class RegisterFragment extends BaseFragment implements View.OnFocusChange
     private void register(){
         String account = registerFG_phoneEdit.getText().toString();
         String password = registerFG_passwordEdit.getText().toString();
+        account.trim();
+        password.trim();
         if(account.equals("") || password.equals("")){
             ToastUtils.showShort("账号或密码为空");
             return;
         }
+        if(!RegexUtils.isMobileSimple(account)){
+            ToastUtils.showShort("手机号码不合法");
+            return;
+        }
+        if(password.length() < 6){
+            ToastUtils.showShort("密码至少6位");
+        }
         HashMap<String,String> params = new HashMap<>();
         params.put("account",account);
         params.put("password",password);
-
+        params.put("latitude",latitude);
+        params.put("longitude",longitude);
+        params.put("accuracy",accuracy);
+        params.put("province",province);
+        params.put("city",city);
+        params.put("district",district);
+        ((AccountActivity)getContext()).getLoadingDialog().show();
         HttpFactory.getHttpUtils().post(params, FinalData.BASE_URL + "/register",new RegisterEventModel());
     }
 
@@ -109,6 +171,19 @@ public class RegisterFragment extends BaseFragment implements View.OnFocusChange
                 ToastUtils.showShort(userModel.msg);
             }
         }
+        ((AccountActivity)getContext()).getLoadingDialog().dismiss();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        positionUtils.getLocationClient().stopLocation();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        positionUtils.getLocationClient().onDestroy();
     }
 
     private void initFocus(){

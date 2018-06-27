@@ -252,11 +252,6 @@
                     android:textSize="@dimen/centerText"
                     android:gravity="center_vertical"
                     android:textColor="@color/lowTextColor" />
-                <ImageView
-                    android:layout_width="@dimen/toolBarHeight"
-                    android:layout_height="match_parent"
-                    android:src="@mipmap/more_left"
-                    android:padding="15dp"/>
             </LinearLayout>
 
             <View

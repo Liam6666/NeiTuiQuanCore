@@ -129,17 +129,18 @@ public class JobsDAOImpl implements JobsDAO {
         List<JobListEntity> list = new ArrayList<>();
         String sql =
                 "select " +
-                "j.id,j.userId,j.title,j.labels,j.education," +
-                "j.city,j.workAge,j.minSalary,j.maxSalary," +
-                "j.createTime,c.id,c.companyName,c.address " +
-                "from t_jobs j , t_company c " +
-                "where 1=1 " +
-                "and j.city like ? and j.title like ? and j.companyId = c.id";
+                        "j.id,j.userId,j.title,j.labels,j.education," +
+                        "j.city,j.workAge,j.minSalary,j.maxSalary," +
+                        "j.createTime,c.id,c.companyName,c.address " +
+                        "from t_jobs j , t_company c " +
+                        "where j.isDel = ? " +
+                        "and j.city like ? and j.title like ? and j.companyId = c.id " +
+                        "order by j.createTime desc";
         if(StringUtils.isEmpty(title)){
             title = "";
         }
         String[] params = new String[]{
-                "%"+city+"%","%"+title+"%"
+                FinalData.NO_DEL,"%"+city+"%","%"+title+"%"
         };
         sql = PageUtils.limit(sql,index);
         jdbcTemplate.query(sql, params, new RowCallbackHandler() {

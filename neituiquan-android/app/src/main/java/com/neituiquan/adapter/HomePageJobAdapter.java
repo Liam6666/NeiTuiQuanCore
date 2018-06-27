@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.neituiquan.entity.JobListEntity;
+import com.neituiquan.utils.Millis2Date;
 import com.neituiquan.work.R;
 import com.neituiquan.work.fragment.HomePageFragment;
 
@@ -87,11 +88,8 @@ public class HomePageJobAdapter extends RecyclerView.Adapter<HomePageJobAdapter.
             }
             holder.id_labels.setText(entity.getCity() +"  "+ entity.getEducation() + "  "+ entity.getWorkAge());
             holder.item_companyNameTv.setText(entity.getCompanyName());
-            Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(Long.parseLong(entity.getCreateTime()));
-            Date date = c.getTime();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
-            holder.item_timeTv.setText(sdf.format(date));
+            String time = Millis2Date.millis2Date(entity.getCreateTime());
+            holder.item_timeTv.setText(time);
         }
     }
 

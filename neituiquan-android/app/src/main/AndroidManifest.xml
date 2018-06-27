@@ -39,6 +39,8 @@
             android:launchMode="singleTask"/>
         <activity android:name=".jobs.ReleaseJobListActivity"
             android:launchMode="singleTask"/>
+        <activity android:name=".CitySelectorActivity"
+            android:launchMode="singleTask"/>
 
         <meta-data android:name="com.amap.api.v2.apikey"
             android:value="de807fabe463ea4be0a5b02706d47e7e">
@@ -48,6 +50,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <!--用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
     <!--用于访问GPS定位-->

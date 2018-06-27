@@ -24,6 +24,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.flyco.tablayout.SlidingTabLayout;
@@ -54,6 +55,7 @@ import com.youth.banner.loader.ImageLoader;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,7 +153,6 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
         positionUtils = new PositionUtils();
         positionUtils.initGaoDeLocation(getContext(),locationListener);
         homeFG_refreshLayout.setOnRefreshListener(this);
-        ((MainActivity)getContext()).getLoadingDialog().show();
     }
 
     private void loadBanner(){
@@ -229,6 +230,7 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
         ((MainActivity)getContext()).getLoadingDialog().dismiss();
         if(!eventModel.isSuccess){
             ToastUtils.showShort(eventModel.errorMsg);
+            homeFG_refreshLayout.finishRefresh();
             return;
         }
         JobsModel jobsModel = new Gson().fromJson(eventModel.resultStr,JobsModel.class);

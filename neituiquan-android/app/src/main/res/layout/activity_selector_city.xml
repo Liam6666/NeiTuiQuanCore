@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <View
+        android:background="@color/backgroundColor"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/selectorCityUI_statusView"/>
+    <LinearLayout
+        android:elevation="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolBarHeight"
+        android:background="@color/white">
+        <ImageView
+            android:id="@+id/selectorCityUI_backImg"
+            android:layout_width="@dimen/toolBarHeight"
+            android:layout_height="match_parent"
+            android:src="@mipmap/back_left"
+            android:padding="15dp"/>
+        <TextView
+            android:text="选择地区"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="@dimen/centerText"
+            android:textColor="@color/highTextColor"/>
+        <ImageView
+            android:layout_width="@dimen/toolBarHeight"
+            android:layout_height="match_parent"
+            android:padding="15dp"/>
+    </LinearLayout>
+    <com.neituiquan.view.SelectorCityView
+        android:id="@+id/selectorCityUI_selectorView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.neituiquan.view.SelectorCityView>
+</LinearLayout>

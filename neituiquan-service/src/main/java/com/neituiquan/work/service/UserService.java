@@ -23,6 +23,9 @@ public class UserService {
         if(entity.getNickName() == null){
             entity.setNickName(entity.getAccount());
         }
+        if(entity.getRoleName() == null){
+            entity.setRoleName(FinalData.ROLE_USER);
+        }
         entity.setHeadImg(FinalData.DEF_HEAD_IMG);
         entity.setSex("男");
         entity.setMotto(FinalData.DEF_MOTTO);

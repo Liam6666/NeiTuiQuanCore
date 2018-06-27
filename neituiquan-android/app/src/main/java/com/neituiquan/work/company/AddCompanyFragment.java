@@ -1,7 +1,9 @@
 package com.neituiquan.work.company;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.google.gson.Gson;
@@ -23,6 +27,9 @@ import com.neituiquan.entity.CompanyEntity;
 import com.neituiquan.gson.CompanyModel;
 import com.neituiquan.httpEvent.AddCompanyEventModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.utils.PositionUtils;
+import com.neituiquan.view.SelectorCityView;
+import com.neituiquan.work.CitySelectorActivity;
 import com.neituiquan.work.R;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -68,6 +75,8 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
     private LinearLayout bindCompanyFG_contentLayout;
     private TextView bindCompanyFG_nextTv;
     private LinearLayout bindCompanyFG_labelsLayout;
+    private ImageView bindCompanyFG_toSelectorCity;
+    private ImageView bindCompanyFG_toSelectorCity2;
 
 
     private CompanyEntity entity;
@@ -77,6 +86,25 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
     private InputDialog inputDialog;
 
     private List<String> labelList = new ArrayList<>();
+
+    private static final int START_TO_SELECTOR_CITY = 323;
+
+    private static final int SELECTOR_CITY_RESULT_CODE = 333;
+
+    private AMapLocationListener locationListener = new AMapLocationListener() {
+
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            ((BindCompanyActivity)getContext()).getLoadingDialog().dismiss();
+            //定位成功
+            if(aMapLocation.getErrorCode() == 0){
+                bindCompanyFG_provinceTv.setText(aMapLocation.getProvince());
+                bindCompanyFG_cityTv.setText(aMapLocation.getCity());
+            }
+        }
+    };
+
+    private PositionUtils positionUtils;
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -95,7 +123,10 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
         }else{
             initValues();
         }
+        ((BindCompanyActivity)getContext()).getLoadingDialog().show();
         bindCompanyFG_nextTv.setVisibility(View.GONE);
+        positionUtils = new PositionUtils();
+        positionUtils.initGaoDeLocation(getContext(),locationListener);
     }
 
     private void changedSoft(){
@@ -150,9 +181,28 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
             case R.id.bindCompanyFG_nextTv:
                 startToNextFragment();
                 break;
+            case R.id.bindCompanyFG_toSelectorCity:
+            case R.id.bindCompanyFG_toSelectorCity2:
+                startActivityForResult(new Intent(getContext(), CitySelectorActivity.class),START_TO_SELECTOR_CITY);
+                break;
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == SELECTOR_CITY_RESULT_CODE){
+            if(requestCode == START_TO_SELECTOR_CITY){
+                if(data != null){
+                    String province = data.getStringExtra("province");
+                    String city = data.getStringExtra("city");
+                    bindCompanyFG_provinceTv.setText(province);
+                    bindCompanyFG_cityTv.setText(city);
+                }
+            }
+        }
+
+    }
 
     private void save(){
         entity = new CompanyEntity();
@@ -228,6 +278,18 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
         bindCompanyFG_introduceTv.setText(entity.getIntroduce());
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        positionUtils.getLocationClient().stopLocation();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        positionUtils.getLocationClient().onDestroy();
+    }
+
 
     private InputDialog.InputDialogCallBack inputDialogCallBack = new InputDialog.InputDialogCallBack() {
         @Override
@@ -272,11 +334,15 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
         bindCompanyFG_scrollView = findViewById(R.id.bindCompanyFG_scrollView);
         bindCompanyFG_contentLayout = findViewById(R.id.bindCompanyFG_contentLayout);
         bindCompanyFG_nextTv = findViewById(R.id.bindCompanyFG_nextTv);
+        bindCompanyFG_toSelectorCity = findViewById(R.id.bindCompanyFG_toSelectorCity);
+        bindCompanyFG_toSelectorCity2 = findViewById(R.id.bindCompanyFG_toSelectorCity2);
 
         bindCompanyFG_backImg.setOnClickListener(this);
         bindCompanyFG_saveTv.setOnClickListener(this);
         bindCompanyFG_addLabelImg.setOnClickListener(this);
         bindCompanyFG_nextTv.setOnClickListener(this);
+        bindCompanyFG_toSelectorCity.setOnClickListener(this);
+        bindCompanyFG_toSelectorCity2.setOnClickListener(this);
 
     }
 

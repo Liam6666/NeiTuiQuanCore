@@ -84,6 +84,7 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/s_edit"/>
                 <EditText
+                    android:layout_weight="1"
                     android:id="@+id/bindCompanyFG_provinceTv"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -95,6 +96,12 @@
                     android:textColor="@color/highTextColor"
                     android:textSize="@dimen/centerText"
                     android:text=""/>
+                <ImageView
+                    android:id="@+id/bindCompanyFG_toSelectorCity"
+                    android:layout_width="50dp"
+                    android:paddingLeft="25dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_left"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -111,6 +118,7 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/s_edit"/>
                 <EditText
+                    android:layout_weight="1"
                     android:id="@+id/bindCompanyFG_cityTv"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -122,6 +130,12 @@
                     android:textColor="@color/highTextColor"
                     android:textSize="@dimen/centerText"
                     android:text=""/>
+                <ImageView
+                    android:id="@+id/bindCompanyFG_toSelectorCity2"
+                    android:layout_width="50dp"
+                    android:paddingLeft="25dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_left"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"

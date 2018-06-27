@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.neituiquan.App;
@@ -16,7 +18,9 @@ import com.neituiquan.base.BaseFragment;
 import com.neituiquan.gson.UserModel;
 import com.neituiquan.httpEvent.LoginEventModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.utils.PositionUtils;
 import com.neituiquan.work.R;
+import com.neituiquan.work.company.BindCompanyActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -52,7 +56,6 @@ public class LoginFragment extends BaseFragment implements View.OnFocusChangeLis
 
     private int unFocusColor;
 
-
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return View.inflate(getContext(), R.layout.fragment_login,null);
@@ -62,7 +65,6 @@ public class LoginFragment extends BaseFragment implements View.OnFocusChangeLis
     public void initList(Bundle savedInstanceState) {
         bindViews();
         initFocus();
-
     }
 
     private void initFocus(){
@@ -122,6 +124,7 @@ public class LoginFragment extends BaseFragment implements View.OnFocusChangeLis
             return;
         }
 
+        ((AccountActivity)getContext()).getLoadingDialog().show();
         HashMap<String,String> params = new HashMap<>();
         params.put("account",account);
         params.put("password",password);
@@ -130,6 +133,7 @@ public class LoginFragment extends BaseFragment implements View.OnFocusChangeLis
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginResult(LoginEventModel eventModel){
+        ((AccountActivity)getContext()).getLoadingDialog().dismiss();
         if(eventModel.isSuccess){
             UserModel userModel = new Gson().fromJson(eventModel.resultStr,UserModel.class);
             if(userModel.code == 0){
@@ -144,4 +148,5 @@ public class LoginFragment extends BaseFragment implements View.OnFocusChangeLis
             }
         }
     }
+
 }
