@@ -272,6 +272,17 @@
                     android:padding="5dp"/>
             </FrameLayout>
 
+            <TextView
+                android:id="@+id/releaseJobFG_delTv"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="删除此项"
+                android:textColor="@color/white"
+                android:textSize="@dimen/centerText"
+                android:background="@drawable/selector_button_error"
+                android:gravity="center"/>
+
             <View
                 android:id="@+id/releaseJobUI_emptyView"
                 android:layout_width="match_parent"

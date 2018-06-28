@@ -135,9 +135,6 @@
 
                 </LinearLayout>
 
-
-
-
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/homeFG_toolbar"
                     android:layout_width="match_parent"
@@ -157,26 +154,44 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"/>
                         <LinearLayout
-                            android:layout_marginLeft="30dp"
-                            android:layout_marginRight="30dp"
                             android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:orientation="horizontal"
-                            android:gravity="center"
-                            android:background="@drawable/shape_search">
-                            <ImageView
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:padding="8dp"
-                                android:src="@mipmap/search"/>
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
                             <TextView
-                                android:textSize="@dimen/centerText"
-                                android:layout_width="wrap_content"
+                                android:id="@+id/homeFG_locationTv"
+                                android:layout_width="@dimen/toolBarHeight"
                                 android:layout_height="match_parent"
-                                android:text="搜索职位/公司"
-                                android:textColor="@color/lowTextColor"
-                                android:gravity="center_vertical"/>
+                                android:text="定位中"
+                                android:textSize="@dimen/centerText"
+                                android:textColor="@color/white"
+                                android:gravity="center"/>
+                            <LinearLayout
+                                android:layout_weight="1"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:background="@drawable/shape_search">
+                                <ImageView
+                                    android:layout_width="35dp"
+                                    android:layout_height="35dp"
+                                    android:padding="8dp"
+                                    android:src="@mipmap/search"/>
+                                <TextView
+                                    android:textSize="@dimen/centerText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:text="搜索职位/公司"
+                                    android:textColor="@color/lowTextColor"
+                                    android:gravity="center_vertical"/>
+                            </LinearLayout>
+                            <View
+                                android:layout_width="@dimen/toolBarHeight"
+                                android:layout_height="match_parent"/>
                         </LinearLayout>
+
                     </LinearLayout>
                 </android.support.v7.widget.Toolbar>
 

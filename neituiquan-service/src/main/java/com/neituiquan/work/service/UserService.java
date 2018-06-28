@@ -85,4 +85,16 @@ public class UserService {
         absEntity.data = userDAO.findUserById(entity.getId());
         return absEntity;
     }
+
+    public AbsEntity bindCompanyState(String id) {
+        AbsEntity absEntity = new AbsEntity();
+        String companyId = userDAO.bindCompanyState(id);
+        if(StringUtils.isEmpty(companyId)){
+            absEntity.code = FinalData.ERROR_CODE;
+            absEntity.msg = "未绑定公司信息";
+        }else{
+            absEntity.data = companyId;
+        }
+        return absEntity;
+    }
 }

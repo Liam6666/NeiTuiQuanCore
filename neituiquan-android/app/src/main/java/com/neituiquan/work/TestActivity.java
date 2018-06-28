@@ -18,6 +18,6 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new SelectorCityView(this));
+        setContentView(R.layout.activity_company_details);
     }
 }

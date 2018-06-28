@@ -57,6 +57,7 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
     private ScrollView releaseJobUI_scrollView;
     private LinearLayout releaseJobUI_contentLayout;
     private EditText releaseJobUI_workAgeTv;
+    private TextView releaseJobFG_delTv;
 
     private int keyboardHeight;
 
@@ -69,6 +70,8 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
     public static final int ADD = 0;
 
     public static final int UPDATE = 1;
+
+    public static final int DELETE = 2;
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -84,7 +87,7 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
         inputDialog = new InputDialog(this);
         inputDialog.setInputDialogCallBack(inputDialogCallBack);
         if(jobsEntity == null){
-
+            releaseJobFG_delTv.setVisibility(View.GONE);
         }else{
             initValues();
         }
@@ -107,6 +110,9 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.releaseJobUI_addLabelImg:
                 inputDialog.show();
+                break;
+            case R.id.releaseJobFG_delTv:
+                del();
                 break;
         }
     }
@@ -169,6 +175,11 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
         HttpFactory.getHttpUtils().post(json,url,new ReleaseJobEventModel(UPDATE));
     }
 
+    private void del(){
+        String url = FinalData.BASE_URL + "/delJobs?id=" + jobsEntity.getId();
+        HttpFactory.getHttpUtils().get(url,new ReleaseJobEventModel(DELETE));
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void releaseResult(ReleaseJobEventModel eventModel){
         switch (eventModel.eventId){
@@ -178,6 +189,11 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case UPDATE:
+                if(eventModel.isSuccess){
+                    finish();
+                }
+                break;
+            case DELETE:
                 if(eventModel.isSuccess){
                     finish();
                 }
@@ -267,9 +283,11 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
         releaseJobUI_scrollView = findViewById(R.id.releaseJobUI_scrollView);
         releaseJobUI_contentLayout = findViewById(R.id.releaseJobUI_contentLayout);
         releaseJobUI_workAgeTv = findViewById(R.id.releaseJobUI_workAgeTv);
+        releaseJobFG_delTv = findViewById(R.id.releaseJobFG_delTv);
         releaseJobUI_backImg.setOnClickListener(this);
         releaseJobUI_addLabelImg.setOnClickListener(this);
         releaseJobUI_releaseTv.setOnClickListener(this);
+        releaseJobFG_delTv.setOnClickListener(this);
     }
 
     public static void scrollToBottom(final View scroll, final View inner) {

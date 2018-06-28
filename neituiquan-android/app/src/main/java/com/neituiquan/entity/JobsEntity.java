@@ -4,6 +4,15 @@ import java.io.Serializable;
 
 public class JobsEntity implements Serializable{
 
+    public JobsEntity(int itemType) {
+        this.itemType = itemType;
+    }
+
+    public JobsEntity() {
+    }
+
+    public int itemType = 0;
+
     private  String id;
 
     //发布者ID

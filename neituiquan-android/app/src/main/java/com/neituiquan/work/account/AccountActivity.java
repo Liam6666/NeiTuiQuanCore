@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.PermissionUtils;
+import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.work.R;
 
@@ -43,7 +45,11 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         if(savedInstanceState != null){
             removeAllFragment();
         }
+        if(!PermissionUtils.isGranted(FinalData.PERMISSIONS)){
+            PermissionUtils.permission(FinalData.PERMISSIONS).request();
+        }
         initFragments();
+        accountUI_cancelTv.setVisibility(View.GONE);
     }
 
     @Override

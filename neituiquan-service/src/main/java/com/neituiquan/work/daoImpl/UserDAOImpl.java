@@ -1,7 +1,9 @@
 package com.neituiquan.work.daoImpl;
 
+import com.neituiquan.work.base.FinalData;
 import com.neituiquan.work.dao.UserDAO;
 import com.neituiquan.work.entity.UserEntity;
+import com.neituiquan.work.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
@@ -142,6 +144,19 @@ public class UserDAOImpl implements UserDAO {
         return true;
     }
 
+    @Override
+    public String bindCompanyState(String id) {
+        InnerObj innerObj = new InnerObj();
+        String sql = "select id from t_company where userId = ? and isDel = ? ";
+        jdbcTemplate.query(sql, new String[]{id, FinalData.NO_DEL}, new RowCallbackHandler() {
+            @Override
+            public void processRow(ResultSet resultSet) throws SQLException {
+                innerObj.data = resultSet.getString("id");
+            }
+        });
+        return (String)innerObj.data;
+    }
+
     private void setValues(UserEntity entity, ResultSet resultSet) throws SQLException{
         entity.setId(resultSet.getString("id"));
         entity.setAccount(resultSet.getString("account"));
@@ -159,5 +174,11 @@ public class UserDAOImpl implements UserDAO {
         entity.setCity(resultSet.getString("city"));
         entity.setDistrict(resultSet.getString("district"));
         entity.setLastLoginTime(resultSet.getString("lastLoginTime"));
+    }
+
+    static class InnerObj{
+
+        Object data;
+
     }
 }

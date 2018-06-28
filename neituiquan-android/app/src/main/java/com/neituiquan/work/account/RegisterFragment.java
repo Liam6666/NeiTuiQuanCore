@@ -1,5 +1,6 @@
 package com.neituiquan.work.account;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.neituiquan.httpEvent.RegisterEventModel;
 import com.neituiquan.gson.UserModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.utils.PositionUtils;
+import com.neituiquan.work.MainActivity;
 import com.neituiquan.work.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -164,9 +166,10 @@ public class RegisterFragment extends BaseFragment implements View.OnFocusChange
 
                 App.getAppInstance().getUserInfoUtils().saveUserInfo(eventModel.resultStr);
 
-                //发送给 UserFragment
-                EventBus.getDefault().post(userModel);
-                ((AccountActivity)getContext()).finish();
+//                //发送给 UserFragment
+//                EventBus.getDefault().post(userModel);
+//                ((AccountActivity)getContext()).finish();
+                startActivity(new Intent(getContext(), MainActivity.class));
             }else{
                 ToastUtils.showShort(userModel.msg);
             }

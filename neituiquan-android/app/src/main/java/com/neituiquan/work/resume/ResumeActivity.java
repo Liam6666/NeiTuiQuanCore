@@ -237,6 +237,7 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
     private boolean isInitHeadImg = false;
 
     private void initValues(){
+        resumeUI_emptyLayout.setVisibility(View.GONE);
         if(!isInitHeadImg){
             Glide.with(this).load(FinalData.IMG + userModel.data.getHeadImg())
                     .asBitmap().into(new SimpleTarget<Bitmap>() {

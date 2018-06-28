@@ -1,5 +1,6 @@
 package com.neituiquan.work.account;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.neituiquan.gson.UserModel;
 import com.neituiquan.httpEvent.LoginEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.utils.PositionUtils;
+import com.neituiquan.work.MainActivity;
 import com.neituiquan.work.R;
 import com.neituiquan.work.company.BindCompanyActivity;
 
@@ -139,10 +141,11 @@ public class LoginFragment extends BaseFragment implements View.OnFocusChangeLis
             if(userModel.code == 0){
 
                 App.getAppInstance().getUserInfoUtils().saveUserInfo(eventModel.resultStr);
-
-                //发送给UserFragment
-                EventBus.getDefault().post(userModel);
-                ((AccountActivity)getContext()).finish();
+//
+//                //发送给UserFragment
+//                EventBus.getDefault().post(userModel);
+//                ((AccountActivity)getContext()).finish();
+                startActivity(new Intent(getContext(), MainActivity.class));
             }else{
                 ToastUtils.showShort(userModel.msg);
             }

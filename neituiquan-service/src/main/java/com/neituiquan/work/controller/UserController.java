@@ -88,4 +88,9 @@ public class UserController {
     public AbsEntity updateRole(@RequestBody UserEntity entity) {
         return service.updateRole(entity);
     }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/bindCompanyState")
+    public AbsEntity bindCompanyState(@RequestParam String id) {
+        return service.bindCompanyState(id);
+    }
 }

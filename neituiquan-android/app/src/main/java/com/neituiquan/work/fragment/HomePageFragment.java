@@ -2,7 +2,7 @@ package com.neituiquan.work.fragment;
 
 import android.animation.ArgbEvaluator;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -18,19 +18,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
 import com.neituiquan.FinalData;
-import com.neituiquan.adapter.HomePageAdapter;
+import com.neituiquan.adapter.BasePageAdapter;
 import com.neituiquan.adapter.HomePageJobAdapter;
 import com.neituiquan.base.BaseFragment;
 import com.neituiquan.entity.BannerEntity;
@@ -42,6 +40,7 @@ import com.neituiquan.net.HttpFactory;
 import com.neituiquan.utils.PositionUtils;
 import com.neituiquan.view.AppBarStateChangeListener;
 import com.neituiquan.view.AutoLoadRecyclerView;
+import com.neituiquan.work.CitySelectorActivity;
 import com.neituiquan.work.MainActivity;
 import com.neituiquan.work.R;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -55,7 +54,6 @@ import com.youth.banner.loader.ImageLoader;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +63,7 @@ import java.util.List;
  * email:nice_ohoh@163.com
  */
 
-public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerView.OnLoadMoreCallBack, OnRefreshListener {
+public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerView.OnLoadMoreCallBack, OnRefreshListener, View.OnClickListener {
 
     public static final String LOCATION_TAG = "GaoDeMap";
 
@@ -87,8 +85,9 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
     private Toolbar homeFG_toolbar;
     private CollapsingToolbarLayout homeFG_collapsingLayout;
     private LinearLayout homeFG_searchLayout;
+    private TextView homeFG_locationTv;
 
-    private HomePageAdapter homePageAdapter;
+    private BasePageAdapter basePageAdapter;
 
     private int index;
 
@@ -105,6 +104,10 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
     private HomePageJobAdapter homePageJobAdapter;
 
     private PositionUtils positionUtils;
+
+    private static final int START_TO_SELECTOR_CITY = 323;
+
+    private static final int SELECTOR_CITY_RESULT_CODE = 333;
 
     private AMapLocationListener locationListener = new AMapLocationListener() {
 
@@ -130,6 +133,7 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
                 currentCity = "北京市";
                 currentTitle = "";
             }
+            homeFG_locationTv.setText(currentCity);
             String url = FinalData.BASE_URL +
                     "/getJobsList?city="+currentCity+"&title="+currentTitle+"&index="+index;
             loadJobsList(url);
@@ -197,8 +201,8 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
         String[] tabs = new String[]{
                 "职位列表"
         };
-        homePageAdapter = new HomePageAdapter(getContext(), viewList);
-        homeFG_viewPager.setAdapter(homePageAdapter);
+        basePageAdapter = new BasePageAdapter(getContext(), viewList);
+        homeFG_viewPager.setAdapter(basePageAdapter);
         homeFG_viewPager.setOffscreenPageLimit(viewList.size());
         homeFG_tabLayout.setViewPager(homeFG_viewPager,tabs);
         homeFG_recyclerView = viewList.get(0).findViewById(R.id.item_recyclerView);
@@ -258,6 +262,39 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
         }
     }
 
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id){
+            case R.id.homeFG_locationTv:
+                startActivityForResult(new Intent(getContext(), CitySelectorActivity.class),START_TO_SELECTOR_CITY);
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == SELECTOR_CITY_RESULT_CODE){
+            if(requestCode == START_TO_SELECTOR_CITY){
+                if(data != null){
+                    String province = data.getStringExtra("province");
+                    String city = data.getStringExtra("city");
+                    homeFG_locationTv.setText(city);
+                    currentCity = city;
+                    ((MainActivity)getContext()).getLoadingDialog().show();
+                    index = 0;
+                    homeFG_recyclerView.loadComplete();
+                    String url = FinalData.BASE_URL +
+                            "/getJobsList?city="+currentCity+"&title="+currentTitle+"&index="+index;
+                    loadJobsList(url);
+                }
+            }
+        }
+
+    }
+
     private void initStatusBar() {
         new Handler().post(new Runnable() {
             @Override
@@ -275,7 +312,7 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
 
     private void changedSearchView() {
         final ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-        final int PAGE_COLOR_ONE = Color.parseColor("#00000000");
+        final int PAGE_COLOR_ONE = ContextCompat.getColor(getContext(),R.color.transparent);
         final int PAGE_COLOR_TWO = ContextCompat.getColor(getContext(),R.color.themeColor);
         homeFG_appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
@@ -326,8 +363,10 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
         homeFG_toolbar = findViewById(R.id.homeFG_toolbar);
         homeFG_collapsingLayout = findViewById(R.id.homeFG_collapsingLayout);
         homeFG_searchLayout = findViewById(R.id.homeFG_searchLayout);
-    }
+        homeFG_locationTv = findViewById(R.id.homeFG_locationTv);
 
+        homeFG_locationTv.setOnClickListener(this);
+    }
 
 
     class GlideImageLoader extends ImageLoader {

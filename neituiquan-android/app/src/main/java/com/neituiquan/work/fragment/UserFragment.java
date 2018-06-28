@@ -8,15 +8,21 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseFragment;
+import com.neituiquan.gson.AbsModel;
+import com.neituiquan.gson.StringModel;
 import com.neituiquan.gson.UserModel;
+import com.neituiquan.net.HttpFactory;
 import com.neituiquan.work.R;
 import com.neituiquan.work.account.HeadImgActivity;
 import com.neituiquan.work.account.SwitcherRoleActivity;
 import com.neituiquan.work.company.BindCompanyActivity;
+import com.neituiquan.work.company.CompanyDetailsActivity;
 import com.neituiquan.work.jobs.ReleaseJobListActivity;
 import com.neituiquan.work.jobs.ReleaseJobsActivity;
 import com.neituiquan.work.resume.ResumeActivity;
@@ -25,7 +31,12 @@ import com.neituiquan.work.account.AccountActivity;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.IOException;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 /**
  * Created by wangliang on 2018/6/17.
@@ -103,7 +114,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(),SwitcherRoleActivity.class));
                 break;
             case R.id.userFG_bindCompanyLayout:
-                startActivity(new Intent(getContext(),BindCompanyActivity.class));
+                checkBindCompany();
                 break;
             case R.id.userFG_publishLayout:
                 startActivity(new Intent(getContext(),ReleaseJobListActivity.class));
@@ -131,6 +142,28 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         switcherMenuList();
     }
 
+    private void checkBindCompany(){
+        String url = FinalData.BASE_URL + "/bindCompanyState?id=" + App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId();
+        HttpFactory.getHttpUtils().get(url).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                StringModel stringModel = new Gson().fromJson(response.body().string(),StringModel.class);
+                if(stringModel.code == 0){
+                    Intent intent = new Intent(getContext(),CompanyDetailsActivity.class);
+                    intent.putExtra("companyId",stringModel.data);
+                    ToastUtils.showShort(""+stringModel.data);
+                    startActivity(intent);
+                }else{
+                    startActivity(new Intent(getContext(),BindCompanyActivity.class));
+                }
+            }
+        });
+    }
 
 
     /**

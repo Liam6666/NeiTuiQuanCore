@@ -22,4 +22,10 @@ public interface UserDAO {
 
     boolean updateRole(UserEntity entity);
 
+    /**
+     * 判断用户是否绑定了公司信息
+     * @param id
+     * @return companyId
+     */
+    String bindCompanyState(String id);
 }

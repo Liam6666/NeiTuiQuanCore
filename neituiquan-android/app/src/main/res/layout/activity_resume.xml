@@ -536,7 +536,7 @@
         </ScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     <FrameLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/resumeUI_emptyLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

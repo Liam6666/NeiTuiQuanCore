@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
@@ -71,6 +72,7 @@ public class EditWorkFragment extends BaseFragment implements View.OnClickListen
         switch (id){
             case R.id.editWorkFG_backImg:
                 getFragmentManager().popBackStack();
+                break;
             case R.id.editWorkFG_saveTv:
                 if(wEntity == null){
                     save();
@@ -90,6 +92,7 @@ public class EditWorkFragment extends BaseFragment implements View.OnClickListen
     }
     
     private void save(){
+        ToastUtils.showShort("save");
         wEntity = new UserResumeEntity.ResumeWEntity();
         wEntity.setUserId(App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId());
         wEntity.setStartTime(editWorkFG_startTimeTv.getText().toString());

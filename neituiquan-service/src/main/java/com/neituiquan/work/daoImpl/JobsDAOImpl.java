@@ -93,7 +93,8 @@ public class JobsDAOImpl implements JobsDAO {
     @Override
     public List<JobsEntity> findJobsByUserId(String userId) {
         List<JobsEntity> entityList = new ArrayList<>();
-        String sql = "select * from t_jobs where userId = ? and isDel = ?";
+        String sql = "select * from t_jobs where userId = ? and isDel = ? " +
+                "group by createTime desc";
         jdbcTemplate.query(sql, new String[]{userId, FinalData.NO_DEL}, new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet resultSet) throws SQLException {
@@ -110,7 +111,8 @@ public class JobsDAOImpl implements JobsDAO {
     @Override
     public List<JobsEntity> findJobsByCompanyId(String companyId) {
         List<JobsEntity> entityList = new ArrayList<>();
-        String sql = "select * from t_jobs where companyId = ? and isDel = ?";
+        String sql = "select * from t_jobs where companyId = ? and isDel = ? " +
+                "group by createTime desc";
         jdbcTemplate.query(sql, new String[]{companyId, FinalData.NO_DEL}, new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet resultSet) throws SQLException {

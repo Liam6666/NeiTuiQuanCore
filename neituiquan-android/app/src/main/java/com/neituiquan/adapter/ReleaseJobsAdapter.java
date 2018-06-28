@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.neituiquan.entity.JobListEntity;
 import com.neituiquan.entity.JobsEntity;
 import com.neituiquan.utils.Millis2Date;
 import com.neituiquan.work.R;
@@ -33,6 +34,10 @@ public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.
     private List<JobsEntity> entityList;
 
     private ReleaseJobsAdapterCallBack callBack;
+
+    private static final int EMPTY = -1;
+
+    private static final int DEFAULT = 0;
 
     public ReleaseJobsAdapter(Context context, List<JobsEntity> entityList) {
         this.context = context;
@@ -61,15 +66,26 @@ public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.item_release_job,parent,false);
-        return new ItemViewHolder(itemView);
+        View itemView = null;
+        switch (viewType){
+            case EMPTY:
+                itemView = LayoutInflater.from(context).inflate(R.layout.item_empty,parent,false);
+                break;
+            case DEFAULT:
+                itemView = LayoutInflater.from(context).inflate(R.layout.item_release_job,parent,false);
+                break;
+        }
+        return new ItemViewHolder(itemView,viewType);
     }
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, final int position) {
         final JobsEntity entity = entityList.get(position);
+        if(entity.itemType == EMPTY){
+            return;
+        }
         holder.item_titleTv.setText(entity.getTitle());
-        holder.item_salaryTv.setText(entity.getMinSalary() +"—" + entity.getMaxSalary());
+        holder.item_salaryTv.setText(entity.getMinSalary() +"K—" + entity.getMaxSalary()+"K");
         holder.item_absTv.setText(entity.getEducation() + " " + entity.getCity() +" "+ entity.getWorkAge() );
         String time = Millis2Date.millis2Date(entity.getCreateTime());
         holder.item_timeTv.setText(time);
@@ -105,7 +121,21 @@ public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.
 
     @Override
     public int getItemCount() {
+        if(entityList.size() == 0){
+            entityList.add(new JobsEntity(EMPTY));
+        }else{
+            for(JobsEntity entity : entityList){
+                if(entity.itemType == EMPTY){
+                    entityList.remove(entity);
+                }
+            }
+        }
         return entityList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return entityList.get(position).itemType;
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder{
@@ -118,14 +148,16 @@ public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.
 
         View itemView;
 
-        public ItemViewHolder(View itemView) {
+        public ItemViewHolder(View itemView,int viewType) {
             super(itemView);
             this.itemView = itemView;
-            item_titleTv = (TextView) itemView.findViewById(R.id.item_titleTv);
-            item_salaryTv = (TextView) itemView.findViewById(R.id.item_salaryTv);
-            item_absTv = (TextView) itemView.findViewById(R.id.item_absTv);
-            item_timeTv = (TextView) itemView.findViewById(R.id.item_timeTv);
-            item_labelsLayout = (LinearLayout) itemView.findViewById(R.id.item_labelsLayout);
+            if(viewType == DEFAULT){
+                item_titleTv = (TextView) itemView.findViewById(R.id.item_titleTv);
+                item_salaryTv = (TextView) itemView.findViewById(R.id.item_salaryTv);
+                item_absTv = (TextView) itemView.findViewById(R.id.item_absTv);
+                item_timeTv = (TextView) itemView.findViewById(R.id.item_timeTv);
+                item_labelsLayout = (LinearLayout) itemView.findViewById(R.id.item_labelsLayout);
+            }
         }
     }
 

@@ -15,13 +15,13 @@ import java.util.List;
  * email:nice_ohoh@163.com
  */
 
-public class HomePageAdapter extends PagerAdapter {
+public class BasePageAdapter extends PagerAdapter {
 
     private Context context;
 
     private List<View> viewList;
 
-    public HomePageAdapter(Context context, List<View> viewList) {
+    public BasePageAdapter(Context context, List<View> viewList) {
         this.context = context;
         this.viewList = viewList;
     }

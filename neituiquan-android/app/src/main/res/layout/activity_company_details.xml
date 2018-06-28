@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/companyDetailsFG_appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/backgroundColor">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <com.youth.banner.Banner
+                android:id="@+id/companyDetailsFG_banner"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:layout_scrollFlags="scroll"></com.youth.banner.Banner>
+
+            <android.support.v7.widget.Toolbar
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:contentInsetStart="0dp"
+                app:layout_collapseMode="pin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/companyDetailsFG_toolbarLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <View
+                        android:id="@+id/companyDetailsFG_statusView"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"/>
+                    <LinearLayout
+                        android:elevation="3dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/toolBarHeight"
+                        android:background="@color/transparent">
+                        <ImageView
+                            android:id="@+id/companyDetailsFG_backImg"
+                            android:layout_width="@dimen/toolBarHeight"
+                            android:layout_height="match_parent"
+                            android:src="@mipmap/back_left"
+                            android:padding="15dp"/>
+                        <TextView
+                            android:id="@+id/companyDetailsFG_titleTv"
+                            android:layout_marginRight="@dimen/toolBarHeight"
+                            android:text=""
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="@dimen/centerText"
+                            android:textColor="@color/highTextColor"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/companyDetailsFG_tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/backgroundColor"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            app:tl_indicator_color="@color/themeColor"
+            app:tl_indicator_margin_bottom="0dp"
+            app:tl_tab_space_equal="false"
+            app:tl_textUnselectColor="@color/TextColor"
+            app:tl_textSelectColor="@color/themeColor"
+            app:tl_textsize="@dimen/centerText"
+            app:tl_underline_height="1dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:background="@color/lineColor"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/companyDetailsFG_viewPager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+</android.support.design.widget.CoordinatorLayout>

@@ -42,7 +42,9 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
-        return contentView = initView(inflater,container,savedInstanceState);
+        contentView = initView(inflater,container,savedInstanceState);
+        contentView.setClickable(true);
+        return contentView;
     }
 
     @Override

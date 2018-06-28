@@ -20,6 +20,7 @@ public class FinalData {
 
     public static final String DEL = "-1";//删除
 
+
     public static final String VERIFY = "0";//未审核通过
 
     public static final String NO_VERIFY = "-1";//审核通过

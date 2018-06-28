@@ -13,13 +13,16 @@
 
         <service android:name="com.amap.api.location.APSService"></service>
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".LauncherActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity"
+            android:launchMode="singleTask">
         </activity>
         <activity android:name=".account.AccountActivity"
             android:launchMode="singleTask"/>
@@ -41,6 +44,8 @@
             android:launchMode="singleTask"/>
         <activity android:name=".CitySelectorActivity"
             android:launchMode="singleTask"/>
+        <activity android:name=".company.CompanyDetailsActivity" />
+
 
         <meta-data android:name="com.amap.api.v2.apikey"
             android:value="de807fabe463ea4be0a5b02706d47e7e">

@@ -100,6 +100,7 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
             if(aMapLocation.getErrorCode() == 0){
                 bindCompanyFG_provinceTv.setText(aMapLocation.getProvince());
                 bindCompanyFG_cityTv.setText(aMapLocation.getCity());
+                bindCompanyFG_addressTv.setText(aMapLocation.getAddress());
             }
         }
     };

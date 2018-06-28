@@ -52,9 +52,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if(savedInstanceState != null){
             removeAllFragment();
         }
-        if(!PermissionUtils.isGranted(FinalData.PERMISSIONS)){
-            PermissionUtils.permission(FinalData.PERMISSIONS).request();
-        }
         initStatusBar();
         mainUI_statusView.setVisibility(View.GONE);
         initFragments();
