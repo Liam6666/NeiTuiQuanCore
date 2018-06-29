@@ -5,21 +5,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.RotateAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.neituiquan.entity.JobListEntity;
 import com.neituiquan.utils.Millis2Date;
 import com.neituiquan.work.R;
-import com.neituiquan.work.fragment.HomePageFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,7 +23,7 @@ import java.util.List;
  * email:nice_ohoh@163.com
  */
 
-public class HomePageJobAdapter extends RecyclerView.Adapter<HomePageJobAdapter.ItemViewHolder> {
+public class JobsAdapter extends RecyclerView.Adapter<JobsAdapter.ItemViewHolder> {
 
     private Context context;
 
@@ -38,7 +33,7 @@ public class HomePageJobAdapter extends RecyclerView.Adapter<HomePageJobAdapter.
 
     private static final int DEFAULT = 0;
 
-    public HomePageJobAdapter(Context context, List<JobListEntity> entityList) {
+    public JobsAdapter(Context context, List<JobListEntity> entityList) {
         this.context = context;
         this.entityList = entityList;
     }

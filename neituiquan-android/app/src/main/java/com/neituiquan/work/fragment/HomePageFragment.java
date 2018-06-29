@@ -29,7 +29,7 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
 import com.neituiquan.FinalData;
 import com.neituiquan.adapter.BasePageAdapter;
-import com.neituiquan.adapter.HomePageJobAdapter;
+import com.neituiquan.adapter.JobsAdapter;
 import com.neituiquan.base.BaseFragment;
 import com.neituiquan.entity.BannerEntity;
 import com.neituiquan.gson.BannerModel;
@@ -101,7 +101,7 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
 
     private AutoLoadRecyclerView homeFG_recyclerView;
 
-    private HomePageJobAdapter homePageJobAdapter;
+    private JobsAdapter jobsAdapter;
 
     private PositionUtils positionUtils;
 
@@ -240,13 +240,13 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
         JobsModel jobsModel = new Gson().fromJson(eventModel.resultStr,JobsModel.class);
         switch (eventModel.eventId){
             case INIT_JOBS:
-                if(homePageJobAdapter == null){
+                if(jobsAdapter == null){
                     homeFG_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                     homeFG_recyclerView.setOnLoadMoreCallBack(this);
-                    homePageJobAdapter = new HomePageJobAdapter(getContext(),jobsModel.data);
-                    homeFG_recyclerView.setAdapter(homePageJobAdapter);
+                    jobsAdapter = new JobsAdapter(getContext(),jobsModel.data);
+                    homeFG_recyclerView.setAdapter(jobsAdapter);
                 }else{
-                    homePageJobAdapter.refresh(jobsModel.data);
+                    jobsAdapter.refresh(jobsModel.data);
                     homeFG_refreshLayout.finishRefresh();
                 }
                 break;
@@ -256,7 +256,7 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
                     index --;
                     return;
                 }
-                homePageJobAdapter.addNewData(jobsModel.data);
+                jobsAdapter.addNewData(jobsModel.data);
                 homeFG_recyclerView.loadComplete();
                 break;
         }

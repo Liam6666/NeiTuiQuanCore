@@ -73,9 +73,9 @@ public class HttpUtils {
                 EventBus.getDefault().post(requestEventModel);
                 if(response.code() != 200){
                     requestEventModel.isSuccess = false;
-                    requestEventModel.errorMsg = response.message();
+                    requestEventModel.errorMsg = response.body().string();
                     if(FinalData.DEBUG){
-                        ToastUtils.showShort(response.message());
+                        ToastUtils.showShort(response.body().string());
                     }
                     EventBus.getDefault().post(requestEventModel);
                 }
@@ -124,9 +124,9 @@ public class HttpUtils {
                 EventBus.getDefault().post(requestEventModel);
                 if(response.code() != 200){
                     requestEventModel.isSuccess = false;
-                    requestEventModel.errorMsg = response.message();
+                    requestEventModel.errorMsg = response.body().string();
                     if(FinalData.DEBUG){
-                        ToastUtils.showShort(response.message());
+                        ToastUtils.showShort(response.body().string());
                     }
                     EventBus.getDefault().post(requestEventModel);
                 }
@@ -161,9 +161,9 @@ public class HttpUtils {
                 EventBus.getDefault().post(requestEventModel);
                 if(response.code() != 200){
                     requestEventModel.isSuccess = false;
-                    requestEventModel.errorMsg = response.message();
+                    requestEventModel.errorMsg = response.body().string();
                     if(FinalData.DEBUG){
-                        ToastUtils.showShort(response.message());
+                        ToastUtils.showShort(response.body().string());
                     }
                     EventBus.getDefault().post(requestEventModel);
                 }
@@ -205,9 +205,9 @@ public class HttpUtils {
                 EventBus.getDefault().post(requestEventModel);
                 if(response.code() != 200){
                     requestEventModel.isSuccess = false;
-                    requestEventModel.errorMsg = response.message();
+                    requestEventModel.errorMsg = response.body().string();
                     if(FinalData.DEBUG){
-                        ToastUtils.showShort(response.message());
+                        ToastUtils.showShort(response.body().string());
                     }
                     EventBus.getDefault().post(requestEventModel);
                 }

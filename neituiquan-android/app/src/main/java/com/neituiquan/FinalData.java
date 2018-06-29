@@ -16,9 +16,9 @@ public class FinalData {
 
     public static final boolean DEBUG = true;
 
-    public static final String UAT = "http://10.105.21.138:8080";
+    public static final String UAT = "http://10.105.21.138:80";
 
-    public static final String UDT = "http://193.112.17.87:8080";
+    public static final String UDT = "http://193.112.17.87:80";
 
     public static final String BASE_URL = UAT;
 

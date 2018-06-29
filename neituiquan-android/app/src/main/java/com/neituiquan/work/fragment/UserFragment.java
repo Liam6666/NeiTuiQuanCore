@@ -156,7 +156,6 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
                 if(stringModel.code == 0){
                     Intent intent = new Intent(getContext(),CompanyDetailsActivity.class);
                     intent.putExtra("companyId",stringModel.data);
-                    ToastUtils.showShort(""+stringModel.data);
                     startActivity(intent);
                 }else{
                     startActivity(new Intent(getContext(),BindCompanyActivity.class));

@@ -10,7 +10,6 @@ public class UserEntity implements Serializable{
 
     private  String account;
 
-    //头像地址
     private  String password;
 
     //角色名字

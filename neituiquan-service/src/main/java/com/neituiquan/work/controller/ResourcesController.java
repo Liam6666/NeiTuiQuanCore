@@ -29,6 +29,7 @@ public class ResourcesController {
         imgFormat.add(".jpg");
         imgFormat.add(".jpeg");
         imgFormat.add(".bmp");
+        imgFormat.add(".gif");
     }
 
     @RequestMapping(path = "/img")

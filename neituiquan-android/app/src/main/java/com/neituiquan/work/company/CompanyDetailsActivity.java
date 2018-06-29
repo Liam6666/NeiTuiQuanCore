@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,10 +20,16 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
 import com.neituiquan.FinalData;
 import com.neituiquan.adapter.BasePageAdapter;
+import com.neituiquan.adapter.JobsAdapter;
+import com.neituiquan.adapter.ReleaseJobsAdapter;
 import com.neituiquan.base.BaseActivity;
+import com.neituiquan.entity.CompanyEntity;
 import com.neituiquan.entity.CompanyImgEntity;
 import com.neituiquan.gson.CompanyModel;
+import com.neituiquan.gson.JobsListModel;
+import com.neituiquan.gson.JobsModel;
 import com.neituiquan.httpEvent.CompanyDetailsEventModel;
+import com.neituiquan.httpEvent.GetJobListEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.work.R;
 import com.neituiquan.work.fragment.HomePageFragment;
@@ -55,9 +63,28 @@ public class CompanyDetailsActivity extends BaseActivity {
 
     private List<View> viewList = new ArrayList<>();
 
+    private View itemView1;
+
+    private RecyclerView itemView2ListView;
+
     private BasePageAdapter basePageAdapter;
 
+    private ReleaseJobsAdapter releaseJobsAdapter;
+
     private String companyId = null;
+
+    private static final int INIT_JOBS = 11;
+
+
+    private TextView view_companyNameTv;
+    private TextView view_provinceTv;
+    private TextView view_cityTv;
+    private TextView view_addressTv;
+    private TextView view_creationTimeTv;
+    private TextView view_peopleNumTv;
+    private TextView view_linkUrlTv;
+    private TextView view_introduceTv;
+
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -68,13 +95,13 @@ public class CompanyDetailsActivity extends BaseActivity {
     public void initList(Bundle savedInstanceState) {
         bindViews();
         initStatusBar();
-        initPager();
         companyId = getIntent().getStringExtra("companyId");
         if(companyId == null){
 
         }else{
             String url = FinalData.BASE_URL + "/getCompany?id="+companyId;
             HttpFactory.getHttpUtils().get(url,new CompanyDetailsEventModel());
+            initPager();
         }
     }
 
@@ -87,10 +114,19 @@ public class CompanyDetailsActivity extends BaseActivity {
                 imgList.add(FinalData.IMG + imgEntity.getImgUrl());
             }
             initBanner(imgList);
-            for(String s : imgList){
-                Log.e("imgList",s);
-            }
+            initBaseInfo(companyModel.data);
         }
+    }
+
+    private void initBaseInfo(CompanyEntity entity){
+        view_companyNameTv.setText(entity.getCompanyName());
+        view_provinceTv.setText(entity.getProvince());
+        view_cityTv.setText(entity.getCity());
+        view_addressTv.setText(entity.getAddress());
+        view_creationTimeTv.setText(entity.getCreationTime());
+        view_peopleNumTv.setText(entity.getPeopleNum());
+        view_linkUrlTv.setText(entity.getLinkUrl());
+        view_introduceTv.setText(entity.getIntroduce());
     }
 
 
@@ -117,14 +153,42 @@ public class CompanyDetailsActivity extends BaseActivity {
         String[] tabs = new String[]{
                 "基本信息","招聘职位","公司留言"
         };
+        viewList.add(View.inflate(this,R.layout.view_company_base_info,null));
+        viewList.add(new RecyclerView(this));
         viewList.add(new View(this));
-        viewList.add(new View(this));
-        viewList.add(new View(this));
+        itemView1 = viewList.get(0);
+        itemView2ListView = (RecyclerView) viewList.get(1);
         basePageAdapter = new BasePageAdapter(this,viewList);
         companyDetailsFG_viewPager.setAdapter(basePageAdapter);
         companyDetailsFG_viewPager.setOffscreenPageLimit(viewList.size());
         companyDetailsFG_tabLayout.setViewPager(companyDetailsFG_viewPager,tabs);
+        bindViewsItem1();
+        initJobsList();
     }
+
+    private void initJobsList(){
+        itemView2ListView.setLayoutManager(new LinearLayoutManager(this));
+        String url = FinalData.BASE_URL + "/findJobsByCompanyId?companyId="+companyId;
+        HttpFactory.getHttpUtils().get(url,new GetJobListEventModel(INIT_JOBS));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getJobsResult(GetJobListEventModel eventModel){
+        if(eventModel.isSuccess){
+            switch (eventModel.eventId){
+                case INIT_JOBS:
+                    JobsListModel model = new Gson().fromJson(eventModel.resultStr,JobsListModel.class);
+                    if(releaseJobsAdapter == null){
+                        releaseJobsAdapter = new ReleaseJobsAdapter(this,model.data);
+                        itemView2ListView.setAdapter(releaseJobsAdapter);
+                    }else{
+                        releaseJobsAdapter.refresh(model.data);
+                    }
+                    break;
+            }
+        }
+    }
+
 
     private void initStatusBar() {
         new Handler().post(new Runnable() {
@@ -147,6 +211,17 @@ public class CompanyDetailsActivity extends BaseActivity {
         companyDetailsFG_titleTv = (TextView) findViewById(R.id.companyDetailsFG_titleTv);
         companyDetailsFG_tabLayout = (com.flyco.tablayout.SlidingTabLayout) findViewById(R.id.companyDetailsFG_tabLayout);
         companyDetailsFG_viewPager = (android.support.v4.view.ViewPager) findViewById(R.id.companyDetailsFG_viewPager);
+    }
+
+    private void bindViewsItem1() {
+        view_companyNameTv = itemView1.findViewById(R.id.view_companyNameTv);
+        view_provinceTv = itemView1.findViewById(R.id.view_provinceTv);
+        view_cityTv = itemView1.findViewById(R.id.view_cityTv);
+        view_addressTv = itemView1.findViewById(R.id.view_addressTv);
+        view_creationTimeTv = itemView1.findViewById(R.id.view_creationTimeTv);
+        view_peopleNumTv = itemView1.findViewById(R.id.view_peopleNumTv);
+        view_linkUrlTv = itemView1.findViewById(R.id.view_linkUrlTv);
+        view_introduceTv = itemView1.findViewById(R.id.view_introduceTv);
     }
 
     class GlideImageLoader extends ImageLoader {
