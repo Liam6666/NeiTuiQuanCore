@@ -11,7 +11,7 @@ import java.util.Date;
 public class Test {
 
     public static void main(String[] args) {
-        System.out.println(millis2Date("15298851234332"));
+        System.out.println(StringUtils.getCurrentTimeMillis());
     }
 
     public static String millis2Date(String millis){
