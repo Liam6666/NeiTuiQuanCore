@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="cn" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <link>
 <meta charset="UTF-8">
 <title>内推圈-后台</title>
@@ -9,52 +9,51 @@
 <meta name="renderer" content="webkit">
 <meta http-equiv="Cache-Control" content="no-siteapp">
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<link rel="stylesheet" href="../assets/css/amazeui.min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
 <style>
     html,body{
+        margin: 0;
+        padding: 0;
+    }
+    body > .el-container {
+        margin-bottom: 40px;
+    }
+    .el-header{
+        background-color: #0a628f;
+    }
+    .el-footer{
+        padding: 0;
+        background-color: #0a628f;
+    }
+    .el-main{
+        padding: 0;
+    }
+    #app{
+    }
+    .header_div{
         height: 100%;
         width: 100%;
+        background-color: #0a628f;
+    }
+    .footer_div{
+        height: 100%;
+        width: 100%;
+        background-color: #0a628f;
     }
     .content_div{
-        width: 100%;
-        height: 100%;
-    }
-    .left_menu{
-        width: 15%;
-        height: 100%;
-        float: left;
+        height: 600px;
         margin: 0;
+        padding: 0;
     }
-    .right_content{
-        margin: 0;
-        float: left;
-        width: 85%;
-        height: 100%;
-        background: gold;
-    }
-    #menu_ul{
-        margin-left: 0;
-        padding-left: 0;
-        list-style: none;
-    }
-    .menu_item{
-        height: 60px;
-        line-height: 60px;
-        color: #333333;
-        border-bottom: 1px solid #00B38A;
-    }
-    .menu_item:hover{
-        color: #00B38A;
-        cursor: pointer;
-    }
-    a{
-        color: #333333;
-    }
-    a:hover{
-        color: #00B38A;
+    .aside_div{
+        height: 700px;
+        background-color: #545c64;
     }
 </style>
+<<<<<<< HEAD
 <body>
     <div class="am-g" style="background: #00B38A;height: 65px;">
         <div class="am-u-sm-2">
@@ -99,5 +98,110 @@
             },
         });
     </script>
+=======
+<body scroll="no">
+<div id="app">
+<el-container>
+    <el-header height="80px">
+        <div class="header_div"></div>
+    </el-header>
+    <el-container>
+        <el-aside width="210px">
+            <div class="aside_div">
+                <el-row class="tac">
+                    <el-col :span="24">
+                        <el-menu
+                                default-active="1"
+                                class="el-menu-vertical-demo"
+                                background-color="#545c64"
+                                text-color="#fff"
+                                active-text-color="#ffd04b">
+                            <el-menu-item index="1" onclick="menuClick(1)">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">Banner管理</span>
+                            </el-menu-item>
+                            <el-menu-item index="2" onclick="menuClick(2)">
+                                <i class="el-icon-document"></i>
+                                <span slot="title">APP版本管理</span>
+                            </el-menu-item>
+                            <el-menu-item index="3" onclick="menuClick(3)">
+                                <i class="el-icon-setting"></i>
+                                <span slot="title">用户管理</span>
+                            </el-menu-item>
+                            <el-menu-item index="4" onclick="menuClick(4)">
+                                <i class="el-icon-service"></i>
+                                <span slot="title">用户反馈</span>
+                            </el-menu-item>
+                            <el-menu-item index="5" onclick="menuClick(5)">
+                                <i class="el-icon-bell"></i>
+                                <span slot="title">系统通知</span>
+                            </el-menu-item>
+                        </el-menu>
+                    </el-col>
+                </el-row>
+            </div>
+        </el-aside>
+        <el-container>
+            <el-main>
+                <div class="content_div">
+                    <iframe
+                            src="banner.html"
+                            id="content_iframe"
+                            frameborder="0"
+                            height="100%"
+                            width="100%"
+                            scrolling="auto"
+                            marginheight="0"
+                            marginwidth="0"></iframe>
+                </div>
+            </el-main>
+            <el-footer height="80px">
+                <div class="footer_div"></div>
+            </el-footer>
+        </el-container>
+    </el-container>
+</el-container>
+</div>
+
+
+<script type="text/javascript">
+    new Vue().$mount('#app');
+    var menuVM = new Vue({
+        el: "#menu_el",
+        data:{
+            a:"",
+        },
+        created:function () {
+            this.$http.get('../getAllMenu',{}).then(function(res){
+                console.log(res.data);
+            },function(res){
+                console.log(res.status);
+
+            });
+
+        }
+    });
+    function menuClick(index) {
+        var frame = document.getElementById("content_iframe");
+        switch (index){
+            case 1:
+                frame.src = "banner.html";
+                break;
+            case 2:
+                frame.src = "https://www.hao123.com";
+                break;
+            case 3:
+                frame.src = "https://www.alibaba.com";
+                break;
+            case 4:
+                frame.src = "https://www.qq.com";
+                break;
+            case 5:
+                frame.src = "https://www.360.com";
+                break;
+        }
+    }
+</script>
+>>>>>>> 119a858996b7dfc93ae71c2f1230800dc355e3e9
 </body>
 </html>
