@@ -53,7 +53,8 @@
                     android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:src="@mipmap/s_edit"/>
-                <EditText
+                <TextView
+                    android:gravity="center_vertical"
                     android:id="@+id/editSchoolFG_startTimeTv"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -79,7 +80,8 @@
                     android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:src="@mipmap/s_edit"/>
-                <EditText
+                <TextView
+                    android:gravity="center_vertical"
                     android:id="@+id/editSchoolFG_endTimeTv"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"

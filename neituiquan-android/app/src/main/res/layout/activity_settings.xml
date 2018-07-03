@@ -7,44 +7,61 @@
     android:layout_height="match_parent">
     <LinearLayout
         android:elevation="3dp"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:orientation="vertical">
         <View
-            android:background="@color/backgroundColor"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/releaseJobUI_statusView"/>
+            android:id="@+id/settingsUI_statusView"
+            android:background="@color/backgroundColor"/>
         <LinearLayout
+            android:background="@color/backgroundColor"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolBarHeight"
             android:orientation="horizontal">
             <ImageView
-                android:id="@+id/releaseJobUI_backImg"
+                android:id="@+id/settingsUI_backImg"
                 android:layout_width="@dimen/toolBarHeight"
                 android:layout_height="match_parent"
                 android:src="@mipmap/back_left"
                 android:padding="15dp"/>
             <TextView
-                android:text="发布的职位"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:text="设置"
                 android:textSize="@dimen/centerText"
-                android:textColor="@color/highTextColor"/>
+                android:textColor="@color/highTextColor"
+                android:gravity="center"/>
             <ImageView
-                android:id="@+id/releaseJobUI_addImg"
                 android:layout_width="@dimen/toolBarHeight"
                 android:layout_height="match_parent"
-                android:src="@mipmap/add"
                 android:padding="15dp"/>
         </LinearLayout>
     </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/releaseJobUI_listView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/settingsUI_outLogin"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="清除登录信息"
+                android:textColor="@color/red"
+                android:textSize="@dimen/centerText"
+                android:background="@drawable/selector_red_border"
+                android:gravity="center"/>
+
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

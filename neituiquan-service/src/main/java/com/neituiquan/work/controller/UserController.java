@@ -93,4 +93,9 @@ public class UserController {
     public AbsEntity bindCompanyState(@RequestParam String id) {
         return service.bindCompanyState(id);
     }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/bindResumeState")
+    public AbsEntity bindResumeState(@RequestParam String id) {
+        return service.bindResumeState(id);
+    }
 }

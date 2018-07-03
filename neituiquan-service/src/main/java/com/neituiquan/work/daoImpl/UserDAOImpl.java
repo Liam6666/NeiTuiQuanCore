@@ -157,6 +157,19 @@ public class UserDAOImpl implements UserDAO {
         return (String)innerObj.data;
     }
 
+    @Override
+    public String bindResumeState(String id) {
+        InnerObj innerObj = new InnerObj();
+        String sql = "select id from t_personal_resume where userId = ? and isDel = ?";
+        jdbcTemplate.query(sql, new String[]{id, FinalData.NO_DEL}, new RowCallbackHandler() {
+            @Override
+            public void processRow(ResultSet resultSet) throws SQLException {
+                innerObj.data = resultSet.getString("id");
+            }
+        });
+        return (String)innerObj.data;
+    }
+
     private void setValues(UserEntity entity, ResultSet resultSet) throws SQLException{
         entity.setId(resultSet.getString("id"));
         entity.setAccount(resultSet.getString("account"));

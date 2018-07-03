@@ -28,4 +28,11 @@ public interface UserDAO {
      * @return companyId
      */
     String bindCompanyState(String id);
+
+    /**
+     * 判断用户是否绑定了简历信息
+     * @param id
+     * @return companyId
+     */
+    String bindResumeState(String id);
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.neituiquan.base.BaseActivity;
+import com.neituiquan.dialog.TipsDialog;
 import com.neituiquan.work.R;
 
 /**
@@ -50,7 +52,15 @@ public class BindCompanyActivity extends BaseActivity{
         initFragments();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     private void initFragments(){
+        if(addCompanyFragment != null){
+            return;
+        }
         addCompanyFragment = AddCompanyFragment.newInstance(null);
         createTransaction()
                 .add(R.id.bindCompanyUI_frameLayout,addCompanyFragment,"addCompanyFragment")

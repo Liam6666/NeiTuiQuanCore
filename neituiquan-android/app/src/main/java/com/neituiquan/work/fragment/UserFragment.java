@@ -14,12 +14,18 @@ import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseFragment;
+import com.neituiquan.dialog.TipsDialog;
 import com.neituiquan.gson.AbsModel;
 import com.neituiquan.gson.StringModel;
 import com.neituiquan.gson.UserModel;
+import com.neituiquan.httpEvent.CheckBindCompanyEventModel;
+import com.neituiquan.httpEvent.CheckBindResumeEventModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.work.MainActivity;
 import com.neituiquan.work.R;
+import com.neituiquan.work.SettingsActivity;
 import com.neituiquan.work.account.HeadImgActivity;
+import com.neituiquan.work.account.IntentionActivity;
 import com.neituiquan.work.account.SwitcherRoleActivity;
 import com.neituiquan.work.company.BindCompanyActivity;
 import com.neituiquan.work.company.CompanyDetailsActivity;
@@ -73,6 +79,12 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
 
     private UserModel userModel;
 
+    private TipsDialog tipsDialog;
+
+    private static final int CHECK_BIND_COMPANY = 323;
+
+    private static final int CHECK_BIND_RESUME = 63278;
+
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return View.inflate(getContext(), R.layout.fragment_user,null);
@@ -88,6 +100,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         }else{
             initUserInfo();
         }
+        tipsDialog = new TipsDialog(getContext());
     }
 
     @Override
@@ -114,10 +127,16 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(),SwitcherRoleActivity.class));
                 break;
             case R.id.userFG_bindCompanyLayout:
-                checkBindCompany();
+                checkBindCompany(CompanyDetailsActivity.class);
                 break;
             case R.id.userFG_publishLayout:
-                startActivity(new Intent(getContext(),ReleaseJobListActivity.class));
+                checkBindCompany(ReleaseJobListActivity.class);
+                break;
+            case R.id.userFG_settingsLayout:
+                startActivity(new Intent(getContext(),SettingsActivity.class));
+                break;
+            case R.id.userFG_intentionLayout:
+                checkBindResume(IntentionActivity.class);
                 break;
         }
     }
@@ -141,27 +160,71 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
 
         switcherMenuList();
     }
+    private void checkBindResume(Class<?> success){
+        ((MainActivity)getContext()).getLoadingDialog().show();
+        String url = FinalData.BASE_URL + "/bindResumeState?id=" + App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId();
+        CheckBindResumeEventModel eventModel = new CheckBindResumeEventModel(CHECK_BIND_RESUME);
+        eventModel.successClass = success;
+        HttpFactory.getHttpUtils().get(url,eventModel);
+    }
 
-    private void checkBindCompany(){
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void checkBindResumeResult(CheckBindResumeEventModel eventModel){
+        if(eventModel.eventId == CHECK_BIND_RESUME){
+            ((MainActivity)getContext()).getLoadingDialog().dismiss();
+            StringModel stringModel = new Gson().fromJson(eventModel.resultStr,StringModel.class);
+            if(stringModel.code == 0){
+                Intent intent = new Intent(getContext(),eventModel.successClass);
+                startActivity(intent);
+            }else {
+                tipsDialog.show("提示", getResources().getString(R.string.noBindResumeTips));
+                tipsDialog.setTipsDialogCallBack(new TipsDialog.TipsDialogCallBack() {
+                    @Override
+                    public void execute() {
+                        startActivity(new Intent(getContext(), ResumeActivity.class));
+                    }
+
+                    @Override
+                    public void cancel() {
+
+                    }
+                });
+            }
+        }
+    }
+
+    private void checkBindCompany(Class<?> success){
+        ((MainActivity)getContext()).getLoadingDialog().show();
         String url = FinalData.BASE_URL + "/bindCompanyState?id=" + App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId();
-        HttpFactory.getHttpUtils().get(url).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+        CheckBindCompanyEventModel eventModel = new CheckBindCompanyEventModel(CHECK_BIND_COMPANY);
+        eventModel.successClass = success;
+        HttpFactory.getHttpUtils().get(url,eventModel);
+    }
 
-            }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void checkBindCompanyResult(CheckBindCompanyEventModel eventModel){
+        if(eventModel.eventId == CHECK_BIND_COMPANY){
+            ((MainActivity)getContext()).getLoadingDialog().dismiss();
+            StringModel stringModel = new Gson().fromJson(eventModel.resultStr,StringModel.class);
+            if(stringModel.code == 0){
+                Intent intent = new Intent(getContext(),eventModel.successClass);
+                intent.putExtra("companyId",stringModel.data);
+                startActivity(intent);
+            }else {
+                tipsDialog.show("提示", getResources().getString(R.string.noBindCompanyTips));
+                tipsDialog.setTipsDialogCallBack(new TipsDialog.TipsDialogCallBack() {
+                    @Override
+                    public void execute() {
+                        startActivity(new Intent(getContext(), BindCompanyActivity.class));
+                    }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                StringModel stringModel = new Gson().fromJson(response.body().string(),StringModel.class);
-                if(stringModel.code == 0){
-                    Intent intent = new Intent(getContext(),CompanyDetailsActivity.class);
-                    intent.putExtra("companyId",stringModel.data);
-                    startActivity(intent);
-                }else{
-                    startActivity(new Intent(getContext(),BindCompanyActivity.class));
-                }
+                    @Override
+                    public void cancel() {
+
+                    }
+                });
             }
-        });
+        }
     }
 
 
@@ -236,6 +299,8 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         userFG_switcherRoleLayout.setOnClickListener(this);
         userFG_bindCompanyLayout.setOnClickListener(this);
         userFG_publishLayout.setOnClickListener(this);
+        userFG_settingsLayout.setOnClickListener(this);
+        userFG_intentionLayout.setOnClickListener(this);
     }
 
 

@@ -75,6 +75,7 @@
                 android:background="@color/lineColor"/>
 
             <LinearLayout
+                android:id="@+id/baseInfoFG_sexLayout"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:orientation="horizontal">
@@ -82,7 +83,9 @@
                     android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:src="@mipmap/s_edit"/>
-                <EditText
+                <TextView
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:id="@+id/baseInfoFG_sexTv"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -94,6 +97,10 @@
                     android:textColor="@color/highTextColor"
                     android:textSize="@dimen/centerText"
                     android:text=""/>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_left"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -101,6 +108,7 @@
                 android:background="@color/lineColor"/>
 
             <LinearLayout
+                android:id="@+id/baseInfoFG_birthdayLayout"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:orientation="horizontal">
@@ -108,7 +116,8 @@
                     android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:src="@mipmap/s_edit"/>
-                <EditText
+                <TextView
+                    android:layout_weight="1"
                     android:id="@+id/baseInfoFG_birthdayTv"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -116,10 +125,15 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:hint="出生日期"
+                    android:gravity="center_vertical"
                     android:textColorHint="@color/lowTextColor"
                     android:textColor="@color/highTextColor"
                     android:textSize="@dimen/centerText"
                     android:text=""/>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_left"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -127,6 +141,7 @@
                 android:background="@color/lineColor"/>
 
             <LinearLayout
+                android:id="@+id/baseInfoFG_educationLayout"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
@@ -135,7 +150,9 @@
                     android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:src="@mipmap/s_edit"/>
-                <EditText
+                <TextView
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:id="@+id/baseInfoFG_educationTv"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -147,6 +164,10 @@
                     android:textColor="@color/highTextColor"
                     android:textSize="@dimen/centerText"
                     android:text=""/>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_left"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -162,6 +183,7 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/s_edit"/>
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/baseInfoFG_workAgeTv"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -189,6 +211,7 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/s_edit"/>
                 <EditText
+                    android:inputType="phone"
                     android:id="@+id/baseInfoFG_phoneTv"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -252,6 +275,10 @@
                     android:textSize="@dimen/centerText"
                     android:gravity="center_vertical"
                     android:textColor="@color/lowTextColor" />
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_left"/>
             </LinearLayout>
 
             <View
@@ -306,13 +333,14 @@
                 android:layout_height="45dp"
                 android:orientation="horizontal">
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/baseInfoFG_targetSalaryTv"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:hint="例：10K"
+                    android:hint="例：10"
                     android:textColorHint="@color/lowTextColor"
                     android:textColor="@color/highTextColor"
                     android:textSize="@dimen/centerText"

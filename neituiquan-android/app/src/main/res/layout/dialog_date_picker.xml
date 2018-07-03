@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@color/backgroundColor"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolBarHeight">
+        <TextView
+            android:id="@+id/dialog_cancelTv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="取消"
+            android:textSize="@dimen/centerText"
+            android:textColor="@color/red"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"/>
+        <TextView
+            android:id="@+id/dialog_executeTv"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="确定"
+            android:textSize="@dimen/centerText"
+            android:textColor="@drawable/selector_text"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/lineColor"/>
+
+    <LinearLayout
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="horizontal">
+        <com.weigan.loopview.LoopView
+            android:layout_weight="1"
+            android:id="@+id/dialog_yearLoopView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:text="年"
+            android:textColor="@color/themeColor"
+            android:textSize="@dimen/centerText"
+            android:gravity="center"/>
+        <com.weigan.loopview.LoopView
+            android:layout_weight="1"
+            android:id="@+id/dialog_monthLoopView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:text="月"
+            android:textColor="@color/themeColor"
+            android:textSize="@dimen/centerText"
+            android:gravity="center"/>
+        <com.weigan.loopview.LoopView
+            android:layout_weight="1"
+            android:id="@+id/dialog_dayLoopView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:text="日"
+            android:textColor="@color/themeColor"
+            android:textSize="@dimen/centerText"
+            android:gravity="center"/>
+    </LinearLayout>
+
+</LinearLayout>

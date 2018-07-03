@@ -97,4 +97,16 @@ public class UserService {
         }
         return absEntity;
     }
+
+    public AbsEntity bindResumeState(String id) {
+        AbsEntity absEntity = new AbsEntity();
+        String companyId = userDAO.bindResumeState(id);
+        if(StringUtils.isEmpty(companyId)){
+            absEntity.code = FinalData.ERROR_CODE;
+            absEntity.msg = "未绑定简历信息";
+        }else{
+            absEntity.data = companyId;
+        }
+        return absEntity;
+    }
 }

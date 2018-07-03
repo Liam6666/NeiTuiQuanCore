@@ -144,7 +144,7 @@ public class LoginFragment extends BaseFragment implements View.OnFocusChangeLis
 //
 //                //发送给UserFragment
 //                EventBus.getDefault().post(userModel);
-//                ((AccountActivity)getContext()).finish();
+                ((AccountActivity)getContext()).finish();
                 startActivity(new Intent(getContext(), MainActivity.class));
             }else{
                 ToastUtils.showShort(userModel.msg);

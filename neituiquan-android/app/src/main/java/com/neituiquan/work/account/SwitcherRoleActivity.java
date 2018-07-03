@@ -66,11 +66,15 @@ public class SwitcherRoleActivity extends BaseActivity implements View.OnClickLi
         switcherRoleUI_role1Img.setOnClickListener(this);
         switcherRoleUI_role2Img.setOnClickListener(this);
         switcherRoleUI_role3Img.setOnClickListener(this);
+        switcherRoleUI_backImg.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
+            case R.id.switcherRoleUI_backImg:
+                finish();
+                break;
             case R.id.switcherRoleUI_role1Img:
                 switchRole(1);
                 break;

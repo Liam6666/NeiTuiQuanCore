@@ -29,11 +29,11 @@ public class RightSelectorView extends View {
 
     private List<String> provinces;
 
-    private int textSize = 40;
+    private int textSize = 30;
 
     private int textHeight;
 
-    private float viewHeightProportion = 0.9f;
+    private float viewHeightProportion = 0.95f;
 
     private OnSelectorListener onSelectorListener;
 
@@ -49,7 +49,6 @@ public class RightSelectorView extends View {
         paint.setDither(true);
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
-        paint.setStrokeWidth(1);
         paint.setTextSize(textSize);
         setBackgroundColor(ContextCompat.getColor(getContext(), R.color.lineColor));
     }

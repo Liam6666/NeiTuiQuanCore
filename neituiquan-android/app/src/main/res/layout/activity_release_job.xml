@@ -5,38 +5,44 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <View
-        android:background="@color/backgroundColor"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:id="@+id/releaseJobUI_statusView"/>
     <LinearLayout
         android:elevation="3dp"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolBarHeight"
-        android:background="@color/white">
-        <ImageView
-            android:id="@+id/releaseJobUI_backImg"
-            android:layout_width="@dimen/toolBarHeight"
-            android:layout_height="match_parent"
-            android:src="@mipmap/back_left"
-            android:padding="15dp"/>
-        <TextView
-            android:text="发布职位"
-            android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <View
+            android:background="@color/backgroundColor"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="@dimen/centerText"
-            android:textColor="@color/highTextColor"/>
-        <TextView
-            android:id="@+id/releaseJobUI_releaseTv"
-            android:text="发布"
-            android:layout_width="@dimen/toolBarHeight"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="@dimen/centerText"
-            android:textColor="@color/themeColor"/>
+            android:layout_height="0dp"
+            android:id="@+id/releaseJobUI_statusView"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolBarHeight"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/releaseJobUI_backImg"
+                android:layout_width="@dimen/toolBarHeight"
+                android:layout_height="match_parent"
+                android:src="@mipmap/back_left"
+                android:padding="15dp"/>
+            <TextView
+                android:text="发布职位"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="@dimen/centerText"
+                android:textColor="@color/highTextColor"/>
+            <TextView
+                android:id="@+id/releaseJobUI_releaseTv"
+                android:layout_width="@dimen/toolBarHeight"
+                android:layout_height="match_parent"
+                android:text="发布"
+                android:gravity="center"
+                android:textSize="@dimen/centerText"
+                android:textColor="@drawable/selector_text"/>
+        </LinearLayout>
     </LinearLayout>
 
     <ScrollView
@@ -129,6 +135,7 @@
                 android:background="@color/lineColor"/>
 
             <LinearLayout
+                android:id="@+id/releaseJobUI_educationLayout"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
@@ -137,7 +144,9 @@
                     android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:src="@mipmap/s_edit"/>
-                <EditText
+                <TextView
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
                     android:id="@+id/releaseJobUI_educationTv"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -149,6 +158,10 @@
                     android:textColor="@color/highTextColor"
                     android:textSize="@dimen/centerText"
                     android:text=""/>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/more_left"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -164,6 +177,7 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/s_edit"/>
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/releaseJobUI_workAgeTv"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -190,13 +204,14 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/s_edit"/>
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/releaseJobUI_minSalaryTv"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:hint="最低薪资：10K"
+                    android:hint="最低薪资"
                     android:textColorHint="@color/lowTextColor"
                     android:textColor="@color/highTextColor"
                     android:textSize="@dimen/centerText"
@@ -217,13 +232,14 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/s_edit"/>
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/releaseJobUI_maxSalaryTv"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:hint="最高薪资：15K"
+                    android:hint="最高薪资"
                     android:textColorHint="@color/lowTextColor"
                     android:textColor="@color/highTextColor"
                     android:textSize="@dimen/centerText"

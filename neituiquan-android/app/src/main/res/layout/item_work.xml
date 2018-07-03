@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="【公司名称】"
                 android:textSize="@dimen/centerText"
-                android:textColor="@color/highTextColor"/>
+                android:textColor="@color/lowTextColor"/>
 
             <TextView
                 android:id="@+id/itemWork_nameTv"
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:text="【所在城市】"
                 android:textSize="@dimen/centerText"
-                android:textColor="@color/highTextColor"/>
+                android:textColor="@color/lowTextColor"/>
 
             <TextView
                 android:id="@+id/itemWork_cityTv"
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:text="【职位职称】"
                 android:textSize="@dimen/centerText"
-                android:textColor="@color/highTextColor"/>
+                android:textColor="@color/lowTextColor"/>
 
             <TextView
                 android:id="@+id/itemWork_jobTitleTv"

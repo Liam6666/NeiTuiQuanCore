@@ -29,6 +29,8 @@ public class FinalData {
 
     public static final int PAGE_SIZE = 15;
 
+    public static final long TIME_OUT = 30 * 1000;
+
     public static final String[] PERMISSIONS = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,

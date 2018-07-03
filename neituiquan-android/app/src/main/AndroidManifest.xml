@@ -45,6 +45,7 @@
         <activity android:name=".CitySelectorActivity"
             android:launchMode="singleTask"/>
         <activity android:name=".company.CompanyDetailsActivity" />
+        <activity android:name=".account.IntentionActivity" />
 
 
         <meta-data android:name="com.amap.api.v2.apikey"

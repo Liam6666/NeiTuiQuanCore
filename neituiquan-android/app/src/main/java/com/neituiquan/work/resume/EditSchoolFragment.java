@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseFragment;
+import com.neituiquan.dialog.DatePickerDialog;
 import com.neituiquan.entity.UserResumeEntity;
 import com.neituiquan.httpEvent.UpdateResumeEventModel;
 import com.neituiquan.net.HttpFactory;
@@ -39,14 +40,18 @@ public class EditSchoolFragment extends BaseFragment implements View.OnClickList
 
     private ImageView editSchoolFG_backImg;
     private TextView editSchoolFG_saveTv;
-    private EditText editSchoolFG_startTimeTv;
-    private EditText editSchoolFG_endTimeTv;
+    private TextView editSchoolFG_startTimeTv;
+    private TextView editSchoolFG_endTimeTv;
     private EditText editSchoolFG_nameTv;
     private EditText editSchoolFG_educationTv;
     private EditText editSchoolFG_professionTv;
     private TextView editSchoolFG_delTv;
 
     private UserResumeEntity.ResumeSEntity sEntity;
+
+    private DatePickerDialog startTimePickerDialog;
+
+    private DatePickerDialog endTimePickerDialog;
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,6 +67,7 @@ public class EditSchoolFragment extends BaseFragment implements View.OnClickList
         }else{
             initValues();
         }
+        initDialog();
     }
 
 
@@ -82,7 +88,30 @@ public class EditSchoolFragment extends BaseFragment implements View.OnClickList
             case R.id.editSchoolFG_delTv:
                 del();
                 break;
+            case R.id.editSchoolFG_startTimeTv:
+                startTimePickerDialog.show();
+                break;
+            case R.id.editSchoolFG_endTimeTv:
+                endTimePickerDialog.show();
+                break;
         }
+    }
+
+    private void initDialog(){
+        startTimePickerDialog = new DatePickerDialog(getContext());
+        startTimePickerDialog.setDialogCallBack(new DatePickerDialog.DatePickerDialogCallBack() {
+            @Override
+            public void onSelect(String date) {
+                editSchoolFG_startTimeTv.setText(date);
+            }
+        });
+        endTimePickerDialog = new DatePickerDialog(getContext());
+        endTimePickerDialog.setDialogCallBack(new DatePickerDialog.DatePickerDialogCallBack() {
+            @Override
+            public void onSelect(String date) {
+                editSchoolFG_endTimeTv.setText(date);
+            }
+        });
     }
 
     private void initValues(){
@@ -152,8 +181,8 @@ public class EditSchoolFragment extends BaseFragment implements View.OnClickList
 
         editSchoolFG_backImg = (ImageView) findViewById(R.id.editSchoolFG_backImg);
         editSchoolFG_saveTv = (TextView) findViewById(R.id.editSchoolFG_saveTv);
-        editSchoolFG_startTimeTv = (EditText) findViewById(R.id.editSchoolFG_startTimeTv);
-        editSchoolFG_endTimeTv = (EditText) findViewById(R.id.editSchoolFG_endTimeTv);
+        editSchoolFG_startTimeTv = (TextView) findViewById(R.id.editSchoolFG_startTimeTv);
+        editSchoolFG_endTimeTv = (TextView) findViewById(R.id.editSchoolFG_endTimeTv);
         editSchoolFG_nameTv = (EditText) findViewById(R.id.editSchoolFG_nameTv);
         editSchoolFG_educationTv = (EditText) findViewById(R.id.editSchoolFG_educationTv);
         editSchoolFG_professionTv = (EditText) findViewById(R.id.editSchoolFG_professionTv);
@@ -162,6 +191,8 @@ public class EditSchoolFragment extends BaseFragment implements View.OnClickList
         editSchoolFG_backImg.setOnClickListener(this);
         editSchoolFG_saveTv.setOnClickListener(this);
         editSchoolFG_delTv.setOnClickListener(this);
+        editSchoolFG_startTimeTv.setOnClickListener(this);
+        editSchoolFG_endTimeTv.setOnClickListener(this);
     }
 
 }

@@ -1,8 +1,8 @@
 package com.neituiquan.work.resume;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,23 +17,30 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SizeUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseFragment;
+import com.neituiquan.dialog.DatePickerDialog;
+import com.neituiquan.dialog.SinglePickerDialog;
 import com.neituiquan.gson.UserModel;
 import com.neituiquan.gson.UserResumeModel;
 import com.neituiquan.httpEvent.UpdateResumeEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.utils.PositionUtils;
+import com.neituiquan.work.CitySelectorActivity;
 import com.neituiquan.work.R;
+import com.weigan.loopview.OnItemSelectedListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by Augustine on 2018/6/19.
@@ -56,9 +63,9 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
 
     private TextView baseInfoFG_saveTv;
     private EditText baseInfoFG_nameTv;
-    private EditText baseInfoFG_sexTv;
-    private EditText baseInfoFG_birthdayTv;
-    private EditText baseInfoFG_educationTv;
+    private TextView baseInfoFG_sexTv;
+    private TextView baseInfoFG_birthdayTv;
+    private TextView baseInfoFG_educationTv;
     private EditText baseInfoFG_workAgeTv;
     private EditText baseInfoFG_phoneTv;
     private EditText baseInfoFG_emailTv;
@@ -72,12 +79,29 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
     private LinearLayout baseInfoFG_linearLayout;
     private ImageView baseInfoFG_backImg;
     private EditText baseInfoFG_mottoTv;
+    private LinearLayout baseInfoFG_birthdayLayout;
+    private LinearLayout baseInfoFG_sexLayout;
+    private LinearLayout baseInfoFG_educationLayout;
 
     private int keyboardHeight = 0;
 
     private UserResumeModel resumeModel;
 
     private PositionUtils positionUtils;
+
+    private DatePickerDialog datePickerDialog;
+
+    private SinglePickerDialog sexPickerDialog;
+
+    private SinglePickerDialog educationPickerDialog;//学历选择
+
+    private List<String> sexSelectorList = new ArrayList<>();
+
+    private List<String> educationSelectorList = new ArrayList<>();
+
+    private static final int START_TO_SELECTOR_CITY = 323;
+
+    private static final int SELECTOR_CITY_RESULT_CODE = 333;
 
     private AMapLocationListener locationListener = new AMapLocationListener() {
         @Override
@@ -87,6 +111,7 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
                 baseInfoFG_locationTv.setText(aMapLocation.getCity());
             }else{
                 baseInfoFG_locationTv.setText("未知位置");
+                ToastUtils.showShort("定位失败，请手动选择");
             }
         }
     };
@@ -105,6 +130,9 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
         ((EditResumeActivity)getContext()).getLoadingDialog().show();
         positionUtils = new PositionUtils();
         positionUtils.initGaoDeLocation(getContext(),locationListener);
+        initTimePicker();
+        initSexPickerDialog();
+        initEducationPicker();
     }
 
 
@@ -118,7 +146,74 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
             case R.id.baseInfoFG_saveTv:
                 saveChanged();
                 break;
+            case R.id.baseInfoFG_birthdayLayout:
+                datePickerDialog.show();
+                break;
+            case R.id.baseInfoFG_sexLayout:
+                sexPickerDialog.show(baseInfoFG_sexTv.getText().toString());
+                break;
+            case R.id.baseInfoFG_educationLayout:
+                educationPickerDialog.show(baseInfoFG_educationTv.getText().toString());
+                break;
+            case R.id.baseInfoFG_locationTv:
+                startActivityForResult(new Intent(getContext(), CitySelectorActivity.class),START_TO_SELECTOR_CITY);
+                break;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == SELECTOR_CITY_RESULT_CODE){
+            if(requestCode == START_TO_SELECTOR_CITY){
+                if(data != null){
+                    String province = data.getStringExtra("province");
+                    String city = data.getStringExtra("city");
+                    baseInfoFG_locationTv.setText(city);
+                }
+            }
+        }
+    }
+
+    private void initSexPickerDialog(){
+        sexPickerDialog = new SinglePickerDialog(getContext());
+        sexSelectorList.add("男");
+        sexSelectorList.add("女");
+        sexSelectorList.add("不方便透露");
+        sexPickerDialog.setContentData(sexSelectorList);
+        sexPickerDialog.setDialogCallBack(new SinglePickerDialog.SinglePickerDialogCallBack() {
+            @Override
+            public void onSelect(String info) {
+                baseInfoFG_sexTv.setText(info);
+            }
+        });
+    }
+
+    private void initEducationPicker(){
+        educationSelectorList.add("高中");
+        educationSelectorList.add("大专/专科");
+        educationSelectorList.add("本科");
+        educationSelectorList.add("硕士");
+        educationSelectorList.add("博士");
+        educationSelectorList.add("其他");
+        educationPickerDialog = new SinglePickerDialog(getContext());
+        educationPickerDialog.setContentData(educationSelectorList);
+        educationPickerDialog.setDialogCallBack(new SinglePickerDialog.SinglePickerDialogCallBack() {
+            @Override
+            public void onSelect(String info) {
+                baseInfoFG_educationTv.setText(info);
+            }
+        });
+    }
+
+    private void initTimePicker(){
+        datePickerDialog = new DatePickerDialog(getContext());
+        datePickerDialog.setDialogCallBack(new DatePickerDialog.DatePickerDialogCallBack() {
+            @Override
+            public void onSelect(String date) {
+                baseInfoFG_birthdayTv.setText(date);
+            }
+        });
     }
 
     /**
@@ -243,9 +338,9 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
 
         baseInfoFG_saveTv = (TextView) findViewById(R.id.baseInfoFG_saveTv);
         baseInfoFG_nameTv = (EditText) findViewById(R.id.baseInfoFG_nameTv);
-        baseInfoFG_sexTv = (EditText) findViewById(R.id.baseInfoFG_sexTv);
-        baseInfoFG_birthdayTv = (EditText) findViewById(R.id.baseInfoFG_birthdayTv);
-        baseInfoFG_educationTv = (EditText) findViewById(R.id.baseInfoFG_educationTv);
+        baseInfoFG_sexTv = (TextView) findViewById(R.id.baseInfoFG_sexTv);
+        baseInfoFG_birthdayTv = (TextView) findViewById(R.id.baseInfoFG_birthdayTv);
+        baseInfoFG_educationTv = (TextView) findViewById(R.id.baseInfoFG_educationTv);
         baseInfoFG_workAgeTv = (EditText) findViewById(R.id.baseInfoFG_workAgeTv);
         baseInfoFG_phoneTv = (EditText) findViewById(R.id.baseInfoFG_phoneTv);
         baseInfoFG_emailTv = (EditText) findViewById(R.id.baseInfoFG_emailTv);
@@ -259,8 +354,15 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
         baseInfoFG_linearLayout = findViewById(R.id.baseInfoFG_linearLayout);
         baseInfoFG_backImg = findViewById(R.id.baseInfoFG_backImg);
         baseInfoFG_mottoTv = findViewById(R.id.baseInfoFG_mottoTv);
+        baseInfoFG_birthdayLayout = findViewById(R.id.baseInfoFG_birthdayLayout);
+        baseInfoFG_sexLayout = findViewById(R.id.baseInfoFG_sexLayout);
+        baseInfoFG_educationLayout = findViewById(R.id.baseInfoFG_educationLayout);
         baseInfoFG_backImg.setOnClickListener(this);
         baseInfoFG_saveTv.setOnClickListener(this);
+        baseInfoFG_birthdayLayout.setOnClickListener(this);
+        baseInfoFG_sexLayout.setOnClickListener(this);
+        baseInfoFG_educationLayout.setOnClickListener(this);
+        baseInfoFG_locationTv.setOnClickListener(this);
     }
 
     public static void scrollToBottom(final View scroll, final View inner) {

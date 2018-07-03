@@ -4,10 +4,7 @@ package com.neituiquan.net;
 
 import android.util.Log;
 
-import com.blankj.utilcode.util.ToastUtils;
-import com.neituiquan.App;
 import com.neituiquan.FinalData;
-import com.neituiquan.dialog.LoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -44,13 +41,15 @@ public class HttpUtils {
     public HttpUtils(){
         okHttpClient = new OkHttpClient()
                 .newBuilder()
-                .readTimeout(30 * 1000, TimeUnit.SECONDS)
+                .readTimeout(FinalData.TIME_OUT, TimeUnit.SECONDS)
                 .build();
     }
 
 
     public void get(String url,final RequestEventModel requestEventModel){
-
+        if(FinalData.DEBUG){
+            Log.e(TAG,url);
+        }
         Request.Builder requestBuilder = new Request.Builder();
         requestBuilder.method(GET,null);
         requestBuilder.url(url);
@@ -61,23 +60,22 @@ public class HttpUtils {
             public void onFailure(Call call, IOException e) {
                 requestEventModel.isSuccess = false;
                 requestEventModel.errorMsg = e.getMessage();
-                if(FinalData.DEBUG){
-                    ToastUtils.showShort(e.getMessage());
-                }
                 EventBus.getDefault().post(requestEventModel);
+                e.printStackTrace();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                requestEventModel.resultStr = response.body().string();
-                EventBus.getDefault().post(requestEventModel);
-                if(response.code() != 200){
+                String resultStr = response.body().string();
+                if(response.code() == 200){
+                    requestEventModel.resultStr = resultStr;
+                }else{
                     requestEventModel.isSuccess = false;
-                    requestEventModel.errorMsg = response.body().string();
-                    if(FinalData.DEBUG){
-                        ToastUtils.showShort(response.body().string());
-                    }
-                    EventBus.getDefault().post(requestEventModel);
+                    requestEventModel.errorMsg = resultStr;
+                }
+                EventBus.getDefault().post(requestEventModel);
+                if(FinalData.DEBUG){
+                    Log.e(TAG,resultStr);
                 }
             }
         });
@@ -93,7 +91,9 @@ public class HttpUtils {
 
 
     public void post(Map<String,String> params, String url,final RequestEventModel requestEventModel){
-
+        if(FinalData.DEBUG){
+            Log.e(TAG,url);
+        }
         FormBody.Builder formBody = new FormBody.Builder();
         if(params != null){
             for(String key : params.keySet()){
@@ -112,23 +112,22 @@ public class HttpUtils {
             public void onFailure(Call call, IOException e) {
                 requestEventModel.isSuccess = false;
                 requestEventModel.errorMsg = e.getMessage();
-                if(FinalData.DEBUG){
-                    ToastUtils.showShort(e.getMessage());
-                }
                 EventBus.getDefault().post(requestEventModel);
+                e.printStackTrace();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                requestEventModel.resultStr = response.body().string();
-                EventBus.getDefault().post(requestEventModel);
-                if(response.code() != 200){
+                String resultStr = response.body().string();
+                if(response.code() == 200){
+                    requestEventModel.resultStr = resultStr;
+                }else{
                     requestEventModel.isSuccess = false;
-                    requestEventModel.errorMsg = response.body().string();
-                    if(FinalData.DEBUG){
-                        ToastUtils.showShort(response.body().string());
-                    }
-                    EventBus.getDefault().post(requestEventModel);
+                    requestEventModel.errorMsg = resultStr;
+                }
+                EventBus.getDefault().post(requestEventModel);
+                if(FinalData.DEBUG){
+                    Log.e(TAG,resultStr);
                 }
             }
         });
@@ -136,7 +135,9 @@ public class HttpUtils {
 
 
     public void post(String json, String url,final RequestEventModel requestEventModel){
-
+        if(FinalData.DEBUG){
+            Log.e(TAG,url);
+        }
         RequestBody requestBody = FormBody
                 .create(MediaType.parse("application/json; charset=utf-8"), json);
         Request request = new Request.Builder()
@@ -149,23 +150,22 @@ public class HttpUtils {
             public void onFailure(Call call, IOException e) {
                 requestEventModel.isSuccess = false;
                 requestEventModel.errorMsg = e.getMessage();
-                if(FinalData.DEBUG){
-                    ToastUtils.showShort(e.getMessage());
-                }
                 EventBus.getDefault().post(requestEventModel);
+                e.printStackTrace();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                requestEventModel.resultStr = response.body().string();
-                EventBus.getDefault().post(requestEventModel);
-                if(response.code() != 200){
+                String resultStr = response.body().string();
+                if(response.code() == 200){
+                    requestEventModel.resultStr = resultStr;
+                }else{
                     requestEventModel.isSuccess = false;
-                    requestEventModel.errorMsg = response.body().string();
-                    if(FinalData.DEBUG){
-                        ToastUtils.showShort(response.body().string());
-                    }
-                    EventBus.getDefault().post(requestEventModel);
+                    requestEventModel.errorMsg = resultStr;
+                }
+                EventBus.getDefault().post(requestEventModel);
+                if(FinalData.DEBUG){
+                    Log.e(TAG,resultStr);
                 }
             }
         });
@@ -173,7 +173,9 @@ public class HttpUtils {
 
 
     public void uploadMultiFile(File file,String url,final RequestEventModel requestEventModel) {
-
+        if(FinalData.DEBUG){
+            Log.e(TAG,url);
+        }
         String imageType = "multipart/form-data";
         RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpg"), file);
         RequestBody requestBody = new MultipartBody.Builder()
@@ -193,23 +195,22 @@ public class HttpUtils {
             public void onFailure(Call call, IOException e) {
                 requestEventModel.isSuccess = false;
                 requestEventModel.errorMsg = e.getMessage();
-                if(FinalData.DEBUG){
-                    ToastUtils.showShort(e.getMessage());
-                }
                 EventBus.getDefault().post(requestEventModel);
+                e.printStackTrace();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                requestEventModel.resultStr = response.body().string();
-                EventBus.getDefault().post(requestEventModel);
-                if(response.code() != 200){
+                String resultStr = response.body().string();
+                if(response.code() == 200){
+                    requestEventModel.resultStr = resultStr;
+                }else{
                     requestEventModel.isSuccess = false;
-                    requestEventModel.errorMsg = response.body().string();
-                    if(FinalData.DEBUG){
-                        ToastUtils.showShort(response.body().string());
-                    }
-                    EventBus.getDefault().post(requestEventModel);
+                    requestEventModel.errorMsg = resultStr;
+                }
+                EventBus.getDefault().post(requestEventModel);
+                if(FinalData.DEBUG){
+                    Log.e(TAG,resultStr);
                 }
             }
 

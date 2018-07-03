@@ -37,6 +37,7 @@
                     android:layout_height="300dp">
                     <ImageView
                         android:scaleType="fitXY"
+                        android:src="@mipmap/texture"
                         android:id="@+id/resumeUI_headBGView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -124,7 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:text="最高学历："
-                        android:textColor="@color/highTextColor"
+                        android:textColor="@color/lowTextColor"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"/>
 
@@ -149,7 +150,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:text="工作年限："
-                        android:textColor="@color/highTextColor"
+                        android:textColor="@color/lowTextColor"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"/>
 
@@ -174,7 +175,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:text="出生年份："
-                        android:textColor="@color/highTextColor"
+                        android:textColor="@color/lowTextColor"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"/>
 
@@ -199,7 +200,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:text="所在城市："
-                        android:textColor="@color/highTextColor"
+                        android:textColor="@color/lowTextColor"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"/>
 
@@ -224,7 +225,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:text="联系电话："
-                        android:textColor="@color/highTextColor"
+                        android:textColor="@color/lowTextColor"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"/>
 
@@ -249,7 +250,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:text="联系邮箱："
-                        android:textColor="@color/highTextColor"
+                        android:textColor="@color/lowTextColor"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"/>
 
@@ -274,7 +275,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:text="期望岗位："
-                        android:textColor="@color/highTextColor"
+                        android:textColor="@color/lowTextColor"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"/>
 
@@ -299,7 +300,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:text="期望薪资："
-                        android:textColor="@color/highTextColor"
+                        android:textColor="@color/lowTextColor"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"/>
 
@@ -536,7 +537,7 @@
         </ScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     <FrameLayout
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/resumeUI_emptyLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

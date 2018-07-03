@@ -231,25 +231,10 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    /**
-     * 避免多次虚化图片
-     */
-    private boolean isInitHeadImg = false;
 
     private void initValues(){
         resumeUI_emptyLayout.setVisibility(View.GONE);
-        if(!isInitHeadImg){
-            Glide.with(this).load(FinalData.IMG + userModel.data.getHeadImg())
-                    .asBitmap().into(new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    resumeUI_headImg.setImageBitmap(resource);
-                    Bitmap bgBitmap = ImageUtils.stackBlur(resource,25);
-                    resumeUI_headBGView.setImageBitmap(bgBitmap);
-                    isInitHeadImg = true;
-                }
-            });
-        }
+        Glide.with(this).load(FinalData.IMG + userModel.data.getHeadImg()).into(resumeUI_headImg);
         resumeUI_nameTv.setText(userModel.data.getNickName());
         resumeUI_mottoTv.setText(userModel.data.getMotto());
         resumeUI_educationTv.setText(resumeModel.data.getEducation());

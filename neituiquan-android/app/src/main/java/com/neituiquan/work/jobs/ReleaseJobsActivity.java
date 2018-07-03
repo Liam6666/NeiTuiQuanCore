@@ -19,6 +19,7 @@ import com.neituiquan.App;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.dialog.InputDialog;
+import com.neituiquan.dialog.SinglePickerDialog;
 import com.neituiquan.entity.JobsEntity;
 import com.neituiquan.httpEvent.ReleaseJobEventModel;
 import com.neituiquan.net.HttpFactory;
@@ -48,7 +49,7 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
     private EditText releaseJobUI_titleTv;
     private ImageView releaseJobUI_addLabelImg;
     private LinearLayout releaseJobUI_labelLayout;
-    private EditText releaseJobUI_educationTv;
+    private TextView releaseJobUI_educationTv;
     private EditText releaseJobUI_minSalaryTv;
     private EditText releaseJobUI_maxSalaryTv;
     private FrameLayout releaseJobUI_descriptionLayout;
@@ -58,6 +59,7 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout releaseJobUI_contentLayout;
     private EditText releaseJobUI_workAgeTv;
     private TextView releaseJobFG_delTv;
+    private LinearLayout releaseJobUI_educationLayout;
 
     private int keyboardHeight;
 
@@ -72,6 +74,10 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
     public static final int UPDATE = 1;
 
     public static final int DELETE = 2;
+
+    private SinglePickerDialog educationPickerDialog;//学历选择
+
+    private List<String> educationSelectorList = new ArrayList<>();
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -91,7 +97,9 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
         }else{
             initValues();
         }
+        initEducationPicker();
     }
+
 
 
     @Override
@@ -114,7 +122,27 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
             case R.id.releaseJobFG_delTv:
                 del();
                 break;
+            case R.id.releaseJobUI_educationLayout:
+                educationPickerDialog.show(releaseJobUI_educationTv.getText().toString());
+                break;
         }
+    }
+
+    private void initEducationPicker(){
+        educationSelectorList.add("高中");
+        educationSelectorList.add("大专/专科");
+        educationSelectorList.add("本科");
+        educationSelectorList.add("硕士");
+        educationSelectorList.add("博士");
+        educationSelectorList.add("其他");
+        educationPickerDialog = new SinglePickerDialog(this);
+        educationPickerDialog.setContentData(educationSelectorList);
+        educationPickerDialog.setDialogCallBack(new SinglePickerDialog.SinglePickerDialogCallBack() {
+            @Override
+            public void onSelect(String info) {
+                releaseJobUI_educationTv.setText(info);
+            }
+        });
     }
 
     private void initValues(){
@@ -274,7 +302,7 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
         releaseJobUI_titleTv = (EditText) findViewById(R.id.releaseJobUI_titleTv);
         releaseJobUI_addLabelImg = (ImageView) findViewById(R.id.releaseJobUI_addLabelImg);
         releaseJobUI_labelLayout = (LinearLayout) findViewById(R.id.releaseJobUI_labelLayout);
-        releaseJobUI_educationTv = (EditText) findViewById(R.id.releaseJobUI_educationTv);
+        releaseJobUI_educationTv = (TextView) findViewById(R.id.releaseJobUI_educationTv);
         releaseJobUI_minSalaryTv = (EditText) findViewById(R.id.releaseJobUI_minSalaryTv);
         releaseJobUI_maxSalaryTv = (EditText) findViewById(R.id.releaseJobUI_maxSalaryTv);
         releaseJobUI_descriptionLayout = (FrameLayout) findViewById(R.id.releaseJobUI_descriptionLayout);
@@ -284,10 +312,12 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
         releaseJobUI_contentLayout = findViewById(R.id.releaseJobUI_contentLayout);
         releaseJobUI_workAgeTv = findViewById(R.id.releaseJobUI_workAgeTv);
         releaseJobFG_delTv = findViewById(R.id.releaseJobFG_delTv);
+        releaseJobUI_educationLayout = findViewById(R.id.releaseJobUI_educationLayout);
         releaseJobUI_backImg.setOnClickListener(this);
         releaseJobUI_addLabelImg.setOnClickListener(this);
         releaseJobUI_releaseTv.setOnClickListener(this);
         releaseJobFG_delTv.setOnClickListener(this);
+        releaseJobUI_educationLayout.setOnClickListener(this);
     }
 
     public static void scrollToBottom(final View scroll, final View inner) {

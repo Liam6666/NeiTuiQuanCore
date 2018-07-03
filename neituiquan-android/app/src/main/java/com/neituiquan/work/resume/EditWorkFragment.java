@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseFragment;
+import com.neituiquan.dialog.DatePickerDialog;
 import com.neituiquan.entity.UserResumeEntity;
 import com.neituiquan.httpEvent.UpdateResumeEventModel;
 import com.neituiquan.net.HttpFactory;
@@ -30,7 +31,7 @@ import org.greenrobot.eventbus.ThreadMode;
 public class EditWorkFragment extends BaseFragment implements View.OnClickListener {
 
     public static EditWorkFragment newInstance(UserResumeEntity.ResumeWEntity wEntity) {
-        
+
         Bundle args = new Bundle();
         args.putSerializable("wEntity",wEntity);
         EditWorkFragment fragment = new EditWorkFragment();
@@ -40,15 +41,19 @@ public class EditWorkFragment extends BaseFragment implements View.OnClickListen
 
     private ImageView editWorkFG_backImg;
     private TextView editWorkFG_saveTv;
-    private EditText editWorkFG_startTimeTv;
-    private EditText editWorkFG_endTimeTv;
+    private TextView editWorkFG_startTimeTv;
+    private TextView editWorkFG_endTimeTv;
     private EditText editWorkFG_nameTv;
     private EditText editWorkFG_jobTitleTv;
     private EditText editWorkFG_cityTv;
     private TextView editWorkFG_delTv;
-    
+
     private UserResumeEntity.ResumeWEntity wEntity;
-    
+
+    private DatePickerDialog startTimePickerDialog;
+
+    private DatePickerDialog endTimePickerDialog;
+
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return View.inflate(getContext(), R.layout.fragment_edit_work,null);
@@ -63,6 +68,7 @@ public class EditWorkFragment extends BaseFragment implements View.OnClickListen
         }else{
             initValues();
         }
+        initDialog();
     }
 
 
@@ -83,14 +89,37 @@ public class EditWorkFragment extends BaseFragment implements View.OnClickListen
             case R.id.editWorkFG_delTv:
                 del();
                 break;
+            case R.id.editWorkFG_startTimeTv:
+                startTimePickerDialog.show();
+                break;
+            case R.id.editWorkFG_endTimeTv:
+                endTimePickerDialog.show();
+                break;
         }
     }
-    
+
+    private void initDialog(){
+        startTimePickerDialog = new DatePickerDialog(getContext());
+        startTimePickerDialog.setDialogCallBack(new DatePickerDialog.DatePickerDialogCallBack() {
+            @Override
+            public void onSelect(String date) {
+                editWorkFG_startTimeTv.setText(date);
+            }
+        });
+        endTimePickerDialog = new DatePickerDialog(getContext());
+        endTimePickerDialog.setDialogCallBack(new DatePickerDialog.DatePickerDialogCallBack() {
+            @Override
+            public void onSelect(String date) {
+                editWorkFG_endTimeTv.setText(date);
+            }
+        });
+    }
+
     private void del(){
         String url = FinalData.BASE_URL + "/delUserResumeW?id="+wEntity.getId();
         HttpFactory.getHttpUtils().get(url,new UpdateResumeEventModel(EditResumeActivity.DEL_RESUME_W));
     }
-    
+
     private void save(){
         ToastUtils.showShort("save");
         wEntity = new UserResumeEntity.ResumeWEntity();
@@ -104,7 +133,7 @@ public class EditWorkFragment extends BaseFragment implements View.OnClickListen
         String url = FinalData.BASE_URL + "/addUserResumeW";
         HttpFactory.getHttpUtils().post(json,url,new UpdateResumeEventModel(EditResumeActivity.SAVED_RESUME_W));
     }
-    
+
     private void saveChanged(){
         wEntity.setStartTime(editWorkFG_startTimeTv.getText().toString());
         wEntity.setEndTime(editWorkFG_endTimeTv.getText().toString());
@@ -140,7 +169,7 @@ public class EditWorkFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-    
+
     private void initValues(){
         editWorkFG_startTimeTv.setText(wEntity.getStartTime());
         editWorkFG_endTimeTv.setText(wEntity.getEndTime());
@@ -150,14 +179,14 @@ public class EditWorkFragment extends BaseFragment implements View.OnClickListen
     }
 
 
-    
-    
+
+
     private void bindViews() {
 
         editWorkFG_backImg = (ImageView) findViewById(R.id.editWorkFG_backImg);
         editWorkFG_saveTv = (TextView) findViewById(R.id.editWorkFG_saveTv);
-        editWorkFG_startTimeTv = (EditText) findViewById(R.id.editWorkFG_startTimeTv);
-        editWorkFG_endTimeTv = (EditText) findViewById(R.id.editWorkFG_endTimeTv);
+        editWorkFG_startTimeTv = (TextView) findViewById(R.id.editWorkFG_startTimeTv);
+        editWorkFG_endTimeTv = (TextView) findViewById(R.id.editWorkFG_endTimeTv);
         editWorkFG_nameTv = (EditText) findViewById(R.id.editWorkFG_nameTv);
         editWorkFG_jobTitleTv = (EditText) findViewById(R.id.editWorkFG_jobTitleTv);
         editWorkFG_cityTv = (EditText) findViewById(R.id.editWorkFG_cityTv);
@@ -166,6 +195,8 @@ public class EditWorkFragment extends BaseFragment implements View.OnClickListen
         editWorkFG_backImg.setOnClickListener(this);
         editWorkFG_delTv.setOnClickListener(this);
         editWorkFG_saveTv.setOnClickListener(this);
+        editWorkFG_startTimeTv.setOnClickListener(this);
+        editWorkFG_endTimeTv.setOnClickListener(this);
     }
 
 }

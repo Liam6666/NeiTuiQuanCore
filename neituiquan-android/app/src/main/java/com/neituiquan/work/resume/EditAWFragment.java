@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseFragment;
+import com.neituiquan.dialog.DatePickerDialog;
 import com.neituiquan.entity.UserResumeEntity;
 import com.neituiquan.httpEvent.UpdateResumeEventModel;
 import com.neituiquan.net.HttpFactory;
@@ -45,9 +46,12 @@ public class EditAWFragment extends BaseFragment implements View.OnClickListener
 
     private ImageView editawFG_backImg;
     private TextView editawFG_saveTv;
-    private EditText editawFG_timeTv;
+    private TextView editawFG_timeTv;
     private EditText editawFG_rewardNameTv;
     private TextView editawFG_delTv;
+
+    private DatePickerDialog timePickerDialog;
+
 
     private UserResumeEntity.ResumeAEntity aEntity;
 
@@ -65,6 +69,7 @@ public class EditAWFragment extends BaseFragment implements View.OnClickListener
         }else{
             initValues();
         }
+        initDialog();
     }
 
     @Override
@@ -84,7 +89,20 @@ public class EditAWFragment extends BaseFragment implements View.OnClickListener
             case R.id.editawFG_delTv:
                 del();
                 break;
+            case R.id.editawFG_timeTv:
+                timePickerDialog.show();
+                break;
         }
+    }
+
+    private void initDialog(){
+        timePickerDialog = new DatePickerDialog(getContext());
+        timePickerDialog.setDialogCallBack(new DatePickerDialog.DatePickerDialogCallBack() {
+            @Override
+            public void onSelect(String date) {
+                editawFG_timeTv.setText(date);
+            }
+        });
     }
 
     private void del(){
@@ -154,13 +172,14 @@ public class EditAWFragment extends BaseFragment implements View.OnClickListener
 
         editawFG_backImg = (ImageView) findViewById(R.id.editawFG_backImg);
         editawFG_saveTv = (TextView) findViewById(R.id.editawFG_saveTv);
-        editawFG_timeTv = (EditText) findViewById(R.id.editawFG_timeTv);
+        editawFG_timeTv = (TextView) findViewById(R.id.editawFG_timeTv);
         editawFG_rewardNameTv = (EditText) findViewById(R.id.editawFG_rewardNameTv);
         editawFG_delTv = (TextView) findViewById(R.id.editawFG_delTv);
 
         editawFG_backImg.setOnClickListener(this);
         editawFG_saveTv.setOnClickListener(this);
         editawFG_delTv.setOnClickListener(this);
+        editawFG_timeTv.setOnClickListener(this);
     }
 
 

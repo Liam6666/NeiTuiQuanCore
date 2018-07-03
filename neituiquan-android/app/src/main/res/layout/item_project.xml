@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="【项目名称】"
                 android:textSize="@dimen/centerText"
-                android:textColor="@color/highTextColor"/>
+                android:textColor="@color/lowTextColor"/>
 
             <TextView
                 android:id="@+id/itemProject_nameTv"
@@ -63,13 +63,12 @@
                 android:layout_height="wrap_content"
                 android:text="【我的职责】"
                 android:textSize="@dimen/centerText"
-                android:textColor="@color/highTextColor"/>
+                android:textColor="@color/lowTextColor"/>
 
             <TextView
                 android:id="@+id/itemProject_responsibilityTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="构架师"
                 android:textSize="@dimen/centerText"
                 android:textColor="@color/highTextColor"/>
         </LinearLayout>

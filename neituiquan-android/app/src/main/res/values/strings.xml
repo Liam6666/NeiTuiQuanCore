@@ -1,6 +1,14 @@
 <resources>
-    <string name="app_name">NeiTuiQuan</string>
+    <string name="app_name">内推圈</string>
     <string name="registerStatement">
         声明：平台坚决不会公布注册手机号，以及个人相关信息，请放心注册
+    </string>
+
+    <string name="noBindCompanyTips">
+        您当前尚未绑定公司信息\n未绑定公司信息您将不能发布招聘信息、内推信息。\n点击确认，开始绑定公司信息。
+    </string>
+
+    <string name="noBindResumeTips">
+        您当前尚未补充您的个人简历\n请尽快补充个人简历
     </string>
 </resources>

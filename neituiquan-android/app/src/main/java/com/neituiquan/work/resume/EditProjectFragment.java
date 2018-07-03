@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseFragment;
+import com.neituiquan.dialog.DatePickerDialog;
 import com.neituiquan.entity.UserResumeEntity;
 import com.neituiquan.httpEvent.UpdateResumeEventModel;
 import com.neituiquan.net.HttpFactory;
@@ -42,8 +43,8 @@ public class EditProjectFragment extends BaseFragment implements View.OnClickLis
 
     private ImageView editProjectFG_backImg;
     private TextView editProjectFG_saveTv;
-    private EditText editProjectFG_startTimeTv;
-    private EditText editProjectFG_endTimeTv;
+    private TextView editProjectFG_startTimeTv;
+    private TextView editProjectFG_endTimeTv;
     private EditText editProjectFG_nameTv;
     private EditText editProjectFG_responsibilityTv;
     private EditText editProjectFG_linkTv;
@@ -51,6 +52,11 @@ public class EditProjectFragment extends BaseFragment implements View.OnClickLis
     private TextView editProjectFG_delTv;
 
     private UserResumeEntity.ResumePEntity pEntity;
+
+    private DatePickerDialog startTimePickerDialog;
+
+    private DatePickerDialog endTimePickerDialog;
+
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +72,7 @@ public class EditProjectFragment extends BaseFragment implements View.OnClickLis
         }else{
             initValues();
         }
+        initDialog();
     }
 
     @Override
@@ -85,6 +92,12 @@ public class EditProjectFragment extends BaseFragment implements View.OnClickLis
             case R.id.editProjectFG_delTv:
                 del();
                 break;
+            case R.id.editProjectFG_startTimeTv:
+                startTimePickerDialog.show();
+                break;
+            case R.id.editProjectFG_endTimeTv:
+                endTimePickerDialog.show();
+                break;
         }
     }
 
@@ -95,6 +108,24 @@ public class EditProjectFragment extends BaseFragment implements View.OnClickLis
         editProjectFG_responsibilityTv.setText(pEntity.getResponsibility());
         editProjectFG_linkTv.setText(pEntity.getLink());
         editProjectFG_absTv.setText(pEntity.getProjectAbs());
+    }
+
+
+    private void initDialog(){
+        startTimePickerDialog = new DatePickerDialog(getContext());
+        startTimePickerDialog.setDialogCallBack(new DatePickerDialog.DatePickerDialogCallBack() {
+            @Override
+            public void onSelect(String date) {
+                editProjectFG_startTimeTv.setText(date);
+            }
+        });
+        endTimePickerDialog = new DatePickerDialog(getContext());
+        endTimePickerDialog.setDialogCallBack(new DatePickerDialog.DatePickerDialogCallBack() {
+            @Override
+            public void onSelect(String date) {
+                editProjectFG_endTimeTv.setText(date);
+            }
+        });
     }
 
     private void del(){
@@ -157,8 +188,8 @@ public class EditProjectFragment extends BaseFragment implements View.OnClickLis
 
         editProjectFG_backImg = (ImageView) findViewById(R.id.editProjectFG_backImg);
         editProjectFG_saveTv = (TextView) findViewById(R.id.editProjectFG_saveTv);
-        editProjectFG_startTimeTv = (EditText) findViewById(R.id.editProjectFG_startTimeTv);
-        editProjectFG_endTimeTv = (EditText) findViewById(R.id.editProjectFG_endTimeTv);
+        editProjectFG_startTimeTv = (TextView) findViewById(R.id.editProjectFG_startTimeTv);
+        editProjectFG_endTimeTv = (TextView) findViewById(R.id.editProjectFG_endTimeTv);
         editProjectFG_nameTv = (EditText) findViewById(R.id.editProjectFG_nameTv);
         editProjectFG_responsibilityTv = (EditText) findViewById(R.id.editProjectFG_responsibilityTv);
         editProjectFG_linkTv = (EditText) findViewById(R.id.editProjectFG_linkTv);
@@ -168,6 +199,8 @@ public class EditProjectFragment extends BaseFragment implements View.OnClickLis
         editProjectFG_backImg.setOnClickListener(this);
         editProjectFG_saveTv.setOnClickListener(this);
         editProjectFG_delTv.setOnClickListener(this);
+        editProjectFG_startTimeTv.setOnClickListener(this);
+        editProjectFG_endTimeTv.setOnClickListener(this);
     }
 
 
