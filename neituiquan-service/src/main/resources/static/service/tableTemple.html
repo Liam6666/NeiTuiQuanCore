@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<link>
+<meta charset="UTF-8">
+<title>数据表格模板</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+<link rel="stylesheet" href="../layui/css/layui.css"/>
+<script type="text/javascript" src="../layui/layui.js"></script>
+<style>
+    html,body{
+        width: 99%;
+        height:100%;
+    }
+    .body_div{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding-top: 10px;
+        padding-bottom: 50px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    table{
+        margin-top: 20px;
+        color: #666666;
+        text-align: center;
+    }
+    th,td{
+        height: 40px;
+    }
+    tr{
+        border: 1px solid #E6E6E6;
+    }
+    tr:hover{
+        cursor: pointer;
+        background: #E7E7E7;
+    }
+    .footer_div{
+        box-shadow: 0px -3px 5px #CCCCCC;
+        background: #FFF;
+        width: 100%;
+        height: 50px;
+        bottom: 0px;
+        text-align: center;
+        position: fixed;
+    }
+</style>
+</head>
+<body>
+
+<div class="body_div">
+
+    <button class="layui-btn" style="width: 100px">
+        <i class="layui-icon">&#xe608;</i> 新增
+    </button>
+
+    <table width="100%" id="table">
+        <tr>
+            <th width="15%">id</th>
+            <th width="20%">姓名</th>
+            <th width="20%">年龄</th>
+            <th width="25%">出生日期</th>
+            <th width="20%">选项</th>
+        </tr>
+        <tr v-for="item in items">
+            <td>{{ item.id }}</td>
+            <td>
+                <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input" v-model="item.name">
+            <td>{{ item.age }}</td>
+            <td>{{ item.birthday }}</td>
+            <td>
+                <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-primary layui-btn-sm" v-on:click="submit(item.id)">
+                    <i class="layui-icon">&#xe605;</i>
+                </button>
+                <button class="layui-btn layui-btn-primary layui-btn-sm">
+                    <i class="layui-icon">&#xe642;</i>
+                </button>
+                <button class="layui-btn layui-btn-primary layui-btn-sm">
+                    <i class="layui-icon">&#xe640;</i>
+                </button>
+            </div></td>
+        </tr>
+    </table>
+
+    <div class="footer_div">
+        <div id="pager_div"></div>
+    </div>
+</div>
+<script>
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage,layer = layui.layer;
+
+        //不显示首页尾页
+        laypage.render({
+            elem: 'pager_div'
+            ,count: tableVM.items.length
+            ,first: false
+            ,last: false
+        })
+    });
+
+    var tableVM = new Vue({
+        el: '#table',
+        data: {
+            items: [
+                {
+                    id:"111",
+                    name:"augustine",
+                    age:"123",
+                    birthday:"1995-08-15"
+                },{
+                    id:"222",
+                    name:"augustine",
+                    age:"123",
+                    birthday:"1995-08-15"
+                },{
+                    id:"dadas",
+                    name:"augustine",
+                    age:"123",
+                    birthday:"1995-08-15"
+                },{
+                    id:"dadas",
+                    name:"augustine",
+                    age:"123",
+                    birthday:"1995-08-15"
+                },{
+                    id:"dadas",
+                    name:"augustine",
+                    age:"123",
+                    birthday:"1995-08-15"
+                },{
+                    id:"dadas",
+                    name:"12312312",
+                    age:"123",
+                    birthday:"1995-08-15"
+                },{
+                    id:"dadas",
+                    name:"augustine",
+                    age:"123",
+                    birthday:"1995-08-15"
+                },{
+                    id:"dadas",
+                    name:"augustine",
+                    age:"123",
+                    birthday:"1995-08-15"
+                },{
+                    id:"dadas",
+                    name:"augustine",
+                    age:"123",
+                    birthday:"1995-08-15"
+                },{
+                    id:"dadas",
+                    name:"augustine",
+                    age:"123",
+                    birthday:"1995-08-15"
+                },{
+                    id:"dadas",
+                    name:"augustine",
+                    age:"123",
+                    birthday:"1995-08-15"
+                },{
+                    id:"dadas",
+                    name:"augustine",
+                    age:"123",
+                    birthday:"1995-08-15"
+                },{
+                    id:"dadas",
+                    name:"augustine",
+                    age:"123",
+                    birthday:"1995-08-15"
+                },{
+                    id:"dadas",
+                    name:"augustine",
+                    age:"123",
+                    birthday:"1995-08-15"
+                },{
+                    id:"dadas",
+                    name:"augustine",
+                    age:"123",
+                    birthday:"1995-08-15"
+                }
+            ]
+        },
+        methods:{
+            submit:function (id) {
+//                layer.load(2); 加载
+//                layer.closeAll('loading'); //关闭
+            }
+        }
+    })
+
+
+</script>
+</body>
+</html>

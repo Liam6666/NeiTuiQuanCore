@@ -98,4 +98,19 @@ public class UserController {
     public AbsEntity bindResumeState(@RequestParam String id) {
         return service.bindResumeState(id);
     }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/getUserList")
+    public AbsEntity getUserList(@RequestParam String index){
+        return service.getUserList(index);
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/delUser")
+    public AbsEntity delUser(@RequestParam String id){
+        return service.delUser(id);
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/findUserById")
+    public AbsEntity findUserById(String id){
+        return service.findUserById(id);
+    }
 }

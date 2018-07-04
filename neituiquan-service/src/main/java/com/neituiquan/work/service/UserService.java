@@ -9,6 +9,9 @@ import com.neituiquan.work.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+
 @Service
 public class UserService {
 
@@ -20,6 +23,7 @@ public class UserService {
     public AbsEntity register(UserEntity entity){
         entity.setId(StringUtils.getUUID());
         entity.setLastLoginTime(StringUtils.getCurrentTimeMillis());
+        entity.setIsDel(FinalData.NO_DEL);
         if(entity.getNickName() == null){
             entity.setNickName(entity.getAccount());
         }
@@ -107,6 +111,26 @@ public class UserService {
         }else{
             absEntity.data = companyId;
         }
+        return absEntity;
+    }
+
+    public AbsEntity getUserList(String index){
+        AbsEntity absEntity = new AbsEntity();
+        absEntity.dataTotalCount = userDAO.getUserCount();
+        absEntity.data = userDAO.getUserList(index);
+        return absEntity;
+    }
+
+
+    public AbsEntity delUser(String id){
+        userDAO.delUser(id);
+        return new AbsEntity();
+    }
+
+
+    public AbsEntity findUserById(String id){
+        AbsEntity absEntity = new AbsEntity();
+        absEntity.data = userDAO.findUserById(id);
         return absEntity;
     }
 }

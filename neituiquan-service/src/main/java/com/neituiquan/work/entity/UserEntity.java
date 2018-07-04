@@ -51,6 +51,15 @@ public class UserEntity implements Serializable{
     //最后登录时间
     private  String lastLoginTime;
 
+    private String isDel;
+
+    public String getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(String isDel) {
+        this.isDel = isDel;
+    }
 
     public String getId() {
         return id;

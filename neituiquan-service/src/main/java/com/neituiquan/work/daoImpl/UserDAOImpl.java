@@ -3,6 +3,7 @@ package com.neituiquan.work.daoImpl;
 import com.neituiquan.work.base.FinalData;
 import com.neituiquan.work.dao.UserDAO;
 import com.neituiquan.work.entity.UserEntity;
+import com.neituiquan.work.utils.PageUtils;
 import com.neituiquan.work.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Repository
@@ -21,8 +24,8 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean delUser(String id) {
-        String sql = "delete from t_user where id = ?";
-        String[] params = new String[]{id};
+        String sql = "update t_user set isDel = ? where id = ?";
+        String[] params = new String[]{FinalData.DEL,id};
         jdbcTemplate.update(sql,params);
         return true;
     }
@@ -63,8 +66,8 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public UserEntity findUserById(String id) {
         final UserEntity entity = new UserEntity();
-        String sql = "select * from t_user where id = ?";
-        String[] params = new String[]{id};
+        String sql = "select * from t_user where id = ? and isDel = ?";
+        String[] params = new String[]{id,FinalData.NO_DEL};
         jdbcTemplate.query(sql, params, new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet resultSet) throws SQLException {
@@ -80,8 +83,8 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public UserEntity findUserByAccount(String account) {
         final UserEntity entity = new UserEntity();
-        String sql = "select * from t_user where account = ?";
-        String[] params = new String[]{account};
+        String sql = "select * from t_user where account = ? and isDel = ?";
+        String[] params = new String[]{account,FinalData.NO_DEL};
         jdbcTemplate.query(sql, params, new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet resultSet) throws SQLException {
@@ -124,14 +127,14 @@ public class UserDAOImpl implements UserDAO {
             return -1;//账号已存在
         }
         String sql = "insert into t_user values " +
-                "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         String[] params = new String[]{
                 entity.getId(),entity.getAccount(),entity.getPassword(),
                 entity.getRoleName(),entity.getHeadImg(),entity.getNickName(),
                 entity.getMotto(),entity.getSex(),entity.getEmail(),
                 entity.getLatitude(),entity.getLongitude(),entity.getAccuracy(),
                 entity.getProvince(),entity.getCity(),entity.getDistrict(),
-                entity.getLastLoginTime()
+                entity.getLastLoginTime(),entity.getIsDel()
         };
         jdbcTemplate.update(sql,params);
         return 0;
@@ -170,6 +173,37 @@ public class UserDAOImpl implements UserDAO {
         return (String)innerObj.data;
     }
 
+    @Override
+    public int getUserCount() {
+        InnerObj innerObj = new InnerObj();
+        String sql = "select count(*) from t_user where isDel = ?";
+        jdbcTemplate.query(sql,new String[]{FinalData.NO_DEL},new RowCallbackHandler() {
+            @Override
+            public void processRow(ResultSet resultSet) throws SQLException {
+                innerObj.data = resultSet.getInt(1);
+            }
+        });
+        return (int) innerObj.data;
+    }
+
+    @Override
+    public List<UserEntity> getUserList(String index) {
+        List<UserEntity> entityList = new ArrayList<>();
+        String sql = "select * from t_user where isDel = ?";
+        sql = PageUtils.limit(sql,index);
+        jdbcTemplate.query(sql,new String[]{FinalData.NO_DEL}, new RowCallbackHandler() {
+            @Override
+            public void processRow(ResultSet resultSet) throws SQLException {
+                UserEntity entity = new UserEntity();
+                setValues(entity,resultSet);
+                if(!StringUtils.isEmpty(entity.getId())){
+                    entityList.add(entity);
+                }
+            }
+        });
+        return entityList;
+    }
+
     private void setValues(UserEntity entity, ResultSet resultSet) throws SQLException{
         entity.setId(resultSet.getString("id"));
         entity.setAccount(resultSet.getString("account"));
@@ -187,6 +221,7 @@ public class UserDAOImpl implements UserDAO {
         entity.setCity(resultSet.getString("city"));
         entity.setDistrict(resultSet.getString("district"));
         entity.setLastLoginTime(resultSet.getString("lastLoginTime"));
+        entity.setIsDel(resultSet.getString("isDel"));
     }
 
     static class InnerObj{

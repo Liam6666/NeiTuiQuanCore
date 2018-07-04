@@ -2,9 +2,14 @@ package com.neituiquan.work.base;
 
 public class FinalData {
 
+    /**
+     * 发布版本
+     */
 //    public static final String STATIC_FILE_PATH = "C:/static/";
 
-
+    /**
+     * 测试版本
+     */
     public static final String STATIC_FILE_PATH = "C:/Users/liang02.wang/Downloads/";
 
 

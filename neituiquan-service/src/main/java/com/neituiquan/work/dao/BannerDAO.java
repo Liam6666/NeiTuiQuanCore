@@ -17,4 +17,10 @@ public interface BannerDAO {
 
 
     List<BannerEntity> findAllBanner();
+
+    BannerEntity findBannerById(String id);
+
+    List<BannerEntity> getBannerList(String index);
+
+    int getBannerCount();
 }

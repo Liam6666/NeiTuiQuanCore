@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<link>
+<meta charset="UTF-8">
+<title>用户列表</title>
+<head>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    <link rel="stylesheet" href="../../layui/css/layui.css"/>
+    <script type="text/javascript" src="../../layui/layui.js"></script>
+    <style>
+        html,body{
+            width: 99%;
+            height:100%;
+        }
+        .body_div{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            padding-top: 10px;
+            padding-bottom: 50px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        table{
+            margin-top: 20px;
+            color: #666666;
+            text-align: center;
+        }
+        th,td{
+            height: 40px;
+        }
+        tr{
+            border: 1px solid #E6E6E6;
+        }
+        tr:hover{
+            cursor: pointer;
+            background: #E7E7E7;
+        }
+        .footer_div{
+            box-shadow: 0px -3px 5px #CCCCCC;
+            background: #FFF;
+            width: 100%;
+            height: 50px;
+            bottom: 0px;
+            text-align: center;
+            position: fixed;
+        }
+    </style>
+</head>
+<body>
+
+<div class="body_div">
+
+    <div>
+        <button class="layui-btn layui-btn-disabled" style="width: 100px">
+            <i class="layui-icon">&#xe608;</i> 新增
+        </button>
+        <button class="layui-btn layui-btn-warm" style="width: 100px" onclick="reload()">
+            <i class="layui-icon">&#xe669;</i> 刷新
+        </button>
+    </div>
+
+    <table width="100%" id="table">
+        <tr>
+            <th width="15%">账号</th>
+            <th width="15%">角色名称</th>
+            <th width="15%">昵称</th>
+            <th width="15%">电子邮箱</th>
+            <th width="20%">详细位置</th>
+            <th width="20%">选项</th>
+        </tr>
+        <tr v-for="item in items">
+            <td>
+                <input type="text" required  lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input" v-model="item.account">
+            </td>
+            <td>
+                <input type="text" required  lay-verify="required" placeholder="请输入角色名称" autocomplete="off" class="layui-input" v-model="item.roleName">
+            <td>
+                <input type="text" required  lay-verify="required" placeholder="请输入昵称" autocomplete="off" class="layui-input" v-model="item.nickName">
+            </td>
+            <td>
+                <input type="text" required  lay-verify="required" placeholder="请输入电子邮箱" autocomplete="off" class="layui-input" v-model="item.email">
+            </td>
+            <td>
+                <input type="text" required  lay-verify="required" placeholder="请输入详细位置" autocomplete="off" class="layui-input" v-model="item.accuracy">
+            </td>
+            <td>
+                <div class="layui-btn-group">
+                    <button class="layui-btn layui-btn-primary layui-btn-sm" v-on:click="view(item.id)">
+                        <i class="layui-icon">&#xe60b;</i>
+                    </button>
+                    <button class="layui-btn layui-btn-primary layui-btn-sm" v-on:click="submit(item.id,item)">
+                        <i class="layui-icon">&#xe605;</i>
+                    </button>
+                    <button class="layui-btn layui-btn-primary layui-btn-sm" v-on:click="edit(item.id)">
+                        <i class="layui-icon">&#xe642;</i>
+                    </button>
+                    <button class="layui-btn layui-btn-primary layui-btn-sm" v-on:click="del(item.id)">
+                        <i class="layui-icon">&#xe640;</i>
+                    </button>
+                </div></td>
+        </tr>
+    </table>
+
+    <div class="footer_div">
+        <div id="pager_div"></div>
+    </div>
+</div>
+<script>
+   var layer = null;
+   var laypage = null;
+   var index = 0;
+   var isInit = false;
+
+   layui.use(['laypage', 'layer'], function(){
+       laypage = layui.laypage;
+       layer = layui.layer;
+
+       layer.load(2);
+
+   });
+
+   function initList(vm) {
+       var url = "../../getUserList?index="+index;
+       vm.items = new Array();
+       vm.$http.get(url).then(
+           function (response) {
+
+//                    console.log(response.body);
+               for(var i = 0 ; i < response.body.data.length ; i ++){
+                   var obj = new Object();
+                   obj.id = response.body.data[i].id;
+                   obj.account = response.body.data[i].account;
+                   obj.password = response.body.data[i].password;
+                   obj.roleName = response.body.data[i].roleName;
+                   obj.headImg = response.body.data[i].headImg;
+                   obj.nickName = response.body.data[i].nickName;
+                   obj.motto = response.body.data[i].motto;
+                   obj.sex = response.body.data[i].sex;
+                   obj.email = response.body.data[i].email;
+                   obj.latitude = response.body.data[i].latitude;
+                   obj.longitude = response.body.data[i].longitude;
+                   obj.accuracy = response.body.data[i].accuracy;
+                   obj.province = response.body.data[i].province;
+                   obj.city = response.body.data[i].city;
+                   obj.district = response.body.data[i].district;
+                   obj.lastLoginTime = response.body.data[i].lastLoginTime;
+                   vm.items.push(obj);
+               }
+
+               //不显示首页尾页
+               if(!isInit){
+                   isInit = true;
+                   laypage.render({
+                       elem: 'pager_div',
+                       limit: 15,
+                       count: response.body.dataTotalCount,
+                       first: false,
+                       last: false,
+                       jump:function (obj,first) {
+                           console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                           console.log(obj.limit); //得到每页显示的条数
+                           //首次不执行
+                           if(!first){
+                               //do something
+                               index = obj.curr;
+                               index --;
+                               initList(tableVM);
+                           }
+                       }
+                   });
+               }
+               layer.closeAll('loading');//关闭加载
+           },function (err) {
+               console.log(err);
+           })
+   }
+
+
+   function add() {
+       layer.open({
+           type: 2,
+           area: ['700px', '450px'],
+           fixed: false, //不固定
+           maxmin: true,
+           title:'添加',
+           content: 'add.html?'
+       });
+   }
+
+   function reload() {
+       tableVM.items = new Array();
+       index = 0;
+       isInit = false;
+       initList(tableVM);
+   }
+
+    var tableVM = new Vue({
+        el: '#table',
+        data: {
+            items: []
+        },
+        methods:{
+            view:function (id) {
+                layer.open({
+                    type: 2,
+                    area: ['700px', '450px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    title:'编辑',
+                    content: 'view.html?id='+id
+                });
+            },
+            submit:function (id,item) {
+                var url = "../../updateUser";
+                var params = item;
+                this.$http.post(url,params).then(
+                    function (response) {
+                        initList(this);
+                    },function (err) {
+                        layer.alert("错误，请联系管理员");
+                    }
+                );
+            },
+            edit:function (id) {
+               layer.open({
+                    type: 2,
+                    area: ['700px', '450px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    title:'编辑',
+                    content: 'edit.html?id='+id
+                });
+            },
+            del:function (id) {
+                var url = "../../delUser?id="+id;
+                this.$http.get(url).then(
+                    function (response) {
+                        console.log(response);
+                        initList(this);
+                    },function (err) {
+                        layer.alert("错误，请联系管理员");
+                    }
+                );
+            },
+        },
+        mounted:function () {
+            initList(this);
+        },
+
+    })
+
+
+</script>
+</body>
+</html>

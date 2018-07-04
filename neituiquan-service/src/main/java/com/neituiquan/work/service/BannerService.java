@@ -44,5 +44,17 @@ public class BannerService {
         return absEntity;
     }
 
+    public AbsEntity findBannerById(String id){
+        AbsEntity absEntity = new AbsEntity();
+        absEntity.data = bannerDAO.findBannerById(id);
+        return absEntity;
+    }
 
+    public AbsEntity getBannerList(String index){
+        List<BannerEntity> entityList = bannerDAO.getBannerList(index);
+        AbsEntity absEntity = new AbsEntity();
+        absEntity.dataTotalCount = bannerDAO.getBannerCount();
+        absEntity.data = entityList;
+        return absEntity;
+    }
 }

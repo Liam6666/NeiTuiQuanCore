@@ -3,23 +3,110 @@
 <link>
 <meta charset="UTF-8">
 <title>内推圈-后台</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="format-detection" content="telephone=no">
 <meta name="renderer" content="webkit">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
-<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="../layui/css/layui.css"/>
+<script type="text/javascript" src="../layui/layui.js"></script>
 </head>
 <style>
-    html,body{
-        margin: 0;
+    html,body,.body_div{
+        width: 100%;
+        height: 99.8%;
+        min-width: 1000px;
         padding: 0;
+        margin: 0;
+    }
+    .body_div{
+        display: flex;
+        flex-direction: column;
+    }
+    .header_div{
+        height: 60px;
+        width: 100%;
+    }
+    .content_div{
+        width: 100%;
+        display: flex;
+        height: 100%;
+        flex-direction: row;
+    }
+    .left_slide_div{
+        width: 200px;
+        height: 100%;
+        background-color: #393D49;
+    }
+    .frame_div{
+        width: 100%;
+        height: 100%;
+    }
+    a:hover{
+        cursor: pointer;
     }
 </style>
 <body>
+<div class="body_div">
+    <div class="header_div">
+        <ul class="layui-nav">
+            <li class="layui-nav-item"><a href="">内推圈</a></li>
+            <li class="layui-nav-item layui-this">
+                <a href="javascript:;">用户</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">个人资料</a></dd>
+                    <dd><a href="">修改密码</a></dd>
+                    <dd><a href="">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <div class="content_div">
+        <div class="left_slide_div">
+            <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="demo" style="margin-right: 10px;">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">控制台</a>
+                    <dl class="layui-nav-child">
+                        <dd><a onclick="menuSelector('banner/banner.html')">广告轮播</a></dd>
+                        <dd><a href="javascript:;">系统通知</a></dd>
+                        <dd><a href="javascript:;">APP版本</a></dd>
+                        <dd><a href="javascript:;">用户反馈</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">后台管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">用户评论</a></dd>
+                        <dd><a onclick="menuSelector('user/user.html')">用户信息</a></dd>
+                        <dd><a href="">职位列表</a></dd>
+                        <dd><a href="">公司列表</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">发现页管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">发现页列表</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+        <div class="frame_div">
+            <iframe id="frame" frameborder="0" scrolling="yes" width="100%" height="100%"></iframe>
+        </div>
+    </div>
+</div>
 
+<script>
+    layui.use('element', function(){
+        var laypage = layui.laypage;
+        var layer = layui.layer;
+        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+
+    });
+    function menuSelector(url) {
+        document.getElementById("frame").src = url;
+    }
+</script>
 </body>
 </html>

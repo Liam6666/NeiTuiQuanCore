@@ -2,6 +2,8 @@ package com.neituiquan.work.dao;
 
 import com.neituiquan.work.entity.UserEntity;
 
+import java.util.List;
+
 public interface UserDAO {
 
     boolean delUser(String id);
@@ -35,4 +37,8 @@ public interface UserDAO {
      * @return companyId
      */
     String bindResumeState(String id);
+
+    int getUserCount();
+
+    List<UserEntity> getUserList(String index);
 }

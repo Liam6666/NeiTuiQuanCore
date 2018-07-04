@@ -32,4 +32,17 @@ public class BannerController {
     public AbsEntity getAllBanner(){
         return service.findAllBanner();
     }
+
+
+    @RequestMapping(method = RequestMethod.GET,path = "/findBannerById")
+    public AbsEntity findBannerById(@RequestParam String id){
+        return service.findBannerById(id);
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET,path = "/getBannerList")
+    public AbsEntity getBannerList(@RequestParam String index){
+        return service.getBannerList(index);
+    }
+
 }
