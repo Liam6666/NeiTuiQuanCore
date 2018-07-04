@@ -14,6 +14,8 @@ import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.work.R;
 
+import java.util.List;
+
 /**
  * Created by Augustine on 2018/6/19.
  * <p>
@@ -44,9 +46,6 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         initStatusBar();
         if(savedInstanceState != null){
             removeAllFragment();
-        }
-        if(!PermissionUtils.isGranted(FinalData.PERMISSIONS)){
-            PermissionUtils.permission(FinalData.PERMISSIONS).request();
         }
         initFragments();
         accountUI_cancelTv.setVisibility(View.GONE);

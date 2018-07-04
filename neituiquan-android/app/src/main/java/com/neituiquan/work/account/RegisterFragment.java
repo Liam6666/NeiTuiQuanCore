@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.blankj.utilcode.constant.RegexConstants;
+import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.PhoneUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -31,6 +32,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Augustine on 2018/6/19.
@@ -113,8 +115,22 @@ public class RegisterFragment extends BaseFragment implements View.OnFocusChange
         bindViews();
         initFocus();
         ((AccountActivity)getContext()).getLoadingDialog().show();
+
         positionUtils = new PositionUtils();
-        positionUtils.initGaoDeLocation(getContext(),locationListener);
+        if(!PermissionUtils.isGranted(FinalData.PERMISSIONS)){
+            PermissionUtils.permission(FinalData.PERMISSIONS).callback(new PermissionUtils.SimpleCallback() {
+                @Override
+                public void onGranted() {
+                    positionUtils.initGaoDeLocation(getContext(),locationListener);
+                }
+
+                @Override
+                public void onDenied() {
+                    ((AccountActivity)getContext()).getLoadingDialog().dismiss();
+                    ToastUtils.showShort("拒绝使用位置信息，将会影响您的正常使用");
+                }
+            }).request();
+        }
     }
 
 
