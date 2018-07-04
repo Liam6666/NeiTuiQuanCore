@@ -103,12 +103,12 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
 
     private static final int SELECTOR_CITY_RESULT_CODE = 333;
 
-    private AMapLocationListener locationListener = new AMapLocationListener() {
+    private PositionUtils.PositionCallBack locationListener = new PositionUtils.PositionCallBack() {
         @Override
-        public void onLocationChanged(AMapLocation aMapLocation) {
+        public void mapLocation(PositionUtils.LocationEntity locationEntity) {
             ((EditResumeActivity)getContext()).getLoadingDialog().dismiss();
-            if(aMapLocation.getErrorCode() == 0){
-                baseInfoFG_locationTv.setText(aMapLocation.getCity());
+            if(locationEntity.getErrorCode().equals("0")){
+                baseInfoFG_locationTv.setText(locationEntity.getCity());
             }else{
                 baseInfoFG_locationTv.setText("未知位置");
                 ToastUtils.showShort("定位失败，请手动选择");
@@ -325,13 +325,9 @@ public class BaseInfoFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onDetach() {
         super.onDetach();
-        positionUtils.getLocationClient().stopLocation();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        positionUtils.getLocationClient().onDestroy();
+        if(positionUtils.getLocationClient() != null){
+            positionUtils.getLocationClient().stopLocation();
+        }
     }
 
     private void bindViews() {

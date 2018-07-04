@@ -91,16 +91,15 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
 
     private static final int SELECTOR_CITY_RESULT_CODE = 333;
 
-    private AMapLocationListener locationListener = new AMapLocationListener() {
-
+    private PositionUtils.PositionCallBack locationListener = new PositionUtils.PositionCallBack() {
         @Override
-        public void onLocationChanged(AMapLocation aMapLocation) {
+        public void mapLocation(PositionUtils.LocationEntity locationEntity) {
             ((BindCompanyActivity)getContext()).getLoadingDialog().dismiss();
             //定位成功
-            if(aMapLocation.getErrorCode() == 0){
-                bindCompanyFG_provinceTv.setText(aMapLocation.getProvince());
-                bindCompanyFG_cityTv.setText(aMapLocation.getCity());
-                bindCompanyFG_addressTv.setText(aMapLocation.getAddress());
+            if(locationEntity.getErrorCode().equals("0")){
+                bindCompanyFG_provinceTv.setText(locationEntity.getProvince());
+                bindCompanyFG_cityTv.setText(locationEntity.getCity());
+                bindCompanyFG_addressTv.setText(locationEntity.getAddress());
             }
         }
     };
@@ -282,13 +281,9 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onDetach() {
         super.onDetach();
-        positionUtils.getLocationClient().stopLocation();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        positionUtils.getLocationClient().onDestroy();
+        if(positionUtils.getLocationClient() != null){
+            positionUtils.getLocationClient().stopLocation();
+        }
     }
 
 

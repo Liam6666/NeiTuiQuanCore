@@ -83,7 +83,7 @@ public class JobsAdapter extends RecyclerView.Adapter<JobsAdapter.ItemViewHolder
             }
             holder.id_labels.setText(entity.getCity() +"  "+ entity.getEducation() + "  "+ entity.getWorkAge());
             holder.item_companyNameTv.setText(entity.getCompanyName());
-            String time = Millis2Date.millis2Date(entity.getCreateTime());
+            String time = Millis2Date.simpleMillis2Date(entity.getCreateTime());
             holder.item_timeTv.setText(time);
         }
     }

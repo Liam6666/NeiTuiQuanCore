@@ -31,6 +31,8 @@ public class FinalData {
 
     public static final long TIME_OUT = 30 * 1000;
 
+    public static final long LOCATION_TIME_OUT = 24 * 60 * 60 * 1000;
+
     public static final String[] PERMISSIONS = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,

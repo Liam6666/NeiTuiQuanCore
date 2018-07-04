@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.neituiquan.entity.JobListEntity;
 import com.neituiquan.entity.JobsEntity;
 import com.neituiquan.utils.Millis2Date;
 import com.neituiquan.work.R;
@@ -16,9 +15,6 @@ import com.neituiquan.work.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -87,7 +83,7 @@ public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.
         holder.item_titleTv.setText(entity.getTitle());
         holder.item_salaryTv.setText(entity.getMinSalary() +"K—" + entity.getMaxSalary()+"K");
         holder.item_absTv.setText(entity.getEducation() + " " + entity.getCity() +" "+ entity.getWorkAge() );
-        String time = Millis2Date.millis2Date(entity.getCreateTime());
+        String time = Millis2Date.simpleMillis2Date(entity.getCreateTime());
         holder.item_timeTv.setText(time);
         holder.item_labelsLayout.removeAllViews();
         try {

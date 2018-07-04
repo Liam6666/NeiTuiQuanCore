@@ -109,25 +109,12 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
 
     private static final int SELECTOR_CITY_RESULT_CODE = 333;
 
-    private AMapLocationListener locationListener = new AMapLocationListener() {
-
+    private PositionUtils.PositionCallBack locationListener = new PositionUtils.PositionCallBack() {
         @Override
-        public void onLocationChanged(AMapLocation aMapLocation) {
-            if(FinalData.DEBUG){
-                Log.e(LOCATION_TAG, aMapLocation.getErrorCode()+"");
-                Log.e(LOCATION_TAG, aMapLocation.getErrorInfo());
-                Log.e(LOCATION_TAG, aMapLocation.getLatitude()+"");
-                Log.e(LOCATION_TAG, aMapLocation.getLongitude()+"");
-                Log.e(LOCATION_TAG, aMapLocation.getAddress());
-                Log.e(LOCATION_TAG, aMapLocation.getCountry());
-                Log.e(LOCATION_TAG, aMapLocation.getProvince());
-                Log.e(LOCATION_TAG, aMapLocation.getCity());
-                Log.e(LOCATION_TAG, aMapLocation.getDistrict());
-                Log.e(LOCATION_TAG, aMapLocation.getStreet());
-            }
+        public void mapLocation(PositionUtils.LocationEntity locationEntity) {
             //定位成功
-            if(aMapLocation.getErrorCode() == 0){
-                currentCity = aMapLocation.getCity();
+            if(locationEntity.getErrorCode().equals("0")){
+                currentCity = locationEntity.getCity();
                 currentTitle = "";
             }else{
                 currentCity = "北京市";
@@ -344,14 +331,11 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
     @Override
     public void onDetach() {
         super.onDetach();
-        positionUtils.getLocationClient().stopLocation();
+        if(positionUtils.getLocationClient() != null){
+            positionUtils.getLocationClient().stopLocation();
+        }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        positionUtils.getLocationClient().onDestroy();
-    }
 
     private void bindViews() {
         homeFG_refreshLayout = findViewById(R.id.homeFG_refreshLayout);

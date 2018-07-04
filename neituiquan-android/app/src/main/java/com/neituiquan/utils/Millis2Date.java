@@ -13,7 +13,7 @@ import java.util.Date;
 public class Millis2Date {
 
 
-    public static String millis2Date(String millis){
+    public static String simpleMillis2Date(String millis){
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(Long.parseLong(millis));
         Date date = c.getTime();
@@ -22,6 +22,14 @@ public class Millis2Date {
         if(Integer.valueOf(dateStr.substring(0,4)) == c.get(Calendar.YEAR)){
             dateFormat =  new SimpleDateFormat("MM月dd日");
         }
+        return dateFormat.format(date);
+    }
+
+    public static String millis2Date(String millis){
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(Long.parseLong(millis));
+        Date date = c.getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
         return dateFormat.format(date);
     }
 

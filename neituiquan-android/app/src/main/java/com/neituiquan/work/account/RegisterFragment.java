@@ -83,19 +83,18 @@ public class RegisterFragment extends BaseFragment implements View.OnFocusChange
     //城区信息
     private  String district = "";
 
-    private AMapLocationListener locationListener = new AMapLocationListener() {
-
+    private PositionUtils.PositionCallBack locationListener = new PositionUtils.PositionCallBack() {
         @Override
-        public void onLocationChanged(AMapLocation aMapLocation) {
+        public void mapLocation(PositionUtils.LocationEntity locationEntity) {
             ((AccountActivity)getContext()).getLoadingDialog().dismiss();
             //定位成功
-            if(aMapLocation.getErrorCode() == 0){
-                latitude = String.valueOf(aMapLocation.getLatitude());
-                longitude = String.valueOf(aMapLocation.getLongitude());
-                accuracy = aMapLocation.getAddress();
-                province = aMapLocation.getProvince();
-                city = aMapLocation.getCity();
-                district = aMapLocation.getDistrict();
+            if(locationEntity.getErrorCode().equals("0")){
+                latitude = String.valueOf(locationEntity.getLatitude());
+                longitude = String.valueOf(locationEntity.getLongitude());
+                accuracy = locationEntity.getAddress();
+                province = locationEntity.getProvince();
+                city = locationEntity.getCity();
+                district = locationEntity.getDistrict();
             }
         }
     };
@@ -180,14 +179,11 @@ public class RegisterFragment extends BaseFragment implements View.OnFocusChange
     @Override
     public void onDetach() {
         super.onDetach();
-        positionUtils.getLocationClient().stopLocation();
+        if(positionUtils.getLocationClient() != null){
+            positionUtils.getLocationClient().stopLocation();
+        }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        positionUtils.getLocationClient().onDestroy();
-    }
 
     private void initFocus(){
         focusColor = ContextCompat.getColor(getContext(),R.color.themeColor);
