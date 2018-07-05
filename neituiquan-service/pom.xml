@@ -53,10 +53,16 @@
 			<artifactId>0opslab-utils</artifactId>
 			<version>1.0.6</version>
 		</dependency>
-		<!-- 支持发送邮件 -->
+		<!-- spring mail需要的jar包 -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>4.2.6.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
 		</dependency>
 
 	</dependencies>
