@@ -58,5 +58,9 @@ public class FinalData {
             Manifest.permission.VIBRATE
     };
 
+    public static final String[] CAMERA_PERMISSIONS = new String[]{
+            Manifest.permission.CAMERA
+    };
+
 
 }

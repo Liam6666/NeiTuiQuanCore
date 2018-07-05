@@ -48,4 +48,7 @@ dependencies {
     implementation files('libs/AMap_Location_V4.0.1_20180426.jar')
     compile 'com.weigan:loopView:0.1.2'
     compile 'com.github.zcweng:switch-button:0.0.3@aar'
+    compile 'com.just.agentweb:agentweb:4.0.2'
+    compile 'com.just.agentweb:download:4.0.2'
+    compile 'com.just.agentweb:filechooser:4.0.2'
 }
