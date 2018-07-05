@@ -1,17 +1,26 @@
 package com.neituiquan.work;
 
 
-import com.neituiquan.work.utils.PageUtils;
-import com.neituiquan.work.utils.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 public class Test {
 
     public static void main(String[] args) {
-        System.out.println(StringUtils.getCurrentTimeMillis());
+
+    }
+    public static String getCode(){
+        int[] code = new int[6];
+        Random random = new Random();
+        StringBuffer resultCode = new StringBuffer();
+        for(int i = 0 ; i < code.length ; i ++){
+            code[i] = random.nextInt(9);
+            resultCode.append(code[i]);
+        }
+        return resultCode.toString();
     }
 
     public static String millis2Date(String millis){

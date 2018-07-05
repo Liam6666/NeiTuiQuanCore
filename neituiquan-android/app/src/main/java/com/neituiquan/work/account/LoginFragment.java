@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseFragment;
+import com.neituiquan.entity.UserEntity;
 import com.neituiquan.gson.UserModel;
 import com.neituiquan.httpEvent.LoginEventModel;
 import com.neituiquan.net.HttpFactory;
@@ -127,10 +128,10 @@ public class LoginFragment extends BaseFragment implements View.OnFocusChangeLis
         }
 
         ((AccountActivity)getContext()).getLoadingDialog().show();
-        HashMap<String,String> params = new HashMap<>();
-        params.put("account",account);
-        params.put("password",password);
-        HttpFactory.getHttpUtils().post(params, FinalData.BASE_URL + "/login",new LoginEventModel());
+        UserEntity userEntity = new UserEntity();
+        userEntity.setAccount(account);
+        userEntity.setPassword(password);
+        HttpFactory.getHttpUtils().post(new Gson().toJson(userEntity), FinalData.BASE_URL + "/login",new LoginEventModel());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -3,10 +3,10 @@ package com.neituiquan.work;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.SyncStateContract;
+import android.util.Log;
 
-import com.blankj.utilcode.util.PermissionUtils;
 import com.neituiquan.App;
-import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.work.account.AccountActivity;
 

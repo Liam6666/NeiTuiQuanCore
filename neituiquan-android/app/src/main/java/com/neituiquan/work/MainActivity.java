@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.neituiquan.FinalData;
@@ -50,6 +52,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void initList(Bundle savedInstanceState) {
         bindViews();
         if(savedInstanceState != null){
+            Log.e("MainActivity","removeAllFragment");
             removeAllFragment();
         }
         initStatusBar();
@@ -76,6 +79,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 showHindFragment(4);
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        ActivityUtils.startHomeActivity();
     }
 
     private void initFragments(){

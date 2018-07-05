@@ -30,12 +30,12 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST,path = "/register")
-    public AbsEntity register(UserEntity entity){
+    public AbsEntity register(@RequestBody UserEntity entity){
         return service.register(entity);
     }
 
     @RequestMapping(method = RequestMethod.POST,path = "/login")
-    public AbsEntity login(UserEntity entity){
+    public AbsEntity login(@RequestBody UserEntity entity){
         return service.login(entity);
     }
 
@@ -110,7 +110,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET,value = "/findUserById")
-    public AbsEntity findUserById(String id){
+    public AbsEntity findUserById(@RequestParam String id){
         return service.findUserById(id);
     }
 }

@@ -12,9 +12,10 @@
         android:theme="@style/AppTheme">
 
         <service android:name="com.amap.api.location.APSService"></service>
+        <service android:name="com.neituiquan.service.AppService" />
 
         <activity android:name=".LauncherActivity"
-            android:launchMode="singleTask">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,28 +23,27 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"
-            android:launchMode="singleTask">
-        </activity>
+            android:launchMode="singleTask"/>
         <activity android:name=".account.AccountActivity"
-            android:launchMode="singleTask"/>
+            />
         <activity android:name=".resume.ResumeActivity"
-            android:launchMode="singleTask"/>
+            />
         <activity android:name=".resume.EditResumeActivity"
-            android:launchMode="singleTask"/>
+            />
         <activity android:name=".account.SwitcherRoleActivity"
-            android:launchMode="singleTask"/>
+            />
         <activity android:name=".SettingsActivity"
-            android:launchMode="singleTask"/>
+            />
         <activity android:name=".account.HeadImgActivity"
-            android:launchMode="singleTask"/>
+            />
         <activity android:name=".company.BindCompanyActivity"
-            android:launchMode="singleTask"/>
+            />
         <activity android:name=".jobs.ReleaseJobsActivity"
-            android:launchMode="singleTask"/>
+            />
         <activity android:name=".jobs.ReleaseJobListActivity"
-            android:launchMode="singleTask"/>
+            />
         <activity android:name=".CitySelectorActivity"
-            android:launchMode="singleTask"/>
+            />
         <activity android:name=".company.CompanyDetailsActivity" />
         <activity android:name=".account.IntentionActivity" />
 
@@ -51,6 +51,7 @@
         <meta-data android:name="com.amap.api.v2.apikey"
             android:value="de807fabe463ea4be0a5b02706d47e7e">
         </meta-data>
+
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>

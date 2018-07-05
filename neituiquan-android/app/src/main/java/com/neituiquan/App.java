@@ -2,7 +2,6 @@ package com.neituiquan;
 
 import android.app.Application;
 
-import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.Utils;
 import com.neituiquan.utils.UserInfoUtils;
 
@@ -27,6 +26,8 @@ public class App extends Application {
         BGASwipeBackHelper.init(this,null);
         APP_INSTANCE = this;
         userInfoUtils = new UserInfoUtils(this);
+//        startService(new Intent(getApplicationContext(), AppService.class));
+
     }
 
     public UserInfoUtils getUserInfoUtils() {

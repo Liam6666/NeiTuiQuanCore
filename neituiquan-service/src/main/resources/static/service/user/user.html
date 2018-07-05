@@ -75,18 +75,18 @@
         </tr>
         <tr v-for="item in items">
             <td>
-                <input type="text" required  lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input" v-model="item.account">
+                <input type="text" lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input" v-model="item.account">
             </td>
             <td>
-                <input type="text" required  lay-verify="required" placeholder="请输入角色名称" autocomplete="off" class="layui-input" v-model="item.roleName">
+                <input type="text" lay-verify="required" placeholder="请输入角色名称" autocomplete="off" class="layui-input" v-model="item.roleName">
             <td>
-                <input type="text" required  lay-verify="required" placeholder="请输入昵称" autocomplete="off" class="layui-input" v-model="item.nickName">
+                <input type="text" lay-verify="required" placeholder="请输入昵称" autocomplete="off" class="layui-input" v-model="item.nickName">
             </td>
             <td>
-                <input type="text" required  lay-verify="required" placeholder="请输入电子邮箱" autocomplete="off" class="layui-input" v-model="item.email">
+                <input type="text" lay-verify="required" placeholder="请输入电子邮箱" autocomplete="off" class="layui-input" v-model="item.email">
             </td>
             <td>
-                <input type="text" required  lay-verify="required" placeholder="请输入详细位置" autocomplete="off" class="layui-input" v-model="item.accuracy">
+                <input type="text" disabled lay-verify="required" placeholder="请输入详细位置" autocomplete="off" class="layui-input" v-model="item.accuracy">
             </td>
             <td>
                 <div class="layui-btn-group">

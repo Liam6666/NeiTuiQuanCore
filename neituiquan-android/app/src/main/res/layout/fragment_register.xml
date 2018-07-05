@@ -4,7 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <TextView
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
@@ -37,6 +36,26 @@
         android:layout_height="1sp"
         android:background="@color/themeColor"/>
 
+    <EditText
+        android:id="@+id/registerFG_emailEdit"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolBarHeight"
+        android:hint="输入邮箱地址"
+        android:background="@null"
+        android:textColorHint="@color/TextColor"
+        android:textColor="@color/highTextColor"
+        android:textSize="@dimen/centerText"
+        android:singleLine="true"
+        android:inputType="textEmailAddress"/>
+    <View
+        android:id="@+id/registerFG_emailBottomView"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/lineColor"/>
 
     <LinearLayout
         android:layout_marginTop="10dp"
