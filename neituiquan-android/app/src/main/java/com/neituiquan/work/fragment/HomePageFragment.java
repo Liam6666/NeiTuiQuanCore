@@ -78,6 +78,8 @@ public class HomePageFragment extends BaseFragment implements OnRefreshListener,
 
     private static final int SELECTOR_CITY_RESULT_CODE = 333;
 
+    private TextView locationTv;
+
 
     private PositionUtils.PositionCallBack positionCallBack = new PositionUtils.PositionCallBack() {
         @Override
@@ -137,7 +139,6 @@ public class HomePageFragment extends BaseFragment implements OnRefreshListener,
         dialog.show((int)itemView.getY());
     }
 
-    private TextView locationTv;
 
     @Override
     public void onLocationClick(TextView locationTv) {
