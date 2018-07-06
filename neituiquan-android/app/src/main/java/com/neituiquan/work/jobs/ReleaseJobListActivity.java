@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
@@ -17,7 +16,7 @@ import com.neituiquan.adapter.ReleaseJobsAdapter;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.dialog.MenuDialog;
 import com.neituiquan.entity.JobsEntity;
-import com.neituiquan.gson.JobsListModel;
+import com.neituiquan.gson.ReleaseJobListModel;
 import com.neituiquan.httpEvent.ReleaseJobListEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.work.R;
@@ -87,14 +86,14 @@ public class ReleaseJobListActivity extends BaseActivity implements View.OnClick
         switch (eventModel.eventId){
             case INIT:
                 if(eventModel.isSuccess){
-                    JobsListModel jobsListModel = new Gson().fromJson(eventModel.resultStr,JobsListModel.class);
+                    ReleaseJobListModel releaseJobListModel = new Gson().fromJson(eventModel.resultStr,ReleaseJobListModel.class);
                     if(releaseJobsAdapter == null){
                         //初始化
-                        releaseJobsAdapter = new ReleaseJobsAdapter(this,jobsListModel.data);
+                        releaseJobsAdapter = new ReleaseJobsAdapter(this, releaseJobListModel.data);
                         releaseJobUI_listView.setAdapter(releaseJobsAdapter);
                         releaseJobsAdapter.setCallBack(itemClickCallBack);
                     }else{
-                        releaseJobsAdapter.refresh(jobsListModel.data);
+                        releaseJobsAdapter.refresh(releaseJobListModel.data);
                     }
                 }
                 break;

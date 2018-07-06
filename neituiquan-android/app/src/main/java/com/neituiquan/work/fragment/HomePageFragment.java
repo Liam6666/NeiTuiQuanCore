@@ -1,61 +1,39 @@
 package com.neituiquan.work.fragment;
 
-import android.animation.ArgbEvaluator;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationListener;
-import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.bumptech.glide.Glide;
-import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
 import com.neituiquan.FinalData;
-import com.neituiquan.adapter.BasePageAdapter;
-import com.neituiquan.adapter.JobsAdapter;
+import com.neituiquan.adapter.HomePageAdapter;
 import com.neituiquan.base.BaseFragment;
-import com.neituiquan.entity.BannerEntity;
-import com.neituiquan.gson.BannerModel;
-import com.neituiquan.gson.JobsModel;
-import com.neituiquan.httpEvent.BannerEventModel;
+import com.neituiquan.dialog.HomePageMoreDialog;
+import com.neituiquan.entity.JobListEntity;
+import com.neituiquan.gson.HomePageJobListModel;
 import com.neituiquan.httpEvent.GetJobListEventModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.popwindow.HomePageMorePop;
 import com.neituiquan.utils.PositionUtils;
-import com.neituiquan.view.AppBarStateChangeListener;
 import com.neituiquan.view.AutoLoadRecyclerView;
+import com.neituiquan.view.HomePageHeaderView;
 import com.neituiquan.work.CitySelectorActivity;
 import com.neituiquan.work.MainActivity;
 import com.neituiquan.work.R;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.Transformer;
-import com.youth.banner.loader.ImageLoader;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Augustine on 2018/6/15.
@@ -63,9 +41,7 @@ import java.util.List;
  * email:nice_ohoh@163.com
  */
 
-public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerView.OnLoadMoreCallBack, OnRefreshListener, View.OnClickListener {
-
-    public static final String LOCATION_TAG = "GaoDeMap";
+public class HomePageFragment extends BaseFragment implements OnRefreshListener, AutoLoadRecyclerView.OnLoadMoreCallBack, HomePageAdapter.HomePageAdapterCallBack {
 
     public static HomePageFragment newInstance() {
 
@@ -76,58 +52,42 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
         return fragment;
     }
 
-    private SmartRefreshLayout homeFG_refreshLayout;
-    private Banner homeFG_banner;
-    private SlidingTabLayout homeFG_tabLayout;
-    private ViewPager homeFG_viewPager;
-    private View homeFG_statusView;
-    private AppBarLayout homeFG_appBarLayout;
-    private Toolbar homeFG_toolbar;
-    private CollapsingToolbarLayout homeFG_collapsingLayout;
-    private LinearLayout homeFG_searchLayout;
-    private TextView homeFG_locationTv;
-
-    private BasePageAdapter basePageAdapter;
-
-    private int index;
-
-    private String currentCity;
-
-    private String currentTitle;
-
-    private static final int INIT_JOBS = 0;
-
-    private static final int LOAD_MORE = 1;
-
-    private AutoLoadRecyclerView homeFG_recyclerView;
-
-    private JobsAdapter jobsAdapter;
+    private SmartRefreshLayout homePageUI_refreshLayout;
+    private AutoLoadRecyclerView homePageUI_recyclerView;
 
     private PositionUtils positionUtils;
+
+    private String city;
+
+    private String title;
+
+    private int pageIndex;
+
+    private static final int INIT_LIST = 8573;
+
+    private static final int REFRESH = 3842;
+
+    private static final int LOAD_MORE = 39846;
+
+    private HomePageAdapter homePageAdapter;
+
+    private LinearLayoutManager linearLayoutManager;
+
 
     private static final int START_TO_SELECTOR_CITY = 323;
 
     private static final int SELECTOR_CITY_RESULT_CODE = 333;
 
-    private PositionUtils.PositionCallBack locationListener = new PositionUtils.PositionCallBack() {
+
+    private PositionUtils.PositionCallBack positionCallBack = new PositionUtils.PositionCallBack() {
         @Override
         public void mapLocation(PositionUtils.LocationEntity locationEntity) {
-            //定位成功
-            if(locationEntity.getErrorCode().equals("0")){
-                currentCity = locationEntity.getCity();
-                currentTitle = "";
-            }else{
-                currentCity = "北京市";
-                currentTitle = "";
-            }
-            homeFG_locationTv.setText(currentCity);
-            String url = FinalData.BASE_URL +
-                    "/getJobsList?city="+currentCity+"&title="+currentTitle+"&index="+index;
-            loadJobsList(url);
+            city = locationEntity.getCity();
+            title = "";
+            pageIndex = 0;
+            initValues();
         }
     };
-
-
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -137,126 +97,111 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
     @Override
     public void initList(Bundle savedInstanceState) {
         bindViews();
-        initStatusBar();
-        initViewPager();
-        changedSearchView();
-        loadBanner();
         positionUtils = new PositionUtils();
-        positionUtils.initGaoDeLocation(getContext(),locationListener);
-        homeFG_refreshLayout.setOnRefreshListener(this);
+        positionUtils.initGaoDeLocation(getContext(),positionCallBack);
     }
-
-    private void loadBanner(){
-        String url = FinalData.BASE_URL + "/getAllBanner";
-        HttpFactory.getHttpUtils().get(url, new BannerEventModel());
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void bannerResponse(BannerEventModel eventModel) {
-        if (eventModel.isSuccess) {
-            List<String> imgList = new ArrayList<>();
-            BannerModel bannerModel = new Gson().fromJson(eventModel.resultStr, BannerModel.class);
-            for (BannerEntity entity : bannerModel.data) {
-                imgList.add(entity.getImgUrl());
-            }
-            initBanner(imgList);
-        }
-    }
-
-    private void initBanner(List<String> imgList) {
-        //设置banner样式
-        homeFG_banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-        //设置图片加载器
-        homeFG_banner.setImageLoader(new GlideImageLoader());
-        //设置图片集合
-        homeFG_banner.setImages(imgList);
-        //设置banner动画效果
-        homeFG_banner.setBannerAnimation(Transformer.Accordion);
-        //设置自动轮播，默认为true
-        homeFG_banner.isAutoPlay(true);
-        //设置轮播时间
-        homeFG_banner.setDelayTime(1500);
-        //设置指示器位置（当banner模式中有指示器时）
-        homeFG_banner.setIndicatorGravity(BannerConfig.CENTER);
-        //banner设置方法全部调用完毕时最后调用
-        homeFG_banner.start();
-    }
-
-    private void initViewPager() {
-        List<View> viewList = new ArrayList<>();
-        viewList.add(View.inflate(getContext(), R.layout.item_home_page, null));
-        String[] tabs = new String[]{
-                "职位列表"
-        };
-        basePageAdapter = new BasePageAdapter(getContext(), viewList);
-        homeFG_viewPager.setAdapter(basePageAdapter);
-        homeFG_viewPager.setOffscreenPageLimit(viewList.size());
-        homeFG_tabLayout.setViewPager(homeFG_viewPager,tabs);
-        homeFG_recyclerView = viewList.get(0).findViewById(R.id.item_recyclerView);
-    }
-
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        ((MainActivity)getContext()).getLoadingDialog().show();
-        index = 0;
-        homeFG_recyclerView.loadComplete();
-        positionUtils.initGaoDeLocation(getContext(),locationListener);
+        pageIndex = 0;
+        String url = FinalData.BASE_URL + "/getJobsList?city="+city+"&title="+title+"&index="+pageIndex;
+        HttpFactory.getHttpUtils().get(url,new GetJobListEventModel(REFRESH));
+        homePageUI_recyclerView.loadComplete();
     }
 
     @Override
     public void onLoadMore() {
-        index ++;
-        String url = FinalData.BASE_URL +
-                "/getJobsList?city="+currentCity+"&title="+currentTitle+"&index="+index;
+        pageIndex++;
+        String url = FinalData.BASE_URL + "/getJobsList?city="+city+"&title="+title+"&index="+pageIndex;
         HttpFactory.getHttpUtils().get(url,new GetJobListEventModel(LOAD_MORE));
     }
 
-    private void loadJobsList(String url){
-        HttpFactory.getHttpUtils().get(url,new GetJobListEventModel(INIT_JOBS));
+    @Override
+    public void onEmptyClick() {
+        pageIndex = 0;
+        String url = FinalData.BASE_URL + "/getJobsList?city="+city+"&title="+title+"&index="+pageIndex;
+        HttpFactory.getHttpUtils().get(url,new GetJobListEventModel(REFRESH));
+        homePageUI_recyclerView.loadComplete();
+
+    }
+
+    @Override
+    public void onItemClick(JobListEntity entity, int position) {
+
+    }
+
+    @Override
+    public void onItemMoreClick(JobListEntity entity, int position) {
+        HomePageMoreDialog dialog = new HomePageMoreDialog(getContext());
+        View itemView = linearLayoutManager.findViewByPosition(position);
+        dialog.show((int)itemView.getY());
+    }
+
+    private TextView locationTv;
+
+    @Override
+    public void onLocationClick(TextView locationTv) {
+        this.locationTv = locationTv;
+        startActivityForResult(new Intent(getContext(), CitySelectorActivity.class),START_TO_SELECTOR_CITY);
+    }
+
+    private void initValues(){
+
+        String url = FinalData.BASE_URL + "/getJobsList?city="+city+"&title="+title+"&index="+pageIndex;
+        HttpFactory.getHttpUtils().get(url,new GetJobListEventModel(INIT_LIST));
+
+        homePageAdapter = new HomePageAdapter(getContext());
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        homePageUI_recyclerView.setLayoutManager(linearLayoutManager);
+        homePageUI_recyclerView.setAdapter(homePageAdapter);
+        homePageAdapter.setCity(city);
+        homePageAdapter.setCallBack(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getJobsResult(GetJobListEventModel eventModel){
-        ((MainActivity)getContext()).getLoadingDialog().dismiss();
-        if(!eventModel.isSuccess){
-            ToastUtils.showShort(eventModel.errorMsg);
-            homeFG_refreshLayout.finishRefresh();
-            return;
-        }
-        JobsModel jobsModel = new Gson().fromJson(eventModel.resultStr,JobsModel.class);
         switch (eventModel.eventId){
-            case INIT_JOBS:
-                if(jobsAdapter == null){
-                    homeFG_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    homeFG_recyclerView.setOnLoadMoreCallBack(this);
-                    jobsAdapter = new JobsAdapter(getContext(),jobsModel.data);
-                    homeFG_recyclerView.setAdapter(jobsAdapter);
+            case INIT_LIST:
+                if(eventModel.isSuccess){
+                    HomePageJobListModel model = new Gson().fromJson(eventModel.resultStr,HomePageJobListModel.class);
+                    model.data.add(0,new JobListEntity(FinalData.ITEM_BANNER));
+                    if(model.data.size() == 1){
+                        model.data.add(new JobListEntity(FinalData.ITEM_EMPTY));
+                    }
+                    homePageAdapter.addList(model.data);
+                }
+                break;
+            case REFRESH:
+                if(eventModel.isSuccess){
+                    HomePageJobListModel model = new Gson().fromJson(eventModel.resultStr,HomePageJobListModel.class);
+                    model.data.add(0,new JobListEntity(FinalData.ITEM_BANNER));
+                    if(model.data.size() == 1){
+                        model.data.add(new JobListEntity(FinalData.ITEM_EMPTY));
+                    }
+                    homePageAdapter.refresh(model.data);
+                    homePageUI_refreshLayout.finishRefresh(true);
                 }else{
-                    jobsAdapter.refresh(jobsModel.data);
-                    homeFG_refreshLayout.finishRefresh();
+                    homePageUI_refreshLayout.finishRefresh(false);
                 }
                 break;
             case LOAD_MORE:
-                if(jobsModel.dataTotalCount == 0){
-                    //加载完毕
-                    index --;
-                    return;
+                if(eventModel.isSuccess){
+                    HomePageJobListModel model = new Gson().fromJson(eventModel.resultStr,HomePageJobListModel.class);
+                    homePageAdapter.addList(model.data);
+                    if(model.data.size() > FinalData.PAGE_SIZE){
+                        homePageUI_recyclerView.loadComplete();
+                    }else{
+                        //加载完毕
+                    }
                 }
-                jobsAdapter.addNewData(jobsModel.data);
-                homeFG_recyclerView.loadComplete();
                 break;
         }
     }
 
-
-    @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
-            case R.id.homeFG_locationTv:
-                startActivityForResult(new Intent(getContext(), CitySelectorActivity.class),START_TO_SELECTOR_CITY);
-                break;
+
         }
     }
 
@@ -268,97 +213,33 @@ public class HomePageFragment extends BaseFragment implements AutoLoadRecyclerVi
                 if(data != null){
                     String province = data.getStringExtra("province");
                     String city = data.getStringExtra("city");
-                    homeFG_locationTv.setText(city);
-                    currentCity = city;
-                    ((MainActivity)getContext()).getLoadingDialog().show();
-                    index = 0;
-                    homeFG_recyclerView.loadComplete();
-                    String url = FinalData.BASE_URL +
-                            "/getJobsList?city="+currentCity+"&title="+currentTitle+"&index="+index;
-                    loadJobsList(url);
+                    locationTv.setText(city);
+                    HomePageFragment.this.city = city;
+                    pageIndex = 0;
+                    String url = FinalData.BASE_URL + "/getJobsList?city="+city+"&title="+title+"&index="+pageIndex;
+                    HttpFactory.getHttpUtils().get(url,new GetJobListEventModel(REFRESH));
+                    homePageUI_recyclerView.loadComplete();
                 }
             }
         }
 
     }
 
-    private void initStatusBar() {
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                int barHeight = BarUtils.getStatusBarHeight();
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, barHeight);
-                homeFG_statusView.setLayoutParams(params);
-                CollapsingToolbarLayout.LayoutParams appBarParams = (CollapsingToolbarLayout.LayoutParams) homeFG_toolbar.getLayoutParams();
-                appBarParams.height += barHeight;
-                homeFG_toolbar.setLayoutParams(appBarParams);
-            }
-        });
 
-    }
-
-    private void changedSearchView() {
-        final ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-        final int PAGE_COLOR_ONE = ContextCompat.getColor(getContext(),R.color.transparent);
-        final int PAGE_COLOR_TWO = ContextCompat.getColor(getContext(),R.color.themeColor);
-        homeFG_appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
-            @Override
-            public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                if (state == State.EXPANDED) {
-                    //展开状态
-                } else if (state == State.COLLAPSED) {
-                    //折叠状态
-
-                } else {
-                    //中间状态
-                }
-            }
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                super.onOffsetChanged(appBarLayout, verticalOffset);
-//                appBarLayout.getTotalScrollRange()方法获取最大偏移值。
-//                Log.e("verticalOffset",""+verticalOffset);
-//                Log.e("verticalOffset",""+appBarLayout.getTotalScrollRange());
-                float value = (float) Math.abs(verticalOffset) / appBarLayout.getTotalScrollRange();
-//                Log.e("verticalOffset","value:"+value);
-                int color = (int) argbEvaluator.evaluate(value,PAGE_COLOR_ONE ,PAGE_COLOR_TWO);
-                homeFG_searchLayout.setBackgroundColor(color);
-            }
-        });
-    }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        if(positionUtils.getLocationClient() != null){
-            positionUtils.getLocationClient().stopLocation();
-        }
     }
-
 
     private void bindViews() {
-        homeFG_refreshLayout = findViewById(R.id.homeFG_refreshLayout);
-        homeFG_banner = findViewById(R.id.homeFG_banner);
-        homeFG_tabLayout = findViewById(R.id.homeFG_tabLayout);
-        homeFG_viewPager = findViewById(R.id.homeFG_viewPager);
-        homeFG_statusView = findViewById(R.id.homeFG_statusView);
-        homeFG_appBarLayout = findViewById(R.id.homeFG_appBarLayout);
-        homeFG_toolbar = findViewById(R.id.homeFG_toolbar);
-        homeFG_collapsingLayout = findViewById(R.id.homeFG_collapsingLayout);
-        homeFG_searchLayout = findViewById(R.id.homeFG_searchLayout);
-        homeFG_locationTv = findViewById(R.id.homeFG_locationTv);
 
-        homeFG_locationTv.setOnClickListener(this);
+        homePageUI_refreshLayout = findViewById(R.id.homePageUI_refreshLayout);
+        homePageUI_recyclerView = findViewById(R.id.homePageUI_recyclerView);
+
+        homePageUI_refreshLayout.setOnRefreshListener(this);
+        homePageUI_recyclerView.setOnLoadMoreCallBack(this);
     }
 
-
-    class GlideImageLoader extends ImageLoader {
-
-        @Override
-        public void displayImage(Context context, Object path, ImageView imageView) {
-            Glide.with(context).load(path).into(imageView);
-        }
-    }
 
 }

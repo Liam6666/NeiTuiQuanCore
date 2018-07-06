@@ -1,10 +1,12 @@
 package com.neituiquan.entity;
 
+import com.neituiquan.FinalData;
+
 import java.io.Serializable;
 
 public class JobListEntity implements Serializable {
 
-    public int itemType = 0;
+    public int itemType = FinalData.ITEM_DEFAULT;
 
     private String jobsId;
 

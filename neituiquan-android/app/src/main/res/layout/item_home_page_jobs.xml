@@ -5,11 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/lineColor"/>
-
     <LinearLayout
         android:padding="10dp"
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -35,17 +30,18 @@
                 android:textColor="@color/highTextColor"
                 android:gravity="center_vertical"/>
 
-            <TextView
-                android:id="@+id/item_salaryTv"
-                android:textSize="@dimen/bigText"
-                android:gravity="center_vertical|right"
-                android:layout_width="100dp"
+            <ImageView
+                android:id="@+id/view_moreIcon"
+                android:padding="5dp"
+                android:layout_gravity="center"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:textColor="@color/red"/>
+                android:src="@mipmap/down"/>
+
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:orientation="horizontal">
@@ -60,37 +56,39 @@
 
 
             <TextView
-                android:id="@+id/item_timeTv"
                 android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
+                android:id="@+id/item_salaryTv"
+                android:textSize="@dimen/bigText"
+                android:gravity="center_vertical|right"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:textColor="@color/TextColor"
-                android:gravity="center_vertical"
-                android:text=""/>
+                android:textColor="@color/red"/>
+
         </RelativeLayout>
 
 
         <LinearLayout
             android:id="@+id/item_labelsLayout"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:orientation="horizontal">
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:visibility="gone"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:src="@mipmap/mailbox"/>
+            <com.neituiquan.view.CompanyIconView
+                android:layout_gravity="center"
+                android:id="@+id/item_iconView"
+                android:layout_width="35dp"
+                android:layout_height="35dp"/>
 
             <TextView
+                android:layout_weight="1"
                 android:id="@+id/item_companyNameTv"
                 android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
@@ -100,7 +98,20 @@
                 android:textSize="@dimen/centerText"
                 android:text=""/>
 
+            <TextView
+                android:id="@+id/item_timeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/TextColor"
+                android:gravity="center_vertical"
+                android:text=""/>
+
         </LinearLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/lineColor"/>
 </LinearLayout>

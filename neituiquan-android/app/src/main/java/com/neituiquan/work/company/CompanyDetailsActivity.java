@@ -4,11 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,19 +18,16 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
 import com.neituiquan.FinalData;
 import com.neituiquan.adapter.BasePageAdapter;
-import com.neituiquan.adapter.JobsAdapter;
 import com.neituiquan.adapter.ReleaseJobsAdapter;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.entity.CompanyEntity;
 import com.neituiquan.entity.CompanyImgEntity;
 import com.neituiquan.gson.CompanyModel;
-import com.neituiquan.gson.JobsListModel;
-import com.neituiquan.gson.JobsModel;
+import com.neituiquan.gson.ReleaseJobListModel;
 import com.neituiquan.httpEvent.CompanyDetailsEventModel;
 import com.neituiquan.httpEvent.GetJobListEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.work.R;
-import com.neituiquan.work.fragment.HomePageFragment;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -177,7 +172,7 @@ public class CompanyDetailsActivity extends BaseActivity {
         if(eventModel.isSuccess){
             switch (eventModel.eventId){
                 case INIT_JOBS:
-                    JobsListModel model = new Gson().fromJson(eventModel.resultStr,JobsListModel.class);
+                    ReleaseJobListModel model = new Gson().fromJson(eventModel.resultStr,ReleaseJobListModel.class);
                     if(releaseJobsAdapter == null){
                         releaseJobsAdapter = new ReleaseJobsAdapter(this,model.data);
                         itemView2ListView.setAdapter(releaseJobsAdapter);

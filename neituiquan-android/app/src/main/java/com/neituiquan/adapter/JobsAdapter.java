@@ -58,7 +58,7 @@ public class JobsAdapter extends RecyclerView.Adapter<JobsAdapter.ItemViewHolder
                 itemView = LayoutInflater.from(context).inflate(R.layout.item_empty,parent,false);
                 break;
             case DEFAULT:
-                itemView = LayoutInflater.from(context).inflate(R.layout.item_jobs_edit,parent,false);
+                itemView = LayoutInflater.from(context).inflate(R.layout.item_home_page_jobs,parent,false);
                 break;
         }
         return new ItemViewHolder(itemView,viewType);

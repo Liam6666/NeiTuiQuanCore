@@ -63,4 +63,19 @@ public class FinalData {
     };
 
 
+    //----------item type----------
+
+    public static final int ITEM_DEFAULT = 0;
+
+    public static final int ITEM_HEADER = 1;
+
+    public static final int ITEM_FOOTER = 2;
+
+    public static final int ITEM_LOAD = 3;
+
+    public static final int ITEM_EMPTY = 4;
+
+    public static final int ITEM_ERROR = 5;
+
+    public static final int ITEM_BANNER = 6;
 }

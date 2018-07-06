@@ -27,6 +27,8 @@ public class WebActivity extends BaseActivity {
 
     private AgentWeb agentWeb;
 
+    private String linkUrl;
+
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_web);
@@ -36,6 +38,7 @@ public class WebActivity extends BaseActivity {
     public void initList(Bundle savedInstanceState) {
         bindViews();
         initStatusBar();
+        linkUrl = getIntent().getStringExtra("linkUrl");
         agentWeb = AgentWeb.with(this)
                 .setAgentWebParent(webUI_contentLayout, new LinearLayout.LayoutParams(-1,-1))
                 .useDefaultIndicator(ContextCompat.getColor(this,R.color.themeColor), 2)
@@ -45,7 +48,7 @@ public class WebActivity extends BaseActivity {
                 .interceptUnkownUrl()
                 .createAgentWeb()
                 .ready()
-                .go("https://www.baidu.com");
+                .go(linkUrl);
     }
 
 

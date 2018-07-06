@@ -47,28 +47,6 @@
                 android:textSize="@dimen/smallText"/>
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/mainUI_foundLayout"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <ImageView
-                android:id="@+id/mainUI_foundIcon"
-                android:layout_width="35dp"
-                android:layout_height="30dp"
-                android:padding="2dp"
-                android:layout_gravity="center"
-                android:src="@mipmap/form_light"/>
-            <TextView
-                android:id="@+id/mainUI_foundTv"
-                android:textColor="@color/lowTextColor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="发现"
-                android:gravity="center"
-                android:textSize="@dimen/smallText"/>
-        </LinearLayout>
-        <LinearLayout
             android:id="@+id/mainUI_messageLayout"
             android:layout_weight="1"
             android:layout_width="match_parent"
@@ -87,6 +65,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="消息"
+                android:gravity="center"
+                android:textSize="@dimen/smallText"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/mainUI_foundLayout"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/mainUI_foundIcon"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:padding="2dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/form_light"/>
+            <TextView
+                android:id="@+id/mainUI_foundTv"
+                android:textColor="@color/lowTextColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="发现"
                 android:gravity="center"
                 android:textSize="@dimen/smallText"/>
         </LinearLayout>

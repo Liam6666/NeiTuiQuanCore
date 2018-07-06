@@ -1,6 +1,6 @@
 package com.neituiquan.gson;
 
-import com.neituiquan.entity.JobListEntity;
+import com.neituiquan.entity.JobsEntity;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * email:nice_ohoh@163.com
  */
 
-public class JobsModel extends AbsModel {
+public class ReleaseJobListModel extends AbsModel {
 
-    public List<JobListEntity> data;
+    public List<JobsEntity> data;
 }

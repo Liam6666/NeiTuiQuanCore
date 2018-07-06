@@ -1,5 +1,7 @@
 package com.neituiquan.entity;
 
+import com.neituiquan.FinalData;
+
 import java.io.Serializable;
 
 public class JobsEntity implements Serializable{
@@ -11,7 +13,7 @@ public class JobsEntity implements Serializable{
     public JobsEntity() {
     }
 
-    public int itemType = 0;
+    public int itemType = FinalData.ITEM_DEFAULT;
 
     private  String id;
 
