@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="left">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/badge"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"/>
+
+    <FrameLayout
+        android:layout_marginLeft="60dp"
+        android:minHeight="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:text="Nick Name"
+                android:textSize="@dimen/smallText"
+                android:gravity="center_vertical"/>
+
+            <LinearLayout
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/shape_chat_left"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello world"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <ImageView
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="25dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/msg_icon"/>
+
+    </FrameLayout>
+
+</RelativeLayout>

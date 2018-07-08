@@ -9,7 +9,9 @@
     app:srlEnableLoadMore="false"
     app:srlEnableAutoLoadMore="false"
     app:srlPrimaryColor="@color/lineColor"
-    app:srlAccentColor="@color/themeColor">
+    app:srlAccentColor="@color/themeColor"
+    app:srlEnablePreviewInEditMode="true"
+    app:srlEnableOverScrollDrag="true">
     <com.scwang.smartrefresh.layout.header.BezierRadarHeader
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

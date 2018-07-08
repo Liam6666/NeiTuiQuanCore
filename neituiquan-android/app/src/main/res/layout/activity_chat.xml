@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@color/backgroundColor"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:elevation="3dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/backgroundColor"/>
+        <LinearLayout
+            android:background="@color/backgroundColor"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolBarHeight"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="@dimen/toolBarHeight"
+                android:layout_height="match_parent"
+                android:src="@mipmap/back_left"
+                android:padding="15dp"/>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="聊天"
+                android:textSize="@dimen/centerText"
+                android:textColor="@color/highTextColor"
+                android:gravity="center"/>
+            <ImageView
+                android:src="@mipmap/more"
+                android:layout_width="@dimen/toolBarHeight"
+                android:layout_height="match_parent"
+                android:padding="15dp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:layout_weight="1"
+            android:id="@+id/homePageUI_refreshLayout"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="vertical"
+            app:srlEnableLoadMore="false"
+            app:srlEnableAutoLoadMore="false"
+            app:srlPrimaryColor="@color/lineColor"
+            app:srlAccentColor="@color/themeColor"
+            app:srlEnablePreviewInEditMode="true"
+            app:srlEnableOverScrollDrag="true">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </android.support.v7.widget.RecyclerView>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/inputEdit"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/sendBtn"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="发送"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

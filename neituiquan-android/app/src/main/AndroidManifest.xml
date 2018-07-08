@@ -14,7 +14,7 @@
         <service android:name="com.amap.api.location.APSService"></service>
         <service android:name="com.neituiquan.service.AppService" />
 
-        <activity android:name=".LauncherActivity">
+        <activity android:name=".TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
