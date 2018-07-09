@@ -1,4 +1,4 @@
-package com.neituiquan.work.entity;
+package com.neituiquan.entity;
 
 import java.io.Serializable;
 

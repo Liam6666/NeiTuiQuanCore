@@ -27,6 +27,10 @@ public class MsgTaskService {
         entity.setIsRead(FinalData.NO);
         entity.setIsReceive(FinalData.NO);
         taskDAO.addMsgTask(entity);
+        System.out.println(entity.getFromId());
+        System.out.println(entity.getReceiveId());
+        System.out.println(entity.getMsgType());
+        System.out.println(entity.getMsgDetails());
         return new AbsEntity();
     }
 

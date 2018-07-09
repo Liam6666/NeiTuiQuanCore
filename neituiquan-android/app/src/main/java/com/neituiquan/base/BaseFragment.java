@@ -86,6 +86,9 @@ public abstract class BaseFragment extends Fragment {
 //        }
     }
 
+    public boolean isInit() {
+        return isInit;
+    }
 
     @Override
     public void onDestroy() {

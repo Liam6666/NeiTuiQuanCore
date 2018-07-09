@@ -18,19 +18,29 @@ public class AppDataBase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "create table ? (?,?,?,?,?,?,?,?)";
-        String[] params = new String[]{
-                DBConstants.TABLE_NAME,
-                DBConstants.ID,
-                DBConstants.FORM_ID,
-                DBConstants.HEAD_IMG,
-                DBConstants.NICK_NAME,
-                DBConstants.CREATE_TIME,
-                DBConstants.MSG_DETAILS,
-                DBConstants.IS_READ,
-                DBConstants.IS_SELF
-        };
-        db.execSQL(sql,params);
+        /**
+         * t_chat_group 消息列表
+         * groupId  消息组的id
+         * headImg  消息组的头像
+         * groupName  消息组的名字
+         * updateTime 最近消息时间
+         */
+        String sql = "create table t_chat_group " +
+                "(groupId primary key,headImg,groupName,updateTime)";
+        db.execSQL(sql);
+        /**
+         * t_chat_msg  消息具体内容
+         * groupId  聊天组id
+         * fromId  消息发送者id
+         * fromHeadImg
+         * fromNickName
+         * createTime  消息发送时间
+         * msgDetails  消息内容
+         * isRead  是否已读
+         */
+        sql = "create table t_chat_msg " +
+                "(id primary key,groupId,fromId,fromHeadImg,fromNickName,createTime,msgDetails,isRead)";
+        db.execSQL(sql);
     }
 
     @Override

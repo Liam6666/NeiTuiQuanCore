@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <View
+            android:id="@+id/chatUI_statusView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/backgroundColor"/>
@@ -21,11 +22,13 @@
             android:layout_height="@dimen/toolBarHeight"
             android:orientation="horizontal">
             <ImageView
+                android:id="@+id/chatUI_backImg"
                 android:layout_width="@dimen/toolBarHeight"
                 android:layout_height="match_parent"
                 android:src="@mipmap/back_left"
                 android:padding="15dp"/>
             <TextView
+                android:id="@+id/chatUI_titleTv"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -34,6 +37,7 @@
                 android:textColor="@color/highTextColor"
                 android:gravity="center"/>
             <ImageView
+                android:id="@+id/chatUI_moreImg"
                 android:src="@mipmap/more"
                 android:layout_width="@dimen/toolBarHeight"
                 android:layout_height="match_parent"
@@ -46,7 +50,7 @@
         android:layout_height="match_parent">
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:layout_weight="1"
-            android:id="@+id/homePageUI_refreshLayout"
+            android:id="@+id/chatUI_refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -59,8 +63,8 @@
             app:srlEnablePreviewInEditMode="true"
             app:srlEnableOverScrollDrag="true">
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/chatUI_recyclerView"
                 android:overScrollMode="never"
-                android:id="@+id/listView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             </android.support.v7.widget.RecyclerView>
@@ -72,12 +76,12 @@
             android:layout_height="50dp"
             android:orientation="horizontal">
             <EditText
-                android:id="@+id/inputEdit"
+                android:id="@+id/chatUI_inputEdit"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <Button
-                android:id="@+id/sendBtn"
+                android:id="@+id/chatUI_sendBtn"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:text="发送"/>

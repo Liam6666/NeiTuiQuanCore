@@ -30,6 +30,7 @@ public class DBConstants {
      *      1.聊天记录
      *
      */
+
     public static final String TABLE_NAME = "t_chat_history";
 
     public static final String ID = "id";

@@ -23,9 +23,10 @@ public class MsgTaskDAOImpl implements MsgTaskDAO {
 
     @Override
     public boolean addMsgTask(MsgTaskEntity entity) {
-        String sql = "insert into t_msg_task values (?,?,?,?,?,?,?,?)";
+        String sql = "insert into t_msg_task values (?,?,?,?,?,?,?,?,?,?)";
         String[] params = new String[]{
                 entity.getId(),entity.getFromId(),entity.getReceiveId(),
+                entity.getFromNickName(),entity.getFromHeadImg(),
                 entity.getMsgType(),entity.getMsgDetails(),entity.getCreateTime(),
                 entity.getIsRead(),entity.getIsReceive()
         };
@@ -57,6 +58,7 @@ public class MsgTaskDAOImpl implements MsgTaskDAO {
             @Override
             public void processRow(ResultSet resultSet) throws SQLException {
                 MsgTaskEntity entity = new MsgTaskEntity();
+                setValues(entity,resultSet);
                 if(!StringUtils.isEmpty(entity.getId())){
                     list.add(entity);
                 }
@@ -91,6 +93,8 @@ public class MsgTaskDAOImpl implements MsgTaskDAO {
         entity.setId(resultSet.getString("id"));
         entity.setFromId(resultSet.getString("fromId"));
         entity.setReceiveId(resultSet.getString("receiveId"));
+        entity.setFromNickName(resultSet.getString("fromNickName"));
+        entity.setFromHeadImg(resultSet.getString("fromHeadImg"));
         entity.setMsgType(resultSet.getString("msgType"));
         entity.setMsgDetails(resultSet.getString("msgDetails"));
         entity.setCreateTime(resultSet.getString("createTime"));

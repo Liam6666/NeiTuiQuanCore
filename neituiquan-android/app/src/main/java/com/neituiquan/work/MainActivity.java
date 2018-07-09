@@ -18,6 +18,7 @@ import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.base.BaseFragment;
 import com.neituiquan.work.fragment.HomePageFragment;
+import com.neituiquan.work.fragment.MessageFragment;
 import com.neituiquan.work.fragment.UserFragment;
 
 
@@ -40,6 +41,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private HomePageFragment homePageFragment;
     private UserFragment userFragment;
+    private MessageFragment messageFragment;
 
     private BaseFragment currentFragment;
 
@@ -69,10 +71,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.mainUI_homePageLayout:
                 showHindFragment(1);
                 break;
-            case R.id.mainUI_foundLayout:
+            case R.id.mainUI_messageLayout:
                 showHindFragment(2);
                 break;
-            case R.id.mainUI_messageLayout:
+            case R.id.mainUI_foundLayout:
                 showHindFragment(3);
                 break;
             case R.id.mainUI_meLayout:
@@ -90,6 +92,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void initFragments(){
         homePageFragment = HomePageFragment.newInstance();
         userFragment = UserFragment.newInstance();
+        messageFragment = MessageFragment.newInstance();
         showHindFragment(1);
     }
 
@@ -120,12 +123,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mainUI_homePageTv.setTextColor(ContextCompat.getColor(this,R.color.themeColor));
                 break;
             case 2:
-                mainUI_foundIcon.setImageResource(R.mipmap.form_fill);
-                mainUI_foundTv.setTextColor(ContextCompat.getColor(this,R.color.themeColor));
-                break;
-            case 3:
                 mainUI_messageIcon.setImageResource(R.mipmap.message_fill_light);
                 mainUI_messageTv.setTextColor(ContextCompat.getColor(this,R.color.themeColor));
+                if(!messageFragment.isAdded()){
+                    createTransaction()
+                            .add(R.id.mainUI_contentFrameLayout,messageFragment)
+                            .show(messageFragment)
+                            .commit();
+                }else{
+                    createTransaction()
+                            .show(messageFragment)
+                            .hide(currentFragment)
+                            .commit();
+                }
+                currentFragment = messageFragment;
+                break;
+            case 3:
+                mainUI_foundIcon.setImageResource(R.mipmap.form_fill);
+                mainUI_foundTv.setTextColor(ContextCompat.getColor(this,R.color.themeColor));
                 break;
             case 4:
                 if(!userFragment.isAdded()){

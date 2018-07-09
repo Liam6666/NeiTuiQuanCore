@@ -46,6 +46,7 @@
         <activity android:name=".company.CompanyDetailsActivity" />
         <activity android:name=".account.IntentionActivity" />
         <activity android:name=".WebActivity" />
+        <activity android:name=".chat.ChatActivity" />
 
 
         <meta-data android:name="com.amap.api.v2.apikey"
