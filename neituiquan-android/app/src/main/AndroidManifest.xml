@@ -104,6 +104,7 @@
         <activity android:name=".WebActivity"
             android:screenOrientation="portrait"
             android:configChanges="screenSize|keyboardHidden|orientation"/>
+        <activity android:name=".chat.ChatActivity" />
 
         <meta-data android:name="com.amap.api.v2.apikey"
             android:value="de807fabe463ea4be0a5b02706d47e7e">
