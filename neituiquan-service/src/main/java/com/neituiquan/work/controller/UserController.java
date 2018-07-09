@@ -2,7 +2,7 @@ package com.neituiquan.work.controller;
 
 
 import com.neituiquan.work.base.AbsEntity;
-import com.neituiquan.work.base.FinalData;
+import com.neituiquan.work.FinalData;
 import com.neituiquan.work.entity.UserEntity;
 import com.neituiquan.work.service.UserService;
 import com.neituiquan.work.utils.StringUtils;

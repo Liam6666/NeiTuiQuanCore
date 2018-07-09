@@ -1,7 +1,7 @@
 package com.neituiquan.work.service;
 
 import com.neituiquan.work.base.AbsEntity;
-import com.neituiquan.work.base.FinalData;
+import com.neituiquan.work.FinalData;
 import com.neituiquan.work.daoImpl.JobsDAOImpl;
 import com.neituiquan.work.entity.JobListEntity;
 import com.neituiquan.work.entity.JobsEntity;

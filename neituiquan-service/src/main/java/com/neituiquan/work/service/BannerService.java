@@ -1,7 +1,7 @@
 package com.neituiquan.work.service;
 
 import com.neituiquan.work.base.AbsEntity;
-import com.neituiquan.work.base.FinalData;
+import com.neituiquan.work.FinalData;
 import com.neituiquan.work.daoImpl.BannerDAOImpl;
 import com.neituiquan.work.entity.BannerEntity;
 import com.neituiquan.work.utils.StringUtils;

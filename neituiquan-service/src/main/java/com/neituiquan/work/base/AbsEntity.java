@@ -1,5 +1,7 @@
 package com.neituiquan.work.base;
 
+import com.neituiquan.work.FinalData;
+
 import java.io.Serializable;
 
 public class AbsEntity implements Serializable{

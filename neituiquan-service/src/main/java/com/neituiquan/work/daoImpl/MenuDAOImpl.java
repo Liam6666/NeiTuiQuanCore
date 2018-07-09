@@ -1,6 +1,6 @@
 package com.neituiquan.work.daoImpl;
 
-import com.neituiquan.work.base.FinalData;
+import com.neituiquan.work.FinalData;
 import com.neituiquan.work.dao.MenuDAO;
 import com.neituiquan.work.entity.MenuEntity;
 import com.neituiquan.work.utils.StringUtils;

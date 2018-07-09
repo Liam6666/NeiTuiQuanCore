@@ -1,6 +1,6 @@
 package com.neituiquan.work.utils;
 
-import com.neituiquan.work.base.FinalData;
+import com.neituiquan.work.FinalData;
 
 public class PageUtils {
 
