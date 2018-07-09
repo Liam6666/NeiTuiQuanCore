@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.KeyboardUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +61,7 @@ public class TestActivity extends AppCompatActivity {
 
                 ChatEntity entity2 = new ChatEntity();
                 entity2.type = 1;
-                entity2.msg = "哦哦，\nFuck you!";
+                entity2.msg = "哦哦";
                 chatList.add(entity);
                 chatList.add(entity2);
                 chatAdapter.notifyDataSetChanged();
@@ -68,8 +70,6 @@ public class TestActivity extends AppCompatActivity {
                 recyclerView.smoothScrollToPosition(chatList.size());
             }
         });
-
-
     }
 
 

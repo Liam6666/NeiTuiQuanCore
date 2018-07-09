@@ -2,7 +2,7 @@ package com.neituiquan.work.controller;
 
 
 import com.neituiquan.work.base.AbsEntity;
-import com.neituiquan.work.base.FinalData;
+import com.neituiquan.work.FinalData;
 import com.neituiquan.work.utils.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

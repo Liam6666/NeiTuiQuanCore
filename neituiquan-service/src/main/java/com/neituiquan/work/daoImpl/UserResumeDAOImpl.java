@@ -1,6 +1,6 @@
 package com.neituiquan.work.daoImpl;
 
-import com.neituiquan.work.base.FinalData;
+import com.neituiquan.work.FinalData;
 import com.neituiquan.work.dao.UserResumeDAO;
 import com.neituiquan.work.entity.UserResumeEntity;
 import com.neituiquan.work.utils.StringUtils;

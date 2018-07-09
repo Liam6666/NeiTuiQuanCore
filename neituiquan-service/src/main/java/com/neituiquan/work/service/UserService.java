@@ -2,14 +2,12 @@ package com.neituiquan.work.service;
 
 
 import com.neituiquan.work.base.AbsEntity;
-import com.neituiquan.work.base.FinalData;
+import com.neituiquan.work.FinalData;
 import com.neituiquan.work.daoImpl.UserDAOImpl;
 import com.neituiquan.work.entity.UserEntity;
 import com.neituiquan.work.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service

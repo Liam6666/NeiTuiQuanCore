@@ -25,7 +25,7 @@ public class FinalData {
      */
     public static final String UDT = "http://193.112.17.87:80";
 
-    public static final String BASE_URL = UDT;
+    public static final String BASE_URL = UAT;
 
 //    public static final String UAT = "http://192.168.0.105:8080";
 
@@ -78,4 +78,14 @@ public class FinalData {
     public static final int ITEM_ERROR = 5;
 
     public static final int ITEM_BANNER = 6;
+
+
+    public static final String MSG_TYPE_CHAT = "聊天信息";
+
+    public static final String MSG_TYPE_NOTIFY = "通知";
+
+    /**
+     * 轮询效率
+     */
+    public static final long LOOP = 2000L;
 }

@@ -1,4 +1,4 @@
-package com.neituiquan.work.base;
+package com.neituiquan.work;
 
 public class FinalData {
 
@@ -60,5 +60,14 @@ public class FinalData {
 
     public static final int PAGE_SIZE = 15;
 
+
+    public static final String MSG_TYPE_CHAT = "聊天信息";
+
+
+    public static final String MSG_TYPE_NOTIFY = "通知";
+
+    public static final String YES = "0";
+
+    public static final String NO = "-1";
 
 }

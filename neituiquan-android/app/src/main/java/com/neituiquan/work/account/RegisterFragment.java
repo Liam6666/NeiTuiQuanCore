@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseFragment;
+import com.neituiquan.entity.UserEntity;
 import com.neituiquan.gson.StringModel;
 import com.neituiquan.httpEvent.GetCodeEventModel;
 import com.neituiquan.httpEvent.RegisterEventModel;
@@ -249,17 +250,17 @@ public class RegisterFragment extends BaseFragment implements View.OnFocusChange
         if(password.length() < 6){
             ToastUtils.showShort("密码至少6位");
         }
-        HashMap<String,String> params = new HashMap<>();
-        params.put("account",account);
-        params.put("password",password);
-        params.put("latitude",latitude);
-        params.put("longitude",longitude);
-        params.put("accuracy",accuracy);
-        params.put("province",province);
-        params.put("city",city);
-        params.put("district",district);
+        UserEntity entity = new UserEntity();
+        entity.setAccount(account);
+        entity.setPassword(password);
+        entity.setLatitude(latitude);
+        entity.setLongitude(longitude);
+        entity.setAccuracy(accuracy);
+        entity.setProvince(province);
+        entity.setCity(city);
+        entity.setDistrict(district);
         ((AccountActivity)getContext()).getLoadingDialog().show();
-        HttpFactory.getHttpUtils().post(params, FinalData.BASE_URL + "/register",new RegisterEventModel());
+        HttpFactory.getHttpUtils().post(new Gson().toJson(entity), FinalData.BASE_URL + "/register",new RegisterEventModel());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

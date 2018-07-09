@@ -1,12 +1,11 @@
 package com.neituiquan.work.controller;
 
 import com.neituiquan.work.base.AbsEntity;
-import com.neituiquan.work.base.FinalData;
+import com.neituiquan.work.FinalData;
 import com.neituiquan.work.entity.SendMailEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

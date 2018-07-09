@@ -2,12 +2,11 @@ package com.neituiquan.work.service;
 
 
 import com.neituiquan.work.base.AbsEntity;
-import com.neituiquan.work.base.FinalData;
+import com.neituiquan.work.FinalData;
 import com.neituiquan.work.daoImpl.CompanyDAOImpl;
 import com.neituiquan.work.entity.CompanyEntity;
 import com.neituiquan.work.entity.CompanyImgEntity;
 import com.neituiquan.work.utils.StringUtils;
-import org.omg.CORBA.IMP_LIMIT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
