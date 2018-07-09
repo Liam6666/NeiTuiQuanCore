@@ -39,4 +39,12 @@ public class App extends Application {
     public static App getAppInstance() {
         return APP_INSTANCE;
     }
+
+
+
+    public static void test(){
+
+    }
+
+
 }
