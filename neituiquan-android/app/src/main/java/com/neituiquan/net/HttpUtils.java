@@ -89,6 +89,23 @@ public class HttpUtils {
         return okHttpClient.newCall(request);
     }
 
+    public void getNoCall(String url){
+        Request.Builder requestBuilder = new Request.Builder();
+        requestBuilder.method(GET,null);
+        requestBuilder.url(url);
+        final Request request = requestBuilder.build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+            }
+        });
+    }
 
     public void post(Map<String,String> params, String url,final RequestEventModel requestEventModel){
         if(FinalData.DEBUG){

@@ -1,5 +1,6 @@
 package com.neituiquan.work.chat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,8 +19,9 @@ import com.neituiquan.adapter.ChatAdapter;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.database.AppDBFactory;
 import com.neituiquan.database.ChatEntity;
+import com.neituiquan.database.DBConstants;
 import com.neituiquan.database.LocalCacheDAOImpl;
-import com.neituiquan.entity.MsgTaskEntity;
+import com.neituiquan.entity.ChatLoopEntity;
 import com.neituiquan.entity.UserEntity;
 import com.neituiquan.httpEvent.ChatEventModel;
 import com.neituiquan.httpEvent.ChatSendEventModel;
@@ -70,10 +72,10 @@ public class ChatActivity extends BaseActivity {
 
         groupId = getIntent().getStringExtra("groupId");
         userEntity = App.getAppInstance().getUserInfoUtils().getUserInfo().data;
-        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true);
         chatUI_recyclerView.setLayoutManager(linearLayoutManager);
         localCacheDAO = AppDBFactory.getInstance(this);
-        chatAdapter = new ChatAdapter(this,localCacheDAO.getChatHistory(groupId));
+        chatAdapter = new ChatAdapter(this,localCacheDAO.getChatHistory(groupId,"0"));
 
         chatUI_recyclerView.setAdapter(chatAdapter);
 
@@ -82,23 +84,32 @@ public class ChatActivity extends BaseActivity {
             public void onClick(View v) {
                 String msg = chatUI_inputEdit.getText().toString();
 
-                String url = FinalData.BASE_URL + "/addMsgTask";
+                String url = FinalData.BASE_URL + "/sendChat";
 
-                MsgTaskEntity entity = new MsgTaskEntity();
-                entity.setFromHeadImg(userEntity.getHeadImg());
-                entity.setFromId("test id");
-                entity.setFromNickName(userEntity.getNickName());
+                ChatLoopEntity entity = new ChatLoopEntity();
+                entity.setFromId(userEntity.getId());
                 entity.setMsgDetails(msg);
-                entity.setReceiveId(userEntity.getId());
+                entity.setReceiveId("7586d0fda5d14b52b85b7e649edd17d7");
 
                 ChatEntity chatEntity = new ChatEntity();
+                chatEntity.setId(System.currentTimeMillis()+"");
                 chatEntity.setFromHeadImg(userEntity.getHeadImg());
                 chatEntity.setFromId(userEntity.getId());
                 chatEntity.setMsgDetails(msg);
+                chatEntity.setGroupId("7586d0fda5d14b52b85b7e649edd17d7");
+                chatEntity.setCreateTime(System.currentTimeMillis()+"");
+                chatEntity.setMsgDetails(entity.getMsgDetails());
+                chatEntity.setIsRead(DBConstants.YES);
                 chatAdapter.addData(chatEntity);
+                localCacheDAO.add(chatEntity);
                 HttpFactory.getHttpUtils().post(new Gson().toJson(entity),url,new ChatSendEventModel());
             }
         });
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -107,7 +118,7 @@ public class ChatActivity extends BaseActivity {
             /**
              * 如果获取的最新消息是当前的聊天窗口
              */
-            chatAdapter.refresh(localCacheDAO.getChatHistory(groupId));
+            chatAdapter.refresh(localCacheDAO.getChatHistory(groupId,"0"));
         }
     }
 

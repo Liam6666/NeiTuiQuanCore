@@ -18,27 +18,19 @@ public class TaskLooper {
         void run(TaskCompleteCallback callback);
     }
 
-
-
-
-    private static final HashMap<Task, Handler>  tasks = new HashMap<>();
-
+    private static final HashMap<Task, Handler> tasks = new HashMap<>();
 
     private static boolean existsTask(Task task){
         return tasks.containsKey(task);
     }
 
-
-    public static void bindTask(final Task task, final int taskDuration){
+    public static void bindTask(final Task task, final long taskDuration){
         if(android.os.Looper.myLooper() != android.os.Looper.getMainLooper())
             throw new IllegalStateException("fuck you");
         if(tasks.containsKey(task))
             throw new IllegalStateException("fuck you");
-
         final Handler handler = new Handler();
-
         tasks.put(task, handler);
-
         TaskCompleteCallback callback = new TaskCompleteCallback() {
             public void onComplete() {
                 if(!existsTask(task))
@@ -53,11 +45,8 @@ public class TaskLooper {
                 }, taskDuration);
             }
         };
-
         task.run(callback);
     }
-
-
 
     public static void unBind(Task task){
         Handler handler = tasks.remove(task);

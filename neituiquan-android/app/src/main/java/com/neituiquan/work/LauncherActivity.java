@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.neituiquan.App;
 import com.neituiquan.base.BaseActivity;
+import com.neituiquan.service.AppService;
 import com.neituiquan.work.account.AccountActivity;
 
 /**
@@ -36,6 +37,7 @@ public class LauncherActivity extends BaseActivity {
                     startActivity(new Intent(LauncherActivity.this,AccountActivity.class));
                 }else{
                     startActivity(new Intent(LauncherActivity.this,MainActivity.class));
+                    startService(new Intent(getApplicationContext(), AppService.class));
                 }
                 finish();
             }

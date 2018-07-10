@@ -25,9 +25,10 @@ public interface LocalCacheDAO {
     /**
      * 根据聊天组id获取历史信息
      * @param groupId
+     * @param pageSize 分页
      * @return
      */
-    List<ChatEntity> getChatHistory(String groupId);
+    List<ChatEntity> getChatHistory(String groupId,String pageSize);
 
     /**
      * 获取一个消息组里未读的消息数量

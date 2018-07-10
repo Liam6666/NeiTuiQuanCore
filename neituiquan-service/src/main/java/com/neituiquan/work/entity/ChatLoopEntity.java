@@ -2,10 +2,7 @@ package com.neituiquan.work.entity;
 
 import java.io.Serializable;
 
-/**
- * 历史聊天信息
- */
-public class ChatHistoryEntity implements Serializable {
+public class ChatLoopEntity implements Serializable {
 
     private  String id;
 
@@ -18,17 +15,11 @@ public class ChatHistoryEntity implements Serializable {
     //聊天组ID
     private  String groupId;
 
-
+    //消息内容
     private  String msgDetails;
 
-
+    //发送时间
     private  String createTime;
-
-    //是否已读
-    private  String isRead;
-
-    //是否收到
-    private  String isReceive;
 
     //是否是群消息
     private  String isGroup;
@@ -79,22 +70,6 @@ public class ChatHistoryEntity implements Serializable {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
-    }
-
-    public String getIsRead() {
-        return isRead;
-    }
-
-    public void setIsRead(String isRead) {
-        this.isRead = isRead;
-    }
-
-    public String getIsReceive() {
-        return isReceive;
-    }
-
-    public void setIsReceive(String isReceive) {
-        this.isReceive = isReceive;
     }
 
     public String getIsGroup() {

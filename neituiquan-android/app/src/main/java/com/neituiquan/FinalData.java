@@ -1,6 +1,7 @@
 package com.neituiquan;
 
 import android.Manifest;
+import android.content.Context;
 
 import com.neituiquan.gson.UserResumeModel;
 
@@ -88,4 +89,12 @@ public class FinalData {
      * 轮询效率
      */
     public static final long LOOP = 2000L;
+
+
+    static class FinalDataController{
+
+        public static void init(Context context){
+
+        }
+    }
 }

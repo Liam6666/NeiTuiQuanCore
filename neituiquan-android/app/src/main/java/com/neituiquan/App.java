@@ -24,12 +24,11 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Utils.init(this);
-        BGASwipeBackHelper.init(this,null);
         APP_INSTANCE = this;
+        Utils.init(this);
         userInfoUtils = new UserInfoUtils(this);
-        startService(new Intent(getApplicationContext(), AppService.class));
-
+        FinalData.FinalDataController.init(this);
+        BGASwipeBackHelper.init(this,null);
     }
 
     public UserInfoUtils getUserInfoUtils() {

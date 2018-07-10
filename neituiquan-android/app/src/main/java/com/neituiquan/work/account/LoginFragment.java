@@ -20,6 +20,7 @@ import com.neituiquan.entity.UserEntity;
 import com.neituiquan.gson.UserModel;
 import com.neituiquan.httpEvent.LoginEventModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.service.AppService;
 import com.neituiquan.utils.PositionUtils;
 import com.neituiquan.work.MainActivity;
 import com.neituiquan.work.R;
@@ -132,6 +133,7 @@ public class LoginFragment extends BaseFragment implements View.OnFocusChangeLis
         userEntity.setAccount(account);
         userEntity.setPassword(password);
         HttpFactory.getHttpUtils().post(new Gson().toJson(userEntity), FinalData.BASE_URL + "/login",new LoginEventModel());
+        getContext().startService(new Intent(getContext(), AppService.class));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

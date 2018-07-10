@@ -1,6 +1,6 @@
 package com.neituiquan.gson;
 
-import com.neituiquan.entity.MsgTaskEntity;
+import com.neituiquan.entity.ChatLoopEntity;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import java.util.List;
  * email:nice_ohoh@163.com
  */
 
-public class MsgTaskModel extends AbsModel {
+public class MsgLoopModel extends AbsModel {
 
-    public List<MsgTaskEntity> data;
+    public List<ChatLoopEntity> data;
 
 }

@@ -16,10 +16,11 @@ import com.neituiquan.database.AppDBFactory;
 import com.neituiquan.database.ChatEntity;
 import com.neituiquan.database.DBConstants;
 import com.neituiquan.database.LocalCacheDAOImpl;
-import com.neituiquan.entity.MsgTaskEntity;
-import com.neituiquan.gson.MsgTaskModel;
+import com.neituiquan.entity.ChatLoopEntity;
+import com.neituiquan.gson.MsgLoopModel;
 import com.neituiquan.httpEvent.ChatEventModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.utils.TaskLooper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -45,13 +46,11 @@ public class AppService extends Service{
 
     private static final String TAG = "AppService";
 
-    private AppLoop appLoop;
-
-    private Thread thread;
-
     private LocalCacheDAOImpl localCacheDAO;
 
-    private LoopHandler loopHandler;
+    private AppLoop appLoop;
+
+    private TaskLooper.TaskCompleteCallback completeCallback;
 
     @Nullable
     @Override
@@ -63,63 +62,67 @@ public class AppService extends Service{
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e(TAG,"onCreate");
-        loopHandler = new LoopHandler();
         localCacheDAO = AppDBFactory.getInstance(this);
-        String userId = "";
         if(App.getAppInstance().getUserInfoUtils().getUserInfo() != null){
-            userId = App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId();
+            String userId = App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId();
+            appLoop = new AppLoop(this,userId);
+            TaskLooper.bindTask(appLoop,FinalData.LOOP);
         }
-        appLoop = new AppLoop(this,userId);
-        thread = new Thread(appLoop);
-        thread.start();
     }
 
     @Override
     public void onDestroy() {
-        Log.e(TAG,"onDestroy");
+        TaskLooper.unBind(appLoop);
         super.onDestroy();
     }
 
 
+    public void setCompleteCallback(TaskLooper.TaskCompleteCallback completeCallback) {
+        this.completeCallback = completeCallback;
+    }
+
+    /**
+     * 将获取到的消息保存在本地数据库
+     * 并通知刷新UI
+     * this not a UI thread
+     *
+     */
     private void put2db(String response){
-        MsgTaskModel model = new Gson().fromJson(response,MsgTaskModel.class);
-        for(MsgTaskEntity entity : model.data){
+        MsgLoopModel model = new Gson().fromJson(response,MsgLoopModel.class);
+        for(ChatLoopEntity entity : model.data){
             ChatEntity chatEntity = new ChatEntity();
             chatEntity.setId(entity.getId());
             chatEntity.setGroupId(entity.getFromId());
             chatEntity.setFromId(entity.getFromId());
-            chatEntity.setFromNickName(entity.getFromNickName());
-            chatEntity.setFromHeadImg(entity.getFromHeadImg());
             chatEntity.setCreateTime(entity.getCreateTime());
             chatEntity.setMsgDetails(entity.getMsgDetails());
             chatEntity.setIsRead(DBConstants.NO);
+            /**
+             * 保存消息到本地数据库
+             */
             localCacheDAO.add(chatEntity);
             /**
              * 通知MessageFragment 接受到新消息
              */
             EventBus.getDefault().post(new ChatEventModel(chatEntity.getGroupId()));
-            String url = FinalData.BASE_URL + "/delMsgTaskAdd2History?id="+entity.getId();
-                HttpFactory.getHttpUtils().get(url).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                    }
-                });
+            /**
+             * 通知服务器已接收到消息
+             */
+            String url = FinalData.BASE_URL + "/updateChatState?id="+entity.getId();
+            HttpFactory.getHttpUtils().getNoCall(url);
         }
+        /**
+         * 完成
+         */
+        completeCallback.onComplete();
     }
 
 
-    private static class AppLoop implements Runnable{
+    private static class AppLoop implements TaskLooper.Task{
 
         private AppService appService;
 
         private String userId;
-
-        private long loopFlag = -1;
 
         public AppLoop(AppService appService, String userId) {
             this.appService = appService;
@@ -131,39 +134,31 @@ public class AppService extends Service{
         }
 
         @Override
-        public void run() {
-            while (true){
-                try {
-                    Thread.sleep(FinalData.LOOP);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Log.i(TAG,"loop....");
-                if(appService != null){
-                    HttpFactory.getHttpUtils()
-                            .get(FinalData.BASE_URL + "/getMsgTaskList?receiveId="+userId)
-                            .enqueue(new Callback() {
-                                @Override
-                                public void onFailure(Call call, IOException e) {
-
-                                }
-
-                                @Override
-                                public void onResponse(Call call, Response response) throws IOException {
-                                    appService.put2db(response.body().string());
-                                }
-                            });
+        public void run(final TaskLooper.TaskCompleteCallback callback) {
+            if(appService != null){
+                this.appService.setCompleteCallback(callback);
+                loopChat();
+                if (FinalData.DEBUG){
+                    Log.i(TAG,"loop....");
                 }
             }
         }
-    }
 
-    static class LoopHandler extends Handler{
+        private void loopChat(){
+            HttpFactory.getHttpUtils()
+                    .get(FinalData.BASE_URL + "/getChatList?receiveId="+userId)
+                    .enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
 
-        @Override
-        public void dispatchMessage(Message msg) {
-            super.dispatchMessage(msg);
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            appService.put2db(response.body().string());
+                        }
+                    });
         }
-
     }
+
 }

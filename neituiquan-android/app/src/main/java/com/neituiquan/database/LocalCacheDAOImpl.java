@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.neituiquan.FinalData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,16 +66,16 @@ public class LocalCacheDAOImpl extends AppDataBase implements LocalCacheDAO {
             setGroupValues(entity,cursor);
             list.add(entity);
         }
-        Log.e(TAG,new Gson().toJson(list));
+//        Log.e(TAG,new Gson().toJson(list));
         cursor.close();
         return list;
     }
 
     @Override
-    public List<ChatEntity> getChatHistory(String groupId) {
+    public List<ChatEntity> getChatHistory(String groupId,String pageSize) {
         List<ChatEntity> list = new ArrayList<>();
-        String sql = "select * from t_chat_msg where groupId = ? order by createTime desc";
-        Cursor cursor = db.rawQuery(sql,new String[]{groupId});
+        String sql = "select * from t_chat_msg where groupId = ? order by createTime desc limit ?,?";
+        Cursor cursor = db.rawQuery(sql,new String[]{groupId,pageSize,String.valueOf( FinalData.PAGE_SIZE)});
         while (cursor.moveToNext()){
             ChatEntity entity = new ChatEntity();
             setValues(entity,cursor);
