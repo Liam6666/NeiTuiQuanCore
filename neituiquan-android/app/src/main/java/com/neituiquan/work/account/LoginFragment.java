@@ -128,6 +128,7 @@ public class LoginFragment extends BaseFragment implements View.OnFocusChangeLis
             return;
         }
 
+        ((AccountActivity)getContext()).getLoadingDialog().setCancelable(false);
         ((AccountActivity)getContext()).getLoadingDialog().show();
         UserEntity userEntity = new UserEntity();
         userEntity.setAccount(account);
@@ -152,6 +153,8 @@ public class LoginFragment extends BaseFragment implements View.OnFocusChangeLis
             }else{
                 ToastUtils.showShort(userModel.msg);
             }
+        }else{
+            ToastUtils.showShort("登录失败");
         }
     }
 

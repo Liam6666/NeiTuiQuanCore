@@ -81,22 +81,36 @@ public class CompanyIconView extends View{
         invalidate();
     }
 
+
+    RectF rectF = new RectF();
+
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
         if(contentText == null){
             return;
         }
-        RectF rectF = new RectF();
+
         rectF.top = 0;
         rectF.left = 0;
         rectF.right = viewWidth;
         rectF.bottom = viewHeight;
         canvas.drawArc(rectF,0,360,true,paint);
 
-        canvas.drawText(contentText,viewWidth / 2, (float) (viewHeight * 0.65),textPaint);
+        canvas.drawText(contentText,
+                viewWidth / 2,
+                viewHeight/2 + baseLine(textPaint),
+                textPaint);
     }
 
+
+    private float baseLine(Paint p){
+        Paint.FontMetrics m = p.getFontMetrics();
+        return (m.descent - m.ascent) /2 - m.descent;
+
+    }
 
 
 }
