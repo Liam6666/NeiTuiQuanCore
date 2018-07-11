@@ -166,6 +166,8 @@ public class CompanyDetailsActivity extends BaseActivity {
         itemView2ListView.setLayoutManager(new LinearLayoutManager(this));
         String url = FinalData.BASE_URL + "/findJobsByCompanyId?companyId="+companyId;
         HttpFactory.getHttpUtils().get(url,new GetJobListEventModel(INIT_JOBS));
+        releaseJobsAdapter = new ReleaseJobsAdapter(this);
+        itemView2ListView.setAdapter(releaseJobsAdapter);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -175,8 +177,7 @@ public class CompanyDetailsActivity extends BaseActivity {
                 case INIT_JOBS:
                     ReleaseJobListModel model = new Gson().fromJson(eventModel.resultStr,ReleaseJobListModel.class);
                     if(releaseJobsAdapter == null){
-                        releaseJobsAdapter = new ReleaseJobsAdapter(this,model.data);
-                        itemView2ListView.setAdapter(releaseJobsAdapter);
+                        releaseJobsAdapter.addData(model.data);
                     }else{
                         releaseJobsAdapter.refresh(model.data);
                     }
