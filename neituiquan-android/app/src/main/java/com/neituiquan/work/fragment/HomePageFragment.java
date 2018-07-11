@@ -27,6 +27,7 @@ import com.neituiquan.view.HomePageHeaderView;
 import com.neituiquan.work.CitySelectorActivity;
 import com.neituiquan.work.MainActivity;
 import com.neituiquan.work.R;
+import com.neituiquan.work.jobs.JobDetailsActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -129,7 +130,9 @@ public class HomePageFragment extends BaseFragment implements OnRefreshListener,
 
     @Override
     public void onItemClick(JobListEntity entity, int position) {
-
+        Intent intent = new Intent(getContext(), JobDetailsActivity.class);
+        intent.putExtra("jobId",entity.getJobsId());
+        startActivity(intent);
     }
 
     @Override

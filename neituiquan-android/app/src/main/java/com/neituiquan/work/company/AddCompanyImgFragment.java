@@ -27,6 +27,7 @@ import com.neituiquan.httpEvent.AddCompanyEventModel;
 import com.neituiquan.httpEvent.UploadCompanyImgEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.net.RequestEventModel;
+import com.neituiquan.utils.GlideUtils;
 import com.neituiquan.utils.URI2FilePath;
 import com.neituiquan.work.R;
 
@@ -233,7 +234,7 @@ public class AddCompanyImgFragment extends BaseFragment implements View.OnClickL
         final FrameLayout itemView = (FrameLayout) LayoutInflater.from(getContext()).inflate(R.layout.item_edit_company_img,bindCompanyFG_imgLayout,false);
         ImageView item_contentImg = itemView.findViewById(R.id.item_contentImg);
         ImageView item_delImg = itemView.findViewById(R.id.item_delImg);
-        Glide.with(getContext()).load(FinalData.IMG + entity.getImgUrl()).into(item_contentImg);
+        GlideUtils.load(entity.getImgUrl(),item_contentImg);
         item_delImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

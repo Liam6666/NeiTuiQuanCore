@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 
 import com.blankj.utilcode.util.Utils;
+import com.bumptech.glide.Glide;
 import com.neituiquan.service.AppService;
 import com.neituiquan.utils.UserInfoUtils;
 

@@ -18,6 +18,7 @@ import com.neituiquan.entity.BannerEntity;
 import com.neituiquan.gson.BannerModel;
 import com.neituiquan.httpEvent.BannerEventModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.utils.GlideUtils;
 import com.neituiquan.work.CitySelectorActivity;
 import com.neituiquan.work.MainActivity;
 import com.neituiquan.work.R;

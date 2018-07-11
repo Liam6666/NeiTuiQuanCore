@@ -113,4 +113,9 @@ public class UserController {
     public AbsEntity findUserById(@RequestParam String id){
         return service.findUserById(id);
     }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/findUserSimpleById")
+    public AbsEntity findUserSimpleById(@RequestParam String id){
+        return service.findUserSimpleById(id);
+    }
 }

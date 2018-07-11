@@ -43,8 +43,29 @@
         </LinearLayout>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/releaseJobUI_listView"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/releaseJobUI_refreshLayout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        app:srlEnableLoadMore="false"
+        app:srlEnableAutoLoadMore="false"
+        app:srlPrimaryColor="@color/lineColor"
+        app:srlAccentColor="@color/themeColor"
+        app:srlEnablePreviewInEditMode="true"
+        app:srlEnableOverScrollDrag="true">
+        <com.scwang.smartrefresh.layout.header.BezierRadarHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <com.neituiquan.view.AutoLoadRecyclerView
+            android:id="@+id/releaseJobUI_recyclerView"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
+            android:layout_width="match_parent"
+            android:overScrollMode="never"
+            android:layout_height="match_parent"></com.neituiquan.view.AutoLoadRecyclerView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

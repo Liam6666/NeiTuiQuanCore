@@ -10,7 +10,11 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.blankj.utilcode.util.StringUtils;
 import com.google.gson.Gson;
+import com.neituiquan.App;
 import com.neituiquan.FinalData;
+import com.neituiquan.entity.UserEntity;
+import com.neituiquan.net.HttpFactory;
+import com.neituiquan.net.RequestEventModel;
 
 import java.io.Serializable;
 
@@ -44,44 +48,17 @@ public class PositionUtils {
         sharedPreferences = context.getSharedPreferences(FILE_NAME,Context.MODE_PRIVATE);
         LocationEntity cacheLocation = getCachePosition();
         if(cacheLocation == null){//没有缓存信息
-            locationClient = new AMapLocationClient(context);
-            locationClient.setLocationListener(setCachePosition(callBack));
-            clientOption = new AMapLocationClientOption();
-
-            clientOption.setLocationCacheEnable(false);
-            clientOption.setNeedAddress(true);
-            clientOption.setOnceLocation(true);
-            clientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-            clientOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.SignIn);
-            if(null != locationClient){
-                locationClient.setLocationOption(clientOption);
-                //设置场景模式后最好调用一次stop，再调用start以保证场景模式生效
-                locationClient.stopLocation();
-                locationClient.startLocation();
-            }
+            startLocation(context,callBack);
             return;
         }
         boolean timeOut = System.currentTimeMillis() > Long.parseLong(cacheLocation.getNextUpdateTime());
         boolean locationErr = !cacheLocation.getErrorCode().equals("0");
         if(timeOut || locationErr){//定位失败或者缓存超时
-            locationClient = new AMapLocationClient(context);
-            locationClient.setLocationListener(setCachePosition(callBack));
-            clientOption = new AMapLocationClientOption();
-
-            clientOption.setLocationCacheEnable(false);
-            clientOption.setNeedAddress(true);
-            clientOption.setOnceLocation(true);
-            clientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-            clientOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.SignIn);
-            if(null != locationClient){
-                locationClient.setLocationOption(clientOption);
-                //设置场景模式后最好调用一次stop，再调用start以保证场景模式生效
-                locationClient.stopLocation();
-                locationClient.startLocation();
-            }
+            startLocation(context,callBack);
             return;
         }
         callBack.mapLocation(cacheLocation);
+        upLoadLocationInfo(cacheLocation);
     }
 
     public AMapLocationListener setCachePosition(final PositionCallBack callBack){
@@ -110,6 +87,8 @@ public class PositionUtils {
 
                 callBack.mapLocation(locationEntity);
 
+                upLoadLocationInfo(locationEntity);
+
                 if(FinalData.DEBUG){
                     Log.e(LOCATION_TAG, locationEntity.getErrorCode()+"");
                     Log.e(LOCATION_TAG, locationEntity.getErrorInfo());
@@ -136,8 +115,40 @@ public class PositionUtils {
         return new Gson().fromJson(json,LocationEntity.class);
     }
 
+    private void startLocation(Context context,PositionCallBack callBack){
+        locationClient = new AMapLocationClient(context);
+        locationClient.setLocationListener(setCachePosition(callBack));
+        clientOption = new AMapLocationClientOption();
+
+        clientOption.setLocationCacheEnable(false);
+        clientOption.setNeedAddress(true);
+        clientOption.setOnceLocation(true);
+        clientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        clientOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.SignIn);
+        if(null != locationClient){
+            locationClient.setLocationOption(clientOption);
+            //设置场景模式后最好调用一次stop，再调用start以保证场景模式生效
+            locationClient.stopLocation();
+            locationClient.startLocation();
+        }
+    }
+
+    private void upLoadLocationInfo(LocationEntity locationEntity){
+        if(App.getAppInstance().getUserInfoUtils().getUserInfo() == null){
+            return;
+        }
+        UserEntity userEntity = App.getAppInstance().getUserInfoUtils().getUserInfo().data;
+        userEntity.setLatitude(locationEntity.getLatitude());
+        userEntity.setLongitude(locationEntity.getLongitude());
+        userEntity.setAccuracy(locationEntity.getAddress());
+        userEntity.setProvince(locationEntity.getProvince());
+        userEntity.setCity(locationEntity.getCity());
+        userEntity.setDistrict(locationEntity.getDistrict());
+        HttpFactory.getHttpUtils().post(new Gson().toJson(userEntity),FinalData.BASE_URL +"/updateLocation",new RequestEventModel());
+    }
+
     public void clearCache(){
-        sharedPreferences.edit().remove(KEY_NAME);
+        sharedPreferences.edit().remove(KEY_NAME).commit();
     }
 
     public AMapLocationClient getLocationClient() {
@@ -146,6 +157,11 @@ public class PositionUtils {
 
     public AMapLocationClientOption getClientOption() {
         return clientOption;
+    }
+
+    public static void clearLocationInfo(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(FILE_NAME,Context.MODE_PRIVATE);
+        sharedPreferences.edit().remove(KEY_NAME).commit();
     }
 
     public interface PositionCallBack {

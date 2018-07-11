@@ -1,10 +1,12 @@
 package com.neituiquan.work.account;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +25,7 @@ import com.neituiquan.dialog.EditHeadImgMenuDialog;
 import com.neituiquan.gson.UserModel;
 import com.neituiquan.httpEvent.UploadHeadImgEventModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.utils.GlideUtils;
 import com.neituiquan.utils.URI2FilePath;
 import com.neituiquan.work.R;
 
@@ -65,7 +68,7 @@ public class HeadImgActivity extends BaseActivity implements View.OnClickListene
         menuDialog = new EditHeadImgMenuDialog(this);
         menuDialog.setDialogCallBack(dialogCallBack);
         String headImg = App.getAppInstance().getUserInfoUtils().getUserInfo().data.getHeadImg();
-        Glide.with(this).load(FinalData.IMG + headImg).into(editHeadUI_headImg);
+        GlideUtils.load(headImg,editHeadUI_headImg);
     }
 
     private void initStatusBar(){
@@ -126,10 +129,16 @@ public class HeadImgActivity extends BaseActivity implements View.OnClickListene
             case REQUEST_CODE_PICK_IMAGE:
                 if (resultCode == RESULT_OK) {
                     try {
-                        Uri uri = data.getData();
-                        filePath = URI2FilePath.getRealPathFromUri(this,uri);
-                        Bitmap bit = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-                        editHeadUI_headImg.setImageBitmap(bit);
+                        Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContentResolver().query(selectedImage,
+                                filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+                        cursor.moveToFirst();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        filePath = cursor.getString(columnIndex);  //获取照片路径
+                        cursor.close();
+                        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+                        editHeadUI_headImg.setImageBitmap(bitmap);
                     } catch (Exception e) {
                         ToastUtils.showShort("失败了");
                     }

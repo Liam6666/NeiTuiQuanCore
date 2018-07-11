@@ -4,7 +4,7 @@ import com.neituiquan.work.base.AbsEntity;
 import com.neituiquan.work.FinalData;
 import com.neituiquan.work.daoImpl.JobsDAOImpl;
 import com.neituiquan.work.entity.JobListEntity;
-import com.neituiquan.work.entity.JobsEntity;
+import com.neituiquan.work.entity.ReleaseJobsEntity;
 import com.neituiquan.work.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,16 +17,17 @@ public class JobsService {
     @Autowired
     private JobsDAOImpl jobsDAO;
 
-    public AbsEntity addJobs(JobsEntity entity){
+    public AbsEntity addJobs(ReleaseJobsEntity entity){
         entity.setIsDel(FinalData.NO_DEL);
         entity.setSort("0");
         entity.setId(StringUtils.getUUID());
         entity.setCreateTime(StringUtils.getCurrentTimeMillis());
+        entity.setState(FinalData.VERIFYING);
         jobsDAO.addJobs(entity);
         return new AbsEntity();
     }
 
-    public AbsEntity updateJobs(JobsEntity entity){
+    public AbsEntity updateJobs(ReleaseJobsEntity entity){
         jobsDAO.updateJobs(entity);
         return new AbsEntity();
     }
@@ -36,15 +37,15 @@ public class JobsService {
         return new AbsEntity();
     }
 
-    public AbsEntity findJobsById(String id){
+    public AbsEntity findJobsById(String id,String index){
         AbsEntity absEntity = new AbsEntity();
-        absEntity.data = jobsDAO.findJobsById(id);
+        absEntity.data = jobsDAO.findJobsById(id,index);
         return absEntity;
     }
 
     public AbsEntity findJobsByUserId(String userId){
         AbsEntity absEntity = new AbsEntity();
-        List<JobsEntity> list = jobsDAO.findJobsByUserId(userId);
+        List<ReleaseJobsEntity> list = jobsDAO.findJobsByUserId(userId);
         absEntity.dataTotalCount = list.size();
         absEntity.data = list;
         return absEntity;
@@ -52,7 +53,7 @@ public class JobsService {
 
     public AbsEntity findJobsByCompanyId(String companyId){
         AbsEntity absEntity = new AbsEntity();
-        List<JobsEntity> list = jobsDAO.findJobsByCompanyId(companyId);
+        List<ReleaseJobsEntity> list = jobsDAO.findJobsByCompanyId(companyId);
         absEntity.dataTotalCount = list.size();
         absEntity.data = list;
         return absEntity;

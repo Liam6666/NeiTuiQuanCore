@@ -27,6 +27,7 @@ import com.neituiquan.gson.ReleaseJobListModel;
 import com.neituiquan.httpEvent.CompanyDetailsEventModel;
 import com.neituiquan.httpEvent.GetJobListEventModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.utils.GlideUtils;
 import com.neituiquan.work.R;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -106,7 +107,7 @@ public class CompanyDetailsActivity extends BaseActivity {
             CompanyModel companyModel = new Gson().fromJson(eventModel.resultStr,CompanyModel.class);
             List<String> imgList = new ArrayList<>();
             for(CompanyImgEntity imgEntity : companyModel.data.getImgList()){
-                imgList.add(FinalData.IMG + imgEntity.getImgUrl());
+                imgList.add(imgEntity.getImgUrl());
             }
             initBanner(imgList);
             initBaseInfo(companyModel.data);
@@ -133,7 +134,7 @@ public class CompanyDetailsActivity extends BaseActivity {
         //设置图片集合
         companyDetailsFG_banner.setImages(imgList);
         //设置banner动画效果
-        companyDetailsFG_banner.setBannerAnimation(Transformer.Accordion);
+        companyDetailsFG_banner.setBannerAnimation(Transformer.Default);
         //设置自动轮播，默认为true
         companyDetailsFG_banner.isAutoPlay(true);
         //设置轮播时间
@@ -223,7 +224,7 @@ public class CompanyDetailsActivity extends BaseActivity {
 
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {
-            Glide.with(context).load(path).into(imageView);
+            GlideUtils.load((String)path,imageView);
         }
     }
 }

@@ -2,7 +2,7 @@ package com.neituiquan.work.controller;
 
 
 import com.neituiquan.work.base.AbsEntity;
-import com.neituiquan.work.entity.JobsEntity;
+import com.neituiquan.work.entity.ReleaseJobsEntity;
 import com.neituiquan.work.service.JobsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +15,12 @@ public class JobsController {
     private JobsService service;
 
     @RequestMapping(method = RequestMethod.POST,path = "/addJobs")
-    public AbsEntity addJobs(@RequestBody JobsEntity entity){
+    public AbsEntity addJobs(@RequestBody ReleaseJobsEntity entity){
         return service.addJobs(entity);
     }
 
     @RequestMapping(method = RequestMethod.POST,path = "/updateJobs")
-    public AbsEntity updateJobs(@RequestBody JobsEntity entity){
+    public AbsEntity updateJobs(@RequestBody ReleaseJobsEntity entity){
         return service.updateJobs(entity);
     }
 
@@ -30,8 +30,8 @@ public class JobsController {
     }
 
     @RequestMapping(method = RequestMethod.GET,path = "/findJobsById")
-    public AbsEntity findJobsById(@RequestParam String id){
-        return service.findJobsById(id);
+    public AbsEntity findJobsById(@RequestParam String id,@RequestParam String index){
+        return service.findJobsById(id,index);
     }
 
     @RequestMapping(method = RequestMethod.GET,path = "/findJobsByUserId")

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.neituiquan.FinalData;
 import com.neituiquan.entity.JobListEntity;
 import com.neituiquan.utils.Millis2Date;
@@ -150,6 +151,14 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.ItemVi
                         }
                     }
                 });
+                holder.item_contentLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(callBack != null){
+                            callBack.onItemClick(entity,position);
+                        }
+                    }
+                });
                 break;
             case FinalData.ITEM_EMPTY:
                 holder.item_emptyTv.setOnClickListener(new View.OnClickListener() {
@@ -191,6 +200,8 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.ItemVi
         LinearLayout view_locationLayout;
         TextView view_locationTv;
 
+        LinearLayout item_contentLayout;
+
         public ItemViewHolder(View itemView,int viewType) {
             super(itemView);
             switch (viewType){
@@ -199,6 +210,7 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.ItemVi
                     view_locationTv = itemView.findViewById(R.id.view_locationTv);
                     break;
                 case FinalData.ITEM_DEFAULT:
+                    item_contentLayout = itemView.findViewById(R.id.item_contentLayout);
                     view_moreIcon = itemView.findViewById(R.id.view_moreIcon);
                     item_iconView = itemView.findViewById(R.id.item_iconView);
                     item_title = (TextView) itemView.findViewById(R.id.item_title);

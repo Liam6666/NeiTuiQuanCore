@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseFragment;
+import com.neituiquan.dialog.DatePickerDialog;
 import com.neituiquan.dialog.InputDialog;
 import com.neituiquan.entity.CompanyEntity;
 import com.neituiquan.gson.CompanyModel;
@@ -64,7 +65,7 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
     private EditText bindCompanyFG_provinceTv;
     private EditText bindCompanyFG_cityTv;
     private EditText bindCompanyFG_addressTv;
-    private EditText bindCompanyFG_creationTimeTv;
+    private TextView bindCompanyFG_creationTimeTv;
     private EditText bindCompanyFG_peopleNumTv;
     private EditText bindCompanyFG_linkUrlTv;
     private ImageView bindCompanyFG_addLabelImg;
@@ -90,6 +91,8 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
     private static final int START_TO_SELECTOR_CITY = 323;
 
     private static final int SELECTOR_CITY_RESULT_CODE = 333;
+
+    private DatePickerDialog datePickerDialog;
 
     private PositionUtils.PositionCallBack locationListener = new PositionUtils.PositionCallBack() {
         @Override
@@ -127,6 +130,7 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
         bindCompanyFG_nextTv.setVisibility(View.GONE);
         positionUtils = new PositionUtils();
         positionUtils.initGaoDeLocation(getContext(),locationListener);
+        initDialog();
     }
 
     private void changedSoft(){
@@ -185,7 +189,27 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
             case R.id.bindCompanyFG_toSelectorCity2:
                 startActivityForResult(new Intent(getContext(), CitySelectorActivity.class),START_TO_SELECTOR_CITY);
                 break;
+            case R.id.bindCompanyFG_creationTimeTv:
+                datePickerDialog.show();
+                break;
         }
+    }
+
+    private void initDialog(){
+        datePickerDialog = new DatePickerDialog(getContext());
+        datePickerDialog.setDialogCallBack(new DatePickerDialog.DatePickerDialogCallBack() {
+            @Override
+            public void onSelect(String date) {
+                bindCompanyFG_creationTimeTv.setText(date);
+            }
+        });
+        datePickerDialog = new DatePickerDialog(getContext());
+        datePickerDialog.setDialogCallBack(new DatePickerDialog.DatePickerDialogCallBack() {
+            @Override
+            public void onSelect(String date) {
+                bindCompanyFG_creationTimeTv.setText(date);
+            }
+        });
     }
 
     @Override
@@ -319,7 +343,7 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
         bindCompanyFG_provinceTv = (EditText) findViewById(R.id.bindCompanyFG_provinceTv);
         bindCompanyFG_cityTv = (EditText) findViewById(R.id.bindCompanyFG_cityTv);
         bindCompanyFG_addressTv = (EditText) findViewById(R.id.bindCompanyFG_addressTv);
-        bindCompanyFG_creationTimeTv = (EditText) findViewById(R.id.bindCompanyFG_creationTimeTv);
+        bindCompanyFG_creationTimeTv = findViewById(R.id.bindCompanyFG_creationTimeTv);
         bindCompanyFG_peopleNumTv = (EditText) findViewById(R.id.bindCompanyFG_peopleNumTv);
         bindCompanyFG_linkUrlTv = (EditText) findViewById(R.id.bindCompanyFG_linkUrlTv);
         bindCompanyFG_labelsLayout = findViewById(R.id.bindCompanyFG_labelsLayout);
@@ -339,6 +363,7 @@ public class AddCompanyFragment extends BaseFragment implements View.OnClickList
         bindCompanyFG_nextTv.setOnClickListener(this);
         bindCompanyFG_toSelectorCity.setOnClickListener(this);
         bindCompanyFG_toSelectorCity2.setOnClickListener(this);
+        bindCompanyFG_creationTimeTv.setOnClickListener(this);
 
     }
 

@@ -64,6 +64,11 @@ public class LocalCacheDAOImpl extends AppDataBase implements LocalCacheDAO {
         while (cursor.moveToNext()){
             ChatGroupEntity entity = new ChatGroupEntity();
             setGroupValues(entity,cursor);
+            ChatEntity lastChatEntity = getGroupLastChat(entity.getGroupId());
+            entity.setLastFromNickName(lastChatEntity.getFromNickName());
+            entity.setLastChatTime(lastChatEntity.getCreateTime());
+            entity.setLastChat(lastChatEntity.getMsgDetails());
+            entity.setNotReadCount(getGroupNotReadCount(entity.getGroupId())+"");
             list.add(entity);
         }
 //        Log.e(TAG,new Gson().toJson(list));
@@ -127,6 +132,15 @@ public class LocalCacheDAOImpl extends AppDataBase implements LocalCacheDAO {
             return false;
         }
         cursor.close();
+        return true;
+    }
+
+    @Override
+    public boolean removeAll() {
+        String sql = "delete from t_chat_msg";
+        db.execSQL(sql);
+        sql = "delete from t_chat_group";
+        db.execSQL(sql);
         return true;
     }
 

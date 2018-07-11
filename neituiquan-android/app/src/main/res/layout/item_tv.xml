@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:text="123"
-    android:gravity="center"
-    >
+    android:gravity="center">
 
 </TextView>

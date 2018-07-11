@@ -429,7 +429,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:hint="例：Java工程师"
+                    android:hint="介绍一下自己吧，生动的文字更能吸引别人的关注哦"
                     android:textColorHint="@color/lowTextColor"
                     android:textColor="@color/highTextColor"
                     android:textSize="@dimen/centerText"

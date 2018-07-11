@@ -21,6 +21,7 @@ import com.neituiquan.gson.UserModel;
 import com.neituiquan.httpEvent.CheckBindCompanyEventModel;
 import com.neituiquan.httpEvent.CheckBindResumeEventModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.utils.GlideUtils;
 import com.neituiquan.work.MainActivity;
 import com.neituiquan.work.R;
 import com.neituiquan.work.SettingsActivity;
@@ -146,16 +147,16 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         userFG_commentLayout.setVisibility(View.GONE);
         userFG_bindCompanyLayout.setVisibility(View.GONE);
         userFG_bindCompanyTv.setVisibility(View.GONE);
-        userFG_intentionLayout.setVisibility(View.VISIBLE);
+        userFG_intentionLayout.setVisibility(View.GONE);
         userFG_myResumeLayout.setVisibility(View.VISIBLE);
         userFG_blackHouseLayout.setVisibility(View.VISIBLE);
         userFG_historyLayout.setVisibility(View.VISIBLE);
-        userFG_submitResumeTv.setVisibility(View.VISIBLE);
+        userFG_submitResumeTv.setVisibility(View.GONE);
     }
 
     private void initUserInfo(){
         userFG_nameTv.setText(userModel.data.getNickName());
-        Glide.with(getContext()).load(FinalData.IMG + userModel.data.getHeadImg()).into(userFG_headImg);
+        GlideUtils.load(userModel.data.getHeadImg(),userFG_headImg);
         userFG_mottoTv.setText(userModel.data.getMotto());
 
         switcherMenuList();
@@ -246,14 +247,14 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
                 userFG_myResumeLayout.setVisibility(View.VISIBLE);
                 userFG_blackHouseLayout.setVisibility(View.VISIBLE);
                 userFG_historyLayout.setVisibility(View.VISIBLE);
-                userFG_submitResumeTv.setVisibility(View.VISIBLE);
+                userFG_submitResumeTv.setVisibility(View.GONE);
                 break;
             case "找人":
             case "HR":
                 userFG_publishLayout.setVisibility(View.VISIBLE);
                 userFG_commentLayout.setVisibility(View.VISIBLE);
                 userFG_bindCompanyLayout.setVisibility(View.VISIBLE);
-                userFG_bindCompanyTv.setVisibility(View.VISIBLE);
+                userFG_bindCompanyTv.setVisibility(View.GONE);
                 userFG_intentionLayout.setVisibility(View.GONE);
                 userFG_myResumeLayout.setVisibility(View.GONE);
                 userFG_blackHouseLayout.setVisibility(View.GONE);
@@ -292,6 +293,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         userFG_switcherRoleLayout = findViewById(R.id.userFG_switcherRoleLayout);
         userFG_submitResumeTv = findViewById(R.id.userFG_submitResumeTv);
 
+        userFG_intentionLayout.setVisibility(View.GONE);
         userFG_nameTv.setOnClickListener(this);
         userFG_mottoTv.setOnClickListener(this);
         userFG_myResumeLayout.setOnClickListener(this);

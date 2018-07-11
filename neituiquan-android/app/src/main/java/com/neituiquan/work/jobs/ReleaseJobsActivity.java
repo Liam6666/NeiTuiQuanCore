@@ -20,7 +20,7 @@ import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.dialog.InputDialog;
 import com.neituiquan.dialog.SinglePickerDialog;
-import com.neituiquan.entity.JobsEntity;
+import com.neituiquan.entity.ReleaseJobsEntity;
 import com.neituiquan.httpEvent.ReleaseJobEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.work.R;
@@ -63,7 +63,7 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
 
     private int keyboardHeight;
 
-    private JobsEntity jobsEntity;
+    private ReleaseJobsEntity releaseJobsEntity;
 
     private List<String> labelList = new ArrayList<>();
 
@@ -89,10 +89,10 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
         bindViews();
         changedSoft();
         initStatusBar();
-        jobsEntity = (JobsEntity) getIntent().getSerializableExtra("jobsEntity");
+        releaseJobsEntity = (ReleaseJobsEntity) getIntent().getSerializableExtra("releaseJobsEntity");
         inputDialog = new InputDialog(this);
         inputDialog.setInputDialogCallBack(inputDialogCallBack);
-        if(jobsEntity == null){
+        if(releaseJobsEntity == null){
             releaseJobFG_delTv.setVisibility(View.GONE);
         }else{
             initValues();
@@ -110,7 +110,7 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.releaseJobUI_releaseTv:
-                if(jobsEntity == null){
+                if(releaseJobsEntity == null){
                     save();
                 }else{
                     saveChanged();
@@ -146,14 +146,14 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initValues(){
-        releaseJobUI_titleTv.setText(jobsEntity.getTitle());
-        releaseJobUI_educationTv.setText(jobsEntity.getEducation());
-        releaseJobUI_minSalaryTv.setText(jobsEntity.getMinSalary());
-        releaseJobUI_maxSalaryTv.setText(jobsEntity.getMaxSalary());
-        releaseJobUI_workAgeTv.setText(jobsEntity.getWorkAge());
-        releaseJobUI_descriptionTv.setText(jobsEntity.getDescription());
+        releaseJobUI_titleTv.setText(releaseJobsEntity.getTitle());
+        releaseJobUI_educationTv.setText(releaseJobsEntity.getEducation());
+        releaseJobUI_minSalaryTv.setText(releaseJobsEntity.getMinSalary());
+        releaseJobUI_maxSalaryTv.setText(releaseJobsEntity.getMaxSalary());
+        releaseJobUI_workAgeTv.setText(releaseJobsEntity.getWorkAge());
+        releaseJobUI_descriptionTv.setText(releaseJobsEntity.getDescription());
         try {
-            JSONArray jsonArray = new JSONArray(jobsEntity.getLabels());
+            JSONArray jsonArray = new JSONArray(releaseJobsEntity.getLabels());
             for(int i = 0 ; i < jsonArray.length() ; i ++){
                 labelList.add(jsonArray.getString(i));
             }
@@ -176,35 +176,35 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void save(){
-        jobsEntity = new JobsEntity();
-        jobsEntity.setUserId(App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId());
-        jobsEntity.setTitle(releaseJobUI_titleTv.getText().toString());
-        jobsEntity.setLabels(new Gson().toJson(labelList));
-        jobsEntity.setWorkAge(releaseJobUI_workAgeTv.getText().toString());
-        jobsEntity.setEducation(releaseJobUI_educationTv.getText().toString());
-        jobsEntity.setMinSalary(releaseJobUI_minSalaryTv.getText().toString());
-        jobsEntity.setMaxSalary(releaseJobUI_maxSalaryTv.getText().toString());
-        jobsEntity.setDescription(releaseJobUI_descriptionTv.getText().toString());
+        releaseJobsEntity = new ReleaseJobsEntity();
+        releaseJobsEntity.setUserId(App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId());
+        releaseJobsEntity.setTitle(releaseJobUI_titleTv.getText().toString());
+        releaseJobsEntity.setLabels(new Gson().toJson(labelList));
+        releaseJobsEntity.setWorkAge(releaseJobUI_workAgeTv.getText().toString());
+        releaseJobsEntity.setEducation(releaseJobUI_educationTv.getText().toString());
+        releaseJobsEntity.setMinSalary(releaseJobUI_minSalaryTv.getText().toString());
+        releaseJobsEntity.setMaxSalary(releaseJobUI_maxSalaryTv.getText().toString());
+        releaseJobsEntity.setDescription(releaseJobUI_descriptionTv.getText().toString());
         String url = FinalData.BASE_URL + "/addJobs";
-        String json = new Gson().toJson(jobsEntity);
+        String json = new Gson().toJson(releaseJobsEntity);
         HttpFactory.getHttpUtils().post(json,url,new ReleaseJobEventModel(ADD));
     }
 
     private void saveChanged(){
-        jobsEntity.setTitle(releaseJobUI_titleTv.getText().toString());
-        jobsEntity.setLabels(new Gson().toJson(labelList));
-        jobsEntity.setWorkAge(releaseJobUI_workAgeTv.getText().toString());
-        jobsEntity.setEducation(releaseJobUI_educationTv.getText().toString());
-        jobsEntity.setMinSalary(releaseJobUI_minSalaryTv.getText().toString());
-        jobsEntity.setMaxSalary(releaseJobUI_maxSalaryTv.getText().toString());
-        jobsEntity.setDescription(releaseJobUI_descriptionTv.getText().toString());
+        releaseJobsEntity.setTitle(releaseJobUI_titleTv.getText().toString());
+        releaseJobsEntity.setLabels(new Gson().toJson(labelList));
+        releaseJobsEntity.setWorkAge(releaseJobUI_workAgeTv.getText().toString());
+        releaseJobsEntity.setEducation(releaseJobUI_educationTv.getText().toString());
+        releaseJobsEntity.setMinSalary(releaseJobUI_minSalaryTv.getText().toString());
+        releaseJobsEntity.setMaxSalary(releaseJobUI_maxSalaryTv.getText().toString());
+        releaseJobsEntity.setDescription(releaseJobUI_descriptionTv.getText().toString());
         String url = FinalData.BASE_URL + "/updateJobs";
-        String json = new Gson().toJson(jobsEntity);
+        String json = new Gson().toJson(releaseJobsEntity);
         HttpFactory.getHttpUtils().post(json,url,new ReleaseJobEventModel(UPDATE));
     }
 
     private void del(){
-        String url = FinalData.BASE_URL + "/delJobs?id=" + jobsEntity.getId();
+        String url = FinalData.BASE_URL + "/delJobs?id=" + releaseJobsEntity.getId();
         HttpFactory.getHttpUtils().get(url,new ReleaseJobEventModel(DELETE));
     }
 

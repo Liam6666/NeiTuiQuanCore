@@ -133,7 +133,6 @@ public class LoginFragment extends BaseFragment implements View.OnFocusChangeLis
         userEntity.setAccount(account);
         userEntity.setPassword(password);
         HttpFactory.getHttpUtils().post(new Gson().toJson(userEntity), FinalData.BASE_URL + "/login",new LoginEventModel());
-        getContext().startService(new Intent(getContext(), AppService.class));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -149,6 +148,7 @@ public class LoginFragment extends BaseFragment implements View.OnFocusChangeLis
 //                EventBus.getDefault().post(userModel);
                 ((AccountActivity)getContext()).finish();
                 startActivity(new Intent(getContext(), MainActivity.class));
+                getContext().startService(new Intent(getContext(), AppService.class));
             }else{
                 ToastUtils.showShort(userModel.msg);
             }

@@ -1,23 +1,23 @@
 package com.neituiquan.work.dao;
 
 import com.neituiquan.work.entity.JobListEntity;
-import com.neituiquan.work.entity.JobsEntity;
+import com.neituiquan.work.entity.ReleaseJobsEntity;
 
 import java.util.List;
 
 public interface JobsDAO {
 
-    boolean addJobs(JobsEntity entity);
+    boolean addJobs(ReleaseJobsEntity entity);
 
-    boolean updateJobs(JobsEntity entity);
+    boolean updateJobs(ReleaseJobsEntity entity);
 
     boolean delJobs(String id);
 
-    JobsEntity findJobsById(String id);
+    ReleaseJobsEntity findJobsById(String id,String index);
 
-    List<JobsEntity> findJobsByUserId(String userId);
+    List<ReleaseJobsEntity> findJobsByUserId(String userId);
 
-    List<JobsEntity> findJobsByCompanyId(String companyId);
+    List<ReleaseJobsEntity> findJobsByCompanyId(String companyId);
 
     List<JobListEntity> getJobsList(String city,String title,String index);
 

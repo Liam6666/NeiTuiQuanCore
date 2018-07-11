@@ -26,9 +26,12 @@ public class FinalData {
     public static final String DEL = "-1";//删除
 
 
-    public static final String VERIFY = "0";//未审核通过
+    public static final String VERIFY = "0";//审核通过
 
-    public static final String NO_VERIFY = "-1";//审核通过
+    public static final String VERIFYING = "-1";//审核中
+
+    public static final String NO_VERIFY = "-2";//未审核通过
+
 
     public static final String OPEN = "0";//公开
 
@@ -69,5 +72,6 @@ public class FinalData {
     public static final String YES = "0";
 
     public static final String NO = "-1";
+
 
 }

@@ -131,4 +131,18 @@ public class UserService {
         absEntity.data = userDAO.findUserById(id);
         return absEntity;
     }
+
+    public AbsEntity findUserSimpleById(String id){
+        AbsEntity absEntity = new AbsEntity();
+        UserEntity entity = userDAO.findUserById(id);
+        entity.setPassword("");
+        entity.setAccount("");
+        entity.setLongitude("");
+        entity.setLatitude("");
+        entity.setIsDel("");
+        entity.setDistrict("");
+        entity.setAccuracy("");
+        absEntity.data = entity;
+        return absEntity;
+    }
 }

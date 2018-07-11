@@ -36,6 +36,10 @@ public class UserInfoUtils {
         return new Gson().fromJson(json,UserModel.class);
     }
 
+    public String getUserId(){
+        return getUserInfo().data.getId();
+    }
+
     public void clearUserInfo(){
         sharedPreferences.edit().remove(KEY_NAME).commit();
     }

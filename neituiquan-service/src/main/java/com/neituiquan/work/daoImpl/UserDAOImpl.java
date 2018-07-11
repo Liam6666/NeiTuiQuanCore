@@ -52,7 +52,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean updateLocation(UserEntity entity) {
-        String sql = "update t_user set" +
+        String sql = "update t_user set " +
                 "latitude = ?,longitude = ?,accuracy = ?,province = ?,city = ?,district = ?,lastLoginTime = ?" +
                 "where id = ?";
         String[] params = new String[]{

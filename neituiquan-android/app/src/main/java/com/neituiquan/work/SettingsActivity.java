@@ -10,6 +10,9 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.BarUtils;
 import com.neituiquan.App;
 import com.neituiquan.base.BaseActivity;
+import com.neituiquan.database.AppDBFactory;
+import com.neituiquan.database.LocalCacheDAOImpl;
+import com.neituiquan.utils.PositionUtils;
 import com.neituiquan.work.account.AccountActivity;
 
 /**
@@ -18,11 +21,15 @@ import com.neituiquan.work.account.AccountActivity;
  * email:nice_ohoh@163.com
  */
 
-public class SettingsActivity extends BaseActivity {
+public class SettingsActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView settingsUI_outLogin;
 
+    private TextView settingsUI_clearLocalDB;
+
     private View settingsUI_statusView;
+
+    private LocalCacheDAOImpl localCacheDAO;
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -31,18 +38,9 @@ public class SettingsActivity extends BaseActivity {
 
     @Override
     public void initList(Bundle savedInstanceState) {
-        settingsUI_outLogin = findViewById(R.id.settingsUI_outLogin);
-        settingsUI_statusView = findViewById(R.id.settingsUI_statusView);
+        bindViews();
         initStatusBar();
-        settingsUI_outLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                App.getAppInstance().getUserInfoUtils().clearUserInfo();
-                finish();
-                ActivityUtils.finishActivity(MainActivity.class);
-                startActivity(new Intent(SettingsActivity.this, AccountActivity.class));
-            }
-        });
+
     }
 
 
@@ -50,5 +48,31 @@ public class SettingsActivity extends BaseActivity {
         int barHeight = BarUtils.getStatusBarHeight();
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1,barHeight);
         settingsUI_statusView.setLayoutParams(params);
+    }
+
+    private void bindViews(){
+        settingsUI_outLogin = findViewById(R.id.settingsUI_outLogin);
+        settingsUI_statusView = findViewById(R.id.settingsUI_statusView);
+        settingsUI_clearLocalDB = findViewById(R.id.settingsUI_clearLocalDB);
+        settingsUI_outLogin.setOnClickListener(this);
+        settingsUI_clearLocalDB.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id){
+            case R.id.settingsUI_outLogin:
+                App.getAppInstance().getUserInfoUtils().clearUserInfo();
+                PositionUtils.clearLocationInfo(this);
+                finish();
+                ActivityUtils.finishActivity(MainActivity.class);
+                startActivity(new Intent(SettingsActivity.this, AccountActivity.class));
+                break;
+            case R.id.settingsUI_clearLocalDB:
+                localCacheDAO = AppDBFactory.getInstance(this);
+                localCacheDAO.removeAll();
+                break;
+        }
     }
 }

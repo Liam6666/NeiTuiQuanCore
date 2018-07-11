@@ -47,4 +47,10 @@ public interface LocalCacheDAO {
     boolean hasId(String id);
 
     boolean hasGroup(String groupId);
+
+    /**
+     * 删除所有数据
+     * @return
+     */
+    boolean removeAll();
 }

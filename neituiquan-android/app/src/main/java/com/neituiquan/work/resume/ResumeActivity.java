@@ -31,6 +31,7 @@ import com.neituiquan.gson.UserResumeModel;
 import com.neituiquan.httpEvent.AddResumeEventModel;
 import com.neituiquan.httpEvent.RefreshResumeEventModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.utils.GlideUtils;
 import com.neituiquan.work.R;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -234,17 +235,17 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
 
     private void initValues(){
         resumeUI_emptyLayout.setVisibility(View.GONE);
-        Glide.with(this).load(FinalData.IMG + userModel.data.getHeadImg()).into(resumeUI_headImg);
+        GlideUtils.load(userModel.data.getHeadImg(),resumeUI_headImg);
         resumeUI_nameTv.setText(userModel.data.getNickName());
         resumeUI_mottoTv.setText(userModel.data.getMotto());
         resumeUI_educationTv.setText(resumeModel.data.getEducation());
-        resumeUI_workAgeTv.setText(resumeModel.data.getWorkAge());
+        resumeUI_workAgeTv.setText(resumeModel.data.getWorkAge()+"年");
         resumeUI_birthdayTv.setText(resumeModel.data.getBirthday());
         resumeUI_targetCity.setText(resumeModel.data.getTargetCity());
         resumeUI_phoneTv.setText(userModel.data.getAccount());
         resumeUI_emailTv.setText(userModel.data.getEmail());
         resumeUI_targetWorkTv.setText(resumeModel.data.getTargetWork());
-        resumeUI_targetSalaryTv.setText(resumeModel.data.getTargetSalary());
+        resumeUI_targetSalaryTv.setText(resumeModel.data.getTargetSalary()+"K");
         resumeUI_introductionTv.setText(resumeModel.data.getIntroduction());
         resumeUI_PLayout.removeAllViews();
         resumeUI_ALayout.removeAllViews();

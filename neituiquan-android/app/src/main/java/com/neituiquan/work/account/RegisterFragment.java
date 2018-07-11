@@ -260,6 +260,7 @@ public class RegisterFragment extends BaseFragment implements View.OnFocusChange
         entity.setProvince(province);
         entity.setCity(city);
         entity.setDistrict(district);
+        entity.setEmail(email);
         ((AccountActivity)getContext()).getLoadingDialog().show();
         HttpFactory.getHttpUtils().post(new Gson().toJson(entity), FinalData.BASE_URL + "/register",new RegisterEventModel());
     }

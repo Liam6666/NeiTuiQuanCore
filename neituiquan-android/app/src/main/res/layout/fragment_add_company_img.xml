@@ -33,8 +33,19 @@
             android:textSize="@dimen/centerText"
             android:textColor="@color/themeColor"/>
     </LinearLayout>
-
+    <TextView
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/centerText"
+        android:textColor="@color/themeColor"
+        android:text="添加好的企业形象的图片，能吸引更多人投递简历\n请尽量选择16:9的图片"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:background="@color/lineColor"/>
     <HorizontalScrollView
+        android:scrollbars="none"
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="150dp">

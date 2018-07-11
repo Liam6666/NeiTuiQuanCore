@@ -1,13 +1,19 @@
 package com.neituiquan.work.resume;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.SizeUtils;
 import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
@@ -51,12 +57,18 @@ public class EditProjectFragment extends BaseFragment implements View.OnClickLis
     private EditText editProjectFG_absTv;
     private TextView editProjectFG_delTv;
 
+    private FrameLayout editProjectFG_introductionLayout;
+    private ScrollView editProjectFG_scrollView;
+
+    private View editProjectFG_emptyView;
+
     private UserResumeEntity.ResumePEntity pEntity;
 
     private DatePickerDialog startTimePickerDialog;
 
     private DatePickerDialog endTimePickerDialog;
 
+    private int keyboardHeight;
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,6 +85,7 @@ public class EditProjectFragment extends BaseFragment implements View.OnClickLis
             initValues();
         }
         initDialog();
+        changedSoft();
     }
 
     @Override
@@ -124,6 +137,39 @@ public class EditProjectFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onSelect(String date) {
                 editProjectFG_endTimeTv.setText(date);
+            }
+        });
+    }
+
+
+    private void changedSoft(){
+        editProjectFG_absTv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) editProjectFG_introductionLayout.getLayoutParams();
+                    params.height += SizeUtils.dp2px(500);
+                    editProjectFG_introductionLayout.setLayoutParams(params);
+                    LinearLayout.LayoutParams emptyParams = (LinearLayout.LayoutParams) editProjectFG_emptyView.getLayoutParams();
+                    emptyParams.height = keyboardHeight;
+                    editProjectFG_emptyView.setLayoutParams(emptyParams);
+                    scrollToBottom(editProjectFG_scrollView,editProjectFG_introductionLayout);
+                }else{
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) editProjectFG_introductionLayout.getLayoutParams();
+                    params.height = SizeUtils.dp2px(100);
+                    editProjectFG_introductionLayout.setLayoutParams(params);
+                    LinearLayout.LayoutParams emptyParams = (LinearLayout.LayoutParams) editProjectFG_emptyView.getLayoutParams();
+                    emptyParams.height = SizeUtils.dp2px(100);
+                    editProjectFG_emptyView.setLayoutParams(emptyParams);
+                }
+            }
+        });
+        KeyboardUtils.registerSoftInputChangedListener(getActivity(), new KeyboardUtils.OnSoftInputChangedListener() {
+            @Override
+            public void onSoftInputChanged(int height) {
+                if(height != 0){
+                    keyboardHeight = height;
+                }
             }
         });
     }
@@ -195,12 +241,33 @@ public class EditProjectFragment extends BaseFragment implements View.OnClickLis
         editProjectFG_linkTv = (EditText) findViewById(R.id.editProjectFG_linkTv);
         editProjectFG_absTv = (EditText) findViewById(R.id.editProjectFG_absTv);
         editProjectFG_delTv = (TextView) findViewById(R.id.editProjectFG_delTv);
-
+        editProjectFG_introductionLayout = findViewById(R.id.editProjectFG_introductionLayout);
+        editProjectFG_emptyView = findViewById(R.id.editProjectFG_emptyView);
+        editProjectFG_scrollView = findViewById(R.id.editProjectFG_scrollView);
         editProjectFG_backImg.setOnClickListener(this);
         editProjectFG_saveTv.setOnClickListener(this);
         editProjectFG_delTv.setOnClickListener(this);
         editProjectFG_startTimeTv.setOnClickListener(this);
         editProjectFG_endTimeTv.setOnClickListener(this);
+    }
+
+    public static void scrollToBottom(final View scroll, final View inner) {
+
+        Handler mHandler = new Handler();
+
+        mHandler.post(new Runnable() {
+            public void run() {
+                if (scroll == null || inner == null) {
+                    return;
+                }
+                int offset = inner.getMeasuredHeight() - scroll.getHeight();
+                if (offset < 0) {
+                    offset = 0;
+                }
+
+                scroll.scrollTo(0, offset);
+            }
+        });
     }
 
 

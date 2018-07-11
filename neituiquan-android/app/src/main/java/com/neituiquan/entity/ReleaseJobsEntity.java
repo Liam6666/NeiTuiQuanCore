@@ -4,13 +4,13 @@ import com.neituiquan.FinalData;
 
 import java.io.Serializable;
 
-public class JobsEntity implements Serializable{
+public class ReleaseJobsEntity extends AbsEntity implements Serializable{
 
-    public JobsEntity(int itemType) {
+    public ReleaseJobsEntity(int itemType) {
         this.itemType = itemType;
     }
 
-    public JobsEntity() {
+    public ReleaseJobsEntity() {
     }
 
     public int itemType = FinalData.ITEM_DEFAULT;
@@ -52,6 +52,16 @@ public class JobsEntity implements Serializable{
     private String city;
 
     private String workAge;
+
+    private String state;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public String getWorkAge() {
         return workAge;

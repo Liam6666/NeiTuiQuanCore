@@ -3,7 +3,7 @@ package com.neituiquan.work.daoImpl;
 import com.neituiquan.work.FinalData;
 import com.neituiquan.work.dao.JobsDAO;
 import com.neituiquan.work.entity.JobListEntity;
-import com.neituiquan.work.entity.JobsEntity;
+import com.neituiquan.work.entity.ReleaseJobsEntity;
 import com.neituiquan.work.utils.PageUtils;
 import com.neituiquan.work.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class JobsDAOImpl implements JobsDAO {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public boolean addJobs(JobsEntity entity) {
+    public boolean addJobs(ReleaseJobsEntity entity) {
         String sql1 = "select * from t_company where userId = ? and isDel = ?";
         jdbcTemplate.query(sql1, new String[]{entity.getUserId(),FinalData.NO_DEL}, new RowCallbackHandler() {
             @Override
@@ -34,13 +34,14 @@ public class JobsDAOImpl implements JobsDAO {
                 if(companyId != null){
                     entity.setCompanyId(companyId);
                     entity.setCity(city);
-                    String sql = "insert into t_jobs values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    String sql = "insert into t_jobs values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     String[] params = new String[]{
                             entity.getId(),entity.getUserId(),entity.getCompanyId(),
                             entity.getTitle(),entity.getLabels(),entity.getEducation(),
                             entity.getCity(),entity.getWorkAge(),
                             entity.getMinSalary(),entity.getMaxSalary(),entity.getDescription(),
-                            entity.getSort(),entity.getCreateTime(),entity.getIsDel()
+                            entity.getSort(),entity.getCreateTime(),entity.getIsDel(),
+                            entity.getState()
                     };
                     jdbcTemplate.update(sql,params);
                 }
@@ -51,7 +52,7 @@ public class JobsDAOImpl implements JobsDAO {
     }
 
     @Override
-    public boolean updateJobs(JobsEntity entity) {
+    public boolean updateJobs(ReleaseJobsEntity entity) {
         String sql = "update t_jobs set " +
                 "title = ?,labels = ?,education = ?," +
                 "minSalary = ?,maxSalary = ?," +
@@ -75,9 +76,10 @@ public class JobsDAOImpl implements JobsDAO {
     }
 
     @Override
-    public JobsEntity findJobsById(String id) {
-        JobsEntity entity = new JobsEntity();
+    public ReleaseJobsEntity findJobsById(String id,String index) {
+        ReleaseJobsEntity entity = new ReleaseJobsEntity();
         String sql = "select * from t_jobs where id = ? and isDel = ?";
+        sql = PageUtils.limit(sql,index);
         jdbcTemplate.query(sql, new String[]{id, FinalData.NO_DEL}, new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet resultSet) throws SQLException {
@@ -91,14 +93,14 @@ public class JobsDAOImpl implements JobsDAO {
     }
 
     @Override
-    public List<JobsEntity> findJobsByUserId(String userId) {
-        List<JobsEntity> entityList = new ArrayList<>();
+    public List<ReleaseJobsEntity> findJobsByUserId(String userId) {
+        List<ReleaseJobsEntity> entityList = new ArrayList<>();
         String sql = "select * from t_jobs where userId = ? and isDel = ? " +
                 "group by createTime desc";
         jdbcTemplate.query(sql, new String[]{userId, FinalData.NO_DEL}, new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet resultSet) throws SQLException {
-                JobsEntity entity = new JobsEntity();
+                ReleaseJobsEntity entity = new ReleaseJobsEntity();
                 setValues(entity,resultSet);
                 if(entity.getId() != null){
                     entityList.add(entity);
@@ -109,14 +111,14 @@ public class JobsDAOImpl implements JobsDAO {
     }
 
     @Override
-    public List<JobsEntity> findJobsByCompanyId(String companyId) {
-        List<JobsEntity> entityList = new ArrayList<>();
+    public List<ReleaseJobsEntity> findJobsByCompanyId(String companyId) {
+        List<ReleaseJobsEntity> entityList = new ArrayList<>();
         String sql = "select * from t_jobs where companyId = ? and isDel = ? " +
                 "group by createTime desc";
         jdbcTemplate.query(sql, new String[]{companyId, FinalData.NO_DEL}, new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet resultSet) throws SQLException {
-                JobsEntity entity = new JobsEntity();
+                ReleaseJobsEntity entity = new ReleaseJobsEntity();
                 setValues(entity,resultSet);
                 if(entity.getId() != null){
                     entityList.add(entity);
@@ -159,7 +161,7 @@ public class JobsDAOImpl implements JobsDAO {
     }
 
 
-    private void setValues(JobsEntity entity,ResultSet resultSet) throws SQLException{
+    private void setValues(ReleaseJobsEntity entity, ResultSet resultSet) throws SQLException{
         entity.setId(resultSet.getString("id"));
         entity.setUserId(resultSet.getString("userId"));
         entity.setCompanyId(resultSet.getString("companyId"));
@@ -174,6 +176,7 @@ public class JobsDAOImpl implements JobsDAO {
         entity.setSort(resultSet.getString("sort"));
         entity.setCreateTime(resultSet.getString("createTime"));
         entity.setIsDel(resultSet.getString("isDel"));
+        entity.setState(resultSet.getString("state"));
     }
 
 

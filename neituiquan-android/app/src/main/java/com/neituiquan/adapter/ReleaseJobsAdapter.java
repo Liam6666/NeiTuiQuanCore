@@ -1,5 +1,6 @@
 package com.neituiquan.adapter;
 
+
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,13 +9,14 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.neituiquan.entity.JobsEntity;
-import com.neituiquan.utils.Millis2Date;
+import com.neituiquan.FinalData;
+import com.neituiquan.entity.ReleaseJobsEntity;
 import com.neituiquan.work.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,144 +25,132 @@ import java.util.List;
  * email:nice_ohoh@163.com
  */
 
-public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.ItemViewHolder> {
+public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.ItemViewHolder>{
 
     private Context context;
 
-    private List<JobsEntity> entityList;
+    private List<ReleaseJobsEntity> list = new ArrayList<>();
 
-    private ReleaseJobsAdapterCallBack callBack;
+    private AdapterCallBack callBack;
 
-    private static final int EMPTY = -1;
-
-    private static final int DEFAULT = 0;
-
-    public ReleaseJobsAdapter(Context context, List<JobsEntity> entityList) {
+    public ReleaseJobsAdapter(Context context) {
         this.context = context;
-        this.entityList = entityList;
     }
 
-    public void setCallBack(ReleaseJobsAdapterCallBack callBack) {
+    public void setCallBack(AdapterCallBack callBack) {
         this.callBack = callBack;
     }
 
-    public void refresh(List<JobsEntity> entityList){
-        this.entityList.clear();
-        this.entityList.addAll(entityList);
+    public void addData(ReleaseJobsEntity newData){
+        this.list.add(newData);
         notifyDataSetChanged();
     }
 
-    public void del(String id){
-        for(JobsEntity entity : entityList){
-            if(entity.getId().equals(id)){
-                entityList.remove(entity);
-                break;
-            }
-        }
+    public void addData(List<ReleaseJobsEntity> newData){
+        this.list.addAll(newData);
         notifyDataSetChanged();
+    }
+
+    public void refresh(List<ReleaseJobsEntity> newData){
+        this.list.clear();
+        addData(newData);
     }
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = null;
+        ItemViewHolder itemViewHolder = null;
         switch (viewType){
-            case EMPTY:
-                itemView = LayoutInflater.from(context).inflate(R.layout.item_empty,parent,false);
+            case FinalData.ITEM_DEFAULT:
+                itemViewHolder = new ItemViewHolder(createView(R.layout.item_release_job,parent),viewType);
                 break;
-            case DEFAULT:
-                itemView = LayoutInflater.from(context).inflate(R.layout.item_release_job,parent,false);
+            case FinalData.ITEM_EMPTY:
+                itemViewHolder = new ItemViewHolder(createView(R.layout.item_empty,parent),viewType);
                 break;
         }
-        return new ItemViewHolder(itemView,viewType);
+        return itemViewHolder;
     }
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, final int position) {
-        final JobsEntity entity = entityList.get(position);
-        if(entity.itemType == EMPTY){
-            return;
-        }
-        holder.item_titleTv.setText(entity.getTitle());
-        holder.item_salaryTv.setText(entity.getMinSalary() +"K—" + entity.getMaxSalary()+"K");
-        holder.item_absTv.setText(entity.getEducation() + " " + entity.getCity() +" "+ entity.getWorkAge() );
-        String time = Millis2Date.simpleMillis2Date(entity.getCreateTime());
-        holder.item_timeTv.setText(time);
-        holder.item_labelsLayout.removeAllViews();
-        try {
-            JSONArray jsonArray = new JSONArray(entity.getLabels());
-            for(int i = 0; i < jsonArray.length() ; i ++){
-                TextView textView = (TextView) LayoutInflater.from(context).inflate(R.layout.item_jobs_label,holder.item_labelsLayout,false);
-                textView.setText(jsonArray.getString(i));
-                holder.item_labelsLayout.addView(textView);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(callBack != null){
-                    callBack.onItemClick(entity,position);
+        final ReleaseJobsEntity entity = list.get(position);
+        int viewType = entity.itemType;
+        switch (viewType){
+            case FinalData.ITEM_DEFAULT:
+                holder.item_titleTv.setText(entity.getTitle());
+                holder.item_stateTv.setText(entity.getState());
+                holder.item_cityTv.setText(entity.getCity());
+                holder.item_workAgeTv.setText(entity.getWorkAge()+"年");
+                holder.item_educationTv.setText(entity.getEducation());
+                holder.item_labelsLayout.removeAllViews();
+                try {
+                    JSONArray jsonArray = new JSONArray(entity.getLabels());
+                    for(int i = 0 ; i < jsonArray.length() ; i ++){
+                        View labelView = View.inflate(context,R.layout.item_jobs_label,null);
+                        ((TextView)labelView).setText(jsonArray.getString(i));
+                        holder.item_labelsLayout.addView(labelView);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            }
-        });
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if(callBack != null){
-                    callBack.onLongItemClick(entity,position);
-                }
-                return true;
-            }
-        });
+                holder.item_contentLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(callBack != null){
+                            callBack.onItemClick(entity,position);
+                        }
+                    }
+                });
+                break;
+            case FinalData.ITEM_EMPTY:
+                break;
+        }
     }
 
     @Override
     public int getItemCount() {
-        if(entityList.size() == 0){
-            entityList.add(new JobsEntity(EMPTY));
-        }else{
-            for(JobsEntity entity : entityList){
-                if(entity.itemType == EMPTY){
-                    entityList.remove(entity);
-                }
-            }
-        }
-        return entityList.size();
+        return list.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return entityList.get(position).itemType;
+        return list.get(position).itemType;
     }
 
-    class ItemViewHolder extends RecyclerView.ViewHolder{
+    public View createView(int layoutId,ViewGroup parent){
+        return LayoutInflater.from(context).inflate(layoutId,parent,false);
+    }
 
-        TextView item_titleTv;
-        TextView item_salaryTv;
-        TextView item_absTv;
-        TextView item_timeTv;
-        LinearLayout item_labelsLayout;
+    static class ItemViewHolder extends RecyclerView.ViewHolder{
 
-        View itemView;
+
+        private LinearLayout item_contentLayout;
+        private TextView item_titleTv;
+        private TextView item_stateTv;
+        private TextView item_cityTv;
+        private TextView item_workAgeTv;
+        private TextView item_educationTv;
+        private LinearLayout item_labelsLayout;
 
         public ItemViewHolder(View itemView,int viewType) {
             super(itemView);
-            this.itemView = itemView;
-            if(viewType == DEFAULT){
-                item_titleTv = (TextView) itemView.findViewById(R.id.item_titleTv);
-                item_salaryTv = (TextView) itemView.findViewById(R.id.item_salaryTv);
-                item_absTv = (TextView) itemView.findViewById(R.id.item_absTv);
-                item_timeTv = (TextView) itemView.findViewById(R.id.item_timeTv);
-                item_labelsLayout = (LinearLayout) itemView.findViewById(R.id.item_labelsLayout);
+            switch (viewType){
+                case FinalData.ITEM_DEFAULT:
+                    item_contentLayout = itemView.findViewById(R.id.item_contentLayout);
+                    item_titleTv = itemView.findViewById(R.id.item_titleTv);
+                    item_stateTv = itemView.findViewById(R.id.item_stateTv);
+                    item_cityTv = itemView.findViewById(R.id.item_cityTv);
+                    item_workAgeTv = itemView.findViewById(R.id.item_workAgeTv);
+                    item_educationTv = itemView.findViewById(R.id.item_educationTv);
+                    item_labelsLayout = itemView.findViewById(R.id.item_labelsLayout);
+                    break;
             }
         }
     }
 
-    public interface ReleaseJobsAdapterCallBack{
 
-        public void onItemClick(JobsEntity entity,int position);
+    public interface AdapterCallBack{
 
-        public void onLongItemClick(JobsEntity entity, int position);
+        public void onItemClick(ReleaseJobsEntity entity,int position);
+
     }
 }
