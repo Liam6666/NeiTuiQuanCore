@@ -138,11 +138,13 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.ItemVi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                holder.id_labels.setText(entity.getCity() +"  "+ entity.getEducation() + "  "+ entity.getWorkAge());
+                holder.id_labels.setText(entity.getCity() +"  "+ entity.getEducation() + "  "+ entity.getWorkAge() +"年");
                 holder.item_companyNameTv.setText(entity.getCompanyName());
                 String time = Millis2Date.simpleMillis2Date(entity.getCreateTime());
                 holder.item_timeTv.setText(time);
-                holder.item_iconView.setValues(entity.getCompanyName(),Integer.valueOf(entity.getMaxSalary()));
+                if(!StringUtils.isEmpty(entity.getMaxSalary())){
+                    holder.item_iconView.setValues(entity.getCompanyName(),Integer.valueOf(entity.getMaxSalary()));
+                }
                 holder.view_moreIcon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -2,6 +2,7 @@ package com.neituiquan.adapter;
 
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,9 +52,32 @@ public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.
         notifyDataSetChanged();
     }
 
+    public void update(ReleaseJobsEntity newData){
+        int count = 0;
+        for(ReleaseJobsEntity entity : list){
+            if(entity.getId().equals(newData.getId())){
+                list.set(count,newData);
+                notifyItemChanged(count);
+                return;
+            }
+            count++;
+        }
+
+    }
+
     public void refresh(List<ReleaseJobsEntity> newData){
         this.list.clear();
         addData(newData);
+    }
+
+    public void remove(String id){
+        for(ReleaseJobsEntity entity : list){
+            if(entity.getId().equals(id)){
+                list.remove(entity);
+                notifyDataSetChanged();
+                return;
+            }
+        }
     }
 
     @Override
@@ -77,7 +101,16 @@ public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.
         switch (viewType){
             case FinalData.ITEM_DEFAULT:
                 holder.item_titleTv.setText(entity.getTitle());
-                holder.item_stateTv.setText(entity.getState());
+                if(entity.getState().equals(FinalData.VERIFY)){
+                    holder.item_stateTv.setText("已发布");
+                    holder.item_stateTv.setTextColor(ContextCompat.getColor(context,R.color.themeColor));
+                }else if(entity.getState().equals(FinalData.VERIFYING)){
+                    holder.item_stateTv.setText("审核中");
+                    holder.item_stateTv.setTextColor(ContextCompat.getColor(context,R.color.red));
+                }else if(entity.getState().equals(FinalData.NO_VERIFY)){
+                    holder.item_stateTv.setText("未审核通过");
+                    holder.item_stateTv.setTextColor(ContextCompat.getColor(context,R.color.red));
+                }
                 holder.item_cityTv.setText(entity.getCity());
                 holder.item_workAgeTv.setText(entity.getWorkAge()+"年");
                 holder.item_educationTv.setText(entity.getEducation());
@@ -85,7 +118,7 @@ public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.
                 try {
                     JSONArray jsonArray = new JSONArray(entity.getLabels());
                     for(int i = 0 ; i < jsonArray.length() ; i ++){
-                        View labelView = View.inflate(context,R.layout.item_jobs_label,null);
+                        View labelView= createView(R.layout.item_jobs_label,holder.item_labelsLayout);
                         ((TextView)labelView).setText(jsonArray.getString(i));
                         holder.item_labelsLayout.addView(labelView);
                     }
@@ -98,6 +131,15 @@ public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.
                         if(callBack != null){
                             callBack.onItemClick(entity,position);
                         }
+                    }
+                });
+                holder.item_contentLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        if(callBack != null){
+                            callBack.onLongItemClick(entity,position);
+                        }
+                        return true;
                     }
                 });
                 break;
@@ -152,5 +194,6 @@ public class ReleaseJobsAdapter extends RecyclerView.Adapter<ReleaseJobsAdapter.
 
         public void onItemClick(ReleaseJobsEntity entity,int position);
 
+        public void onLongItemClick(ReleaseJobsEntity entity,int position);
     }
 }

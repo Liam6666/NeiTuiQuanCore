@@ -30,13 +30,13 @@ public class JobsController {
     }
 
     @RequestMapping(method = RequestMethod.GET,path = "/findJobsById")
-    public AbsEntity findJobsById(@RequestParam String id,@RequestParam String index){
-        return service.findJobsById(id,index);
+    public AbsEntity findJobsById(@RequestParam String id){
+        return service.findJobsById(id);
     }
 
     @RequestMapping(method = RequestMethod.GET,path = "/findJobsByUserId")
-    public AbsEntity findJobsByUserId(@RequestParam String userId){
-        return service.findJobsByUserId(userId);
+    public AbsEntity findJobsByUserId(@RequestParam String userId,@RequestParam String index){
+        return service.findJobsByUserId(userId,index);
     }
 
     @RequestMapping(method = RequestMethod.GET,path = "/findJobsByCompanyId")

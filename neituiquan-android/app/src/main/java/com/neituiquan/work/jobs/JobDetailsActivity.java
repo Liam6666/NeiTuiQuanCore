@@ -1,5 +1,6 @@
 package com.neituiquan.work.jobs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,8 +20,11 @@ import com.neituiquan.gson.JobModel;
 import com.neituiquan.gson.UserModel;
 import com.neituiquan.httpEvent.GetJobInfoEventModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.utils.GlideUtils;
 import com.neituiquan.utils.Millis2Date;
 import com.neituiquan.work.R;
+import com.neituiquan.work.chat.ChatActivity;
+import com.neituiquan.work.company.CompanyDetailsActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -59,6 +63,7 @@ public class JobDetailsActivity extends BaseActivity implements View.OnClickList
     private TextView jobDetailsUI_pushResumeTv;
     private TextView jobDetailsUI_titleBarTv;
     private TextView jobDetailsUI_scoreCountTv;
+    private LinearLayout jobDetailsUI_companyLayout;
 
     private String jobId;
 
@@ -95,10 +100,23 @@ public class JobDetailsActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         int id = v.getId();
+        Intent intent = null;
         switch (id){
             case R.id.jobDetailsUI_backImg:
                 finish();
                 break;
+            case R.id.jobDetailsUI_toChatTv:
+                intent = new Intent(this, ChatActivity.class);
+                intent.putExtra("groupId",userEntity.getId());
+
+                break;
+            case R.id.jobDetailsUI_companyLayout:
+                intent = new Intent(this, CompanyDetailsActivity.class);
+                intent.putExtra("companyId",companyEntity.getId());
+                break;
+        }
+        if(intent != null){
+            startActivity(intent);
         }
     }
 
@@ -149,7 +167,7 @@ public class JobDetailsActivity extends BaseActivity implements View.OnClickList
         jobDetailsUI_salaryTv.setText(releaseJobsEntity.getMinSalary() + "K—" + releaseJobsEntity.getMaxSalary()+"K");
         jobDetailsUI_createTimeTv.setText("发布于："+Millis2Date.simpleMillis2Date(releaseJobsEntity.getCreateTime()));
         jobDetailsUI_cityTv.setText(releaseJobsEntity.getCity());
-        jobDetailsUI_workAgeTv.setText(releaseJobsEntity.getWorkAge());
+        jobDetailsUI_workAgeTv.setText(releaseJobsEntity.getWorkAge()+"年");
         jobDetailsUI_educationTv.setText(releaseJobsEntity.getEducation());
         jobDetailsUI_descriptionTv.setText(releaseJobsEntity.getDescription());
         jobDetailsUI_titleBarTv.setText(releaseJobsEntity.getTitle());
@@ -165,7 +183,7 @@ public class JobDetailsActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initUserValues(){
-        Glide.with(this).load(FinalData.IMG + userEntity.getHeadImg()).into(jobDetailsUI_releaseHeadImg);
+        GlideUtils.load(userEntity.getHeadImg(),jobDetailsUI_releaseHeadImg);
         jobDetailsUI_releaseNickName.setText(userEntity.getNickName());
 
     }
@@ -201,7 +219,10 @@ public class JobDetailsActivity extends BaseActivity implements View.OnClickList
         jobDetailsUI_pushResumeTv = (TextView) findViewById(R.id.jobDetailsUI_pushResumeTv);
         jobDetailsUI_titleBarTv = findViewById(R.id.jobDetailsUI_titleBarTv);
         jobDetailsUI_scoreCountTv = findViewById(R.id.jobDetailsUI_scoreCountTv);
+        jobDetailsUI_companyLayout = findViewById(R.id.jobDetailsUI_companyLayout);
         jobDetailsUI_backImg.setOnClickListener(this);
+        jobDetailsUI_toChatTv.setOnClickListener(this);
+        jobDetailsUI_companyLayout.setOnClickListener(this);
     }
 
 }

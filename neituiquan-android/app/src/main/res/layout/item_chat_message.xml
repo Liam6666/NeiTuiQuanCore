@@ -29,8 +29,8 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
                 <TextView
+                    android:layout_marginBottom="5dp"
                     android:id="@+id/item_titleTv"
-                    android:paddingBottom="5dp"
                     android:gravity="bottom"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
@@ -40,6 +40,7 @@
                     android:textColor="@color/highTextColor"
                     android:textStyle="bold"/>
                 <TextView
+                    android:layout_marginBottom="5dp"
                     android:id="@+id/item_timeTv"
                     android:paddingBottom="5dp"
                     android:gravity="bottom"
@@ -56,7 +57,7 @@
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/item_hintTv"
-                    android:paddingTop="5dp"
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -64,8 +65,8 @@
                     android:textSize="@dimen/centerText"
                     android:text="Augustine：Hello！"/>
                 <TextView
+                    android:layout_marginTop="5dp"
                     android:id="@+id/item_iconTv"
-                    android:paddingTop="5dp"
                     android:background="@drawable/shape_point_theme"
                     android:layout_width="25dp"
                     android:layout_height="25dp"

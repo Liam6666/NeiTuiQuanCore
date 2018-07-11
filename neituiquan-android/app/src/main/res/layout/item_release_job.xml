@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:background="@drawable/selector_item"
     android:id="@+id/item_contentLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -78,7 +79,7 @@
     <LinearLayout
         android:id="@+id/item_labelsLayout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="35dp"
         android:orientation="horizontal">
 
     </LinearLayout>

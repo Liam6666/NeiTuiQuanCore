@@ -91,6 +91,12 @@ public class FinalData {
     public static final long LOOP = 2000L;
 
 
+    public static final String VERIFY = "0";//审核通过
+
+    public static final String VERIFYING = "-1";//审核中
+
+    public static final String NO_VERIFY = "-2";//未审核通过
+
     static class FinalDataController{
 
         public static void init(Context context){

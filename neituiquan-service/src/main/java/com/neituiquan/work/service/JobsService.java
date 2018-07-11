@@ -37,15 +37,15 @@ public class JobsService {
         return new AbsEntity();
     }
 
-    public AbsEntity findJobsById(String id,String index){
+    public AbsEntity findJobsById(String id){
         AbsEntity absEntity = new AbsEntity();
-        absEntity.data = jobsDAO.findJobsById(id,index);
+        absEntity.data = jobsDAO.findJobsById(id);
         return absEntity;
     }
 
-    public AbsEntity findJobsByUserId(String userId){
+    public AbsEntity findJobsByUserId(String userId,String index){
         AbsEntity absEntity = new AbsEntity();
-        List<ReleaseJobsEntity> list = jobsDAO.findJobsByUserId(userId);
+        List<ReleaseJobsEntity> list = jobsDAO.findJobsByUserId(userId,index);
         absEntity.dataTotalCount = list.size();
         absEntity.data = list;
         return absEntity;

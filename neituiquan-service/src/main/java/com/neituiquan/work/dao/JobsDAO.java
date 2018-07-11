@@ -13,9 +13,9 @@ public interface JobsDAO {
 
     boolean delJobs(String id);
 
-    ReleaseJobsEntity findJobsById(String id,String index);
+    ReleaseJobsEntity findJobsById(String id);
 
-    List<ReleaseJobsEntity> findJobsByUserId(String userId);
+    List<ReleaseJobsEntity> findJobsByUserId(String userId,String index);
 
     List<ReleaseJobsEntity> findJobsByCompanyId(String companyId);
 

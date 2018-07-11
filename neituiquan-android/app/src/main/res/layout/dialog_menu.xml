@@ -31,7 +31,7 @@
         <RadioButton
             android:id="@+id/dialog_radioBtn1"
             android:layout_weight="1"
-            android:text="查看"
+            android:text="查看详情"
             android:textSize="@dimen/centerText"
             android:textColor="@color/highTextColor"
             android:checked="false"

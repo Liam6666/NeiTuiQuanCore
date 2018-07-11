@@ -89,14 +89,14 @@ public class ChatActivity extends BaseActivity {
                 ChatLoopEntity entity = new ChatLoopEntity();
                 entity.setFromId(userEntity.getId());
                 entity.setMsgDetails(msg);
-                entity.setReceiveId("7586d0fda5d14b52b85b7e649edd17d7");
+                entity.setReceiveId(groupId);
 
                 ChatEntity chatEntity = new ChatEntity();
                 chatEntity.setId(System.currentTimeMillis()+"");
                 chatEntity.setFromHeadImg(userEntity.getHeadImg());
                 chatEntity.setFromId(userEntity.getId());
                 chatEntity.setMsgDetails(msg);
-                chatEntity.setGroupId("7586d0fda5d14b52b85b7e649edd17d7");
+                chatEntity.setGroupId(groupId);
                 chatEntity.setCreateTime(System.currentTimeMillis()+"");
                 chatEntity.setMsgDetails(entity.getMsgDetails());
                 chatEntity.setIsRead(DBConstants.YES);

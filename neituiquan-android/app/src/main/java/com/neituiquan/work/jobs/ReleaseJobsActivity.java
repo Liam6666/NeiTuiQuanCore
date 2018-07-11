@@ -1,5 +1,6 @@
 package com.neituiquan.work.jobs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -78,6 +79,14 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
     private SinglePickerDialog educationPickerDialog;//学历选择
 
     private List<String> educationSelectorList = new ArrayList<>();
+
+    private static final int REQUEST_CODE = 3122;
+
+    private static final int RESULT_CODE_ADD = 3134;
+
+    private static final int RESULT_CODE_UPDATE = 31232;
+
+    private static final int RESULT_CODE_DEL = 4311;
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -185,6 +194,7 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
         releaseJobsEntity.setMinSalary(releaseJobUI_minSalaryTv.getText().toString());
         releaseJobsEntity.setMaxSalary(releaseJobUI_maxSalaryTv.getText().toString());
         releaseJobsEntity.setDescription(releaseJobUI_descriptionTv.getText().toString());
+        releaseJobsEntity.setState(FinalData.VERIFYING);
         String url = FinalData.BASE_URL + "/addJobs";
         String json = new Gson().toJson(releaseJobsEntity);
         HttpFactory.getHttpUtils().post(json,url,new ReleaseJobEventModel(ADD));
@@ -213,16 +223,25 @@ public class ReleaseJobsActivity extends BaseActivity implements View.OnClickLis
         switch (eventModel.eventId){
             case ADD:
                 if(eventModel.isSuccess){
+                    Intent intent = new Intent();
+                    intent.putExtra("releaseJobsEntity",releaseJobsEntity);
+                    setResult(RESULT_CODE_ADD,intent);
                     finish();
                 }
                 break;
             case UPDATE:
                 if(eventModel.isSuccess){
+                    Intent intent = new Intent();
+                    intent.putExtra("releaseJobsEntity",releaseJobsEntity);
+                    setResult(RESULT_CODE_UPDATE,intent);
                     finish();
                 }
                 break;
             case DELETE:
                 if(eventModel.isSuccess){
+                    Intent intent = new Intent();
+                    intent.putExtra("id",releaseJobsEntity.getId());
+                    setResult(RESULT_CODE_DEL,intent);
                     finish();
                 }
                 break;

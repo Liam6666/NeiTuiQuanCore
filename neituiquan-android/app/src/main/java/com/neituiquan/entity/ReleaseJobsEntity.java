@@ -1,6 +1,5 @@
 package com.neituiquan.entity;
 
-import com.neituiquan.FinalData;
 
 import java.io.Serializable;
 
@@ -12,8 +11,6 @@ public class ReleaseJobsEntity extends AbsEntity implements Serializable{
 
     public ReleaseJobsEntity() {
     }
-
-    public int itemType = FinalData.ITEM_DEFAULT;
 
     private  String id;
 

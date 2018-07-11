@@ -10,6 +10,7 @@ import com.neituiquan.net.RequestEventModel;
 
 public class ReleaseJobListEventModel extends RequestEventModel {
 
+    public String jobsId;
 
     public ReleaseJobListEventModel(int eventId) {
         this.eventId = eventId;
