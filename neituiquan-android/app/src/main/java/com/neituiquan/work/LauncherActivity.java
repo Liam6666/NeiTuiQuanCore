@@ -33,7 +33,6 @@ public class LauncherActivity extends BaseActivity {
             @Override
             public void run() {
                 if(App.getAppInstance().getUserInfoUtils().getUserInfo() == null){
-                    //未登录
                     startActivity(new Intent(LauncherActivity.this,AccountActivity.class));
                 }else{
                     startActivity(new Intent(LauncherActivity.this,MainActivity.class));
@@ -44,5 +43,9 @@ public class LauncherActivity extends BaseActivity {
         },1000);
     }
 
+
+    @Override
+    public void onBackPressed() {
+    }
 
 }
