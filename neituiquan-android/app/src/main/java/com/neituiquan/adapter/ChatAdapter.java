@@ -8,7 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.neituiquan.App;
-import com.neituiquan.database.ChatEntity;
+import com.neituiquan.database.ChatDBEntity;
+import com.neituiquan.entity.ChatLoopEntity;
 import com.neituiquan.work.R;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemViewHolder
 
     private Context context;
 
-    private List<ChatEntity> entityList = new ArrayList<>();
+    private List<ChatDBEntity> entityList = new ArrayList<>();
 
     private String selfId = App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId();
 
@@ -32,20 +33,23 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemViewHolder
 
     private static final int ITEM_TYPE_SELF = 1;
 
-    public ChatAdapter(Context context, List<ChatEntity> entityList) {
+    public ChatAdapter(Context context) {
         this.context = context;
-        this.entityList = entityList;
     }
 
-    public void refresh(List<ChatEntity> newList){
+    public void addData(ChatDBEntity newData){
+        this.entityList.add(newData);
+        notifyDataSetChanged();
+    }
+
+    public void addData(List<ChatDBEntity> newData){
+        this.entityList.addAll(newData);
+        notifyDataSetChanged();
+    }
+
+    public void refresh(List<ChatDBEntity> newData){
         entityList.clear();
-        entityList.addAll(newList);
-        notifyDataSetChanged();
-    }
-
-    public void addData(ChatEntity entity){
-        this.entityList.add(entity);
-        notifyDataSetChanged();
+        addData(newData);
     }
 
     @Override

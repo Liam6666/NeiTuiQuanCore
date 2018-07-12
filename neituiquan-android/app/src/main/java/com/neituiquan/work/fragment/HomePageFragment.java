@@ -19,6 +19,7 @@ import com.neituiquan.dialog.HomePageMoreDialog;
 import com.neituiquan.entity.JobListEntity;
 import com.neituiquan.gson.HomePageJobListModel;
 import com.neituiquan.httpEvent.GetJobListEventModel;
+import com.neituiquan.httpEvent.HeaderViewEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.popwindow.HomePageMorePop;
 import com.neituiquan.utils.PositionUtils;
@@ -32,6 +33,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -229,10 +231,9 @@ public class HomePageFragment extends BaseFragment implements OnRefreshListener,
 
     }
 
-
-
     @Override
     public void onDetach() {
+        EventBus.getDefault().post(new HeaderViewEventModel());
         super.onDetach();
     }
 

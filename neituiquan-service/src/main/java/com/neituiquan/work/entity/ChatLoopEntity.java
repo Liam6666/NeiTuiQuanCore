@@ -6,23 +6,42 @@ public class ChatLoopEntity implements Serializable {
 
     private  String id;
 
-    //发送者ID
-    private  String fromId;
 
-    //接受者ID
-    private  String receiveId;
-
-    //聊天组ID
     private  String groupId;
 
-    //消息内容
+
+    private  String fromId;
+
+
+    private  String fromNickName;
+
+
+    private  String fromHeadImg;
+
+
+    private  String receiveId;
+
+
+    private  String receiveNickName;
+
+
+    private  String receiveHeadImg;
+
+
     private  String msgDetails;
 
-    //发送时间
+
+    private  String msgType;
+
+
+    private  String account;
+
+
+    private  String isFrom;
+
+
     private  String createTime;
 
-    //是否是群消息
-    private  String isGroup;
 
     public String getId() {
         return id;
@@ -30,22 +49,6 @@ public class ChatLoopEntity implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getFromId() {
-        return fromId;
-    }
-
-    public void setFromId(String fromId) {
-        this.fromId = fromId;
-    }
-
-    public String getReceiveId() {
-        return receiveId;
-    }
-
-    public void setReceiveId(String receiveId) {
-        this.receiveId = receiveId;
     }
 
     public String getGroupId() {
@@ -56,6 +59,54 @@ public class ChatLoopEntity implements Serializable {
         this.groupId = groupId;
     }
 
+    public String getFromId() {
+        return fromId;
+    }
+
+    public void setFromId(String fromId) {
+        this.fromId = fromId;
+    }
+
+    public String getFromNickName() {
+        return fromNickName;
+    }
+
+    public void setFromNickName(String fromNickName) {
+        this.fromNickName = fromNickName;
+    }
+
+    public String getFromHeadImg() {
+        return fromHeadImg;
+    }
+
+    public void setFromHeadImg(String fromHeadImg) {
+        this.fromHeadImg = fromHeadImg;
+    }
+
+    public String getReceiveId() {
+        return receiveId;
+    }
+
+    public void setReceiveId(String receiveId) {
+        this.receiveId = receiveId;
+    }
+
+    public String getReceiveNickName() {
+        return receiveNickName;
+    }
+
+    public void setReceiveNickName(String receiveNickName) {
+        this.receiveNickName = receiveNickName;
+    }
+
+    public String getReceiveHeadImg() {
+        return receiveHeadImg;
+    }
+
+    public void setReceiveHeadImg(String receiveHeadImg) {
+        this.receiveHeadImg = receiveHeadImg;
+    }
+
     public String getMsgDetails() {
         return msgDetails;
     }
@@ -64,19 +115,35 @@ public class ChatLoopEntity implements Serializable {
         this.msgDetails = msgDetails;
     }
 
+    public String getMsgType() {
+        return msgType;
+    }
+
+    public void setMsgType(String msgType) {
+        this.msgType = msgType;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getIsFrom() {
+        return isFrom;
+    }
+
+    public void setIsFrom(String isFrom) {
+        this.isFrom = isFrom;
+    }
+
     public String getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
-    }
-
-    public String getIsGroup() {
-        return isGroup;
-    }
-
-    public void setIsGroup(String isGroup) {
-        this.isGroup = isGroup;
     }
 }

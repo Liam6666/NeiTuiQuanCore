@@ -71,6 +71,7 @@
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/releaseJobUI_emptyLayout"
             android:background="@color/backgroundColor"
             android:orientation="vertical"

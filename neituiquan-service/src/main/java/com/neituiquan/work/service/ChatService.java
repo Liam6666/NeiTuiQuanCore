@@ -18,21 +18,23 @@ public class ChatService {
     private ChatDaoImpl dao;
 
     public AbsEntity addMsg(ChatHistoryEntity entity){
-        entity.setId(StringUtils.getUUID());
-        entity.setCreateTime(StringUtils.getCurrentTimeMillis());
+        if(StringUtils.isEmpty(entity.getId())){
+            entity.setId(StringUtils.getUUID());
+        }
+        if(StringUtils.isEmpty(entity.getCreateTime())){
+            entity.setCreateTime(StringUtils.getCurrentTimeMillis());
+        }
         entity.setIsRead(FinalData.NO);
         entity.setIsReceive(FinalData.NO);
-        if(StringUtils.isEmpty(entity.getGroupId())){
-            entity.setIsGroup(FinalData.NO);
-        }else{
-            entity.setIsGroup(FinalData.YES);
-        }
         dao.addMsg(entity);
         return new AbsEntity();
     }
 
     public AbsEntity findMsgByReceiveId(String receiveId){
         List<ChatLoopEntity> list = dao.findMsgByReceiveId(receiveId);
+        for(ChatLoopEntity entity : list){
+            entity.setIsFrom("-1");
+        }
         AbsEntity absEntity = new AbsEntity();
         absEntity.dataTotalCount = list.size();
         absEntity.data = list;

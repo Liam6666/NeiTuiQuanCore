@@ -2,13 +2,19 @@ package com.neituiquan.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.neituiquan.database.ChatGroupEntity;
+import com.neituiquan.database.ChatGroupDBEntity;
+import com.neituiquan.database.DBConstants;
+import com.neituiquan.entity.MessageEntity;
+import com.neituiquan.utils.GlideUtils;
+import com.neituiquan.utils.Millis2Date;
 import com.neituiquan.work.R;
 import com.neituiquan.work.chat.ChatActivity;
 
@@ -27,17 +33,25 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ItemView
 
     private Context context;
 
-    private List<ChatGroupEntity> entityList = new ArrayList<>();
+    private List<ChatGroupDBEntity> entityList = new ArrayList<>();
 
-    public MessageAdapter(Context context, List<ChatGroupEntity> entityList) {
+    public MessageAdapter(Context context) {
         this.context = context;
-        this.entityList = entityList;
     }
 
-    public void refresh(List<ChatGroupEntity> newList){
-        this.entityList.clear();
-        this.entityList.addAll(newList);
+    public void addData(List<ChatGroupDBEntity> newData){
+        this.entityList.addAll(newData);
         notifyDataSetChanged();
+    }
+
+    public void addData(ChatGroupDBEntity newData){
+        this.entityList.add(newData);
+        notifyDataSetChanged();
+    }
+
+    public void refresh(List<ChatGroupDBEntity> newData){
+        this.entityList.clear();
+        addData(newData);
     }
 
 
@@ -50,20 +64,27 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ItemView
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        final ChatGroupEntity entity = entityList.get(position);
+        final ChatGroupDBEntity entity = entityList.get(position);
         if(entity != null){
-            holder.item_titleTv.setText(entity.getGroupName());
-            holder.item_hintTv.setText(entity.getLastFromNickName() +" : "+entity.getLastChat());
-            holder.item_timeTv.setText(entity.getLastChatTime());
+            holder.item_titleTv.setText(entity.getOsNickName());
+            if(entity.getLastChatEntity() != null){
+                if(entity.getLastChatEntity().getIsFrom().equals(DBConstants.YES)){
+                    holder.item_hintTv.setText("我 : "+entity.getLastChatEntity().getMsgDetails());
+                }else{
+                    holder.item_hintTv.setText(entity.getLastChatEntity().getReceiveNickName() + " : "+entity.getLastChatEntity().getMsgDetails());
+                }
+            }
+            holder.item_timeTv.setText(Millis2Date.simpleMillis2Date(entity.getLastChatEntity().getCreateTime()));
             holder.item_iconTv.setText(entity.getNotReadCount());
-            holder.item_headImg.setOnClickListener(new View.OnClickListener() {
+            holder.item_contentLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ChatActivity.class);
-                    intent.putExtra("groupId",entity.getGroupId());
+                    intent.putExtra("otherSideId",entity.getOtherSideId());
                     context.startActivity(intent);
                 }
             });
+            GlideUtils.load(entity.getOsHeadImg(),holder.item_headImg);
         }
     }
 
@@ -79,10 +100,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ItemView
         TextView item_timeTv;
         TextView item_hintTv;
         TextView item_iconTv;
+        LinearLayout item_contentLayout;
 
 
         public ItemViewHolder(View itemView) {
             super(itemView);
+            item_contentLayout = itemView.findViewById(R.id.item_contentLayout);
             item_headImg = itemView.findViewById(R.id.item_headImg);
             item_titleTv = itemView.findViewById(R.id.item_titleTv);
             item_timeTv = itemView.findViewById(R.id.item_timeTv);

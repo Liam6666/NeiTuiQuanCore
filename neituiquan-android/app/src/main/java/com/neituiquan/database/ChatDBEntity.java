@@ -1,70 +1,49 @@
-package com.neituiquan.work.entity;
+package com.neituiquan.database;
 
 import java.io.Serializable;
 
 /**
- * 历史聊天信息
+ * Created by Augustine on 2018/7/12.
+ * <p>
+ * email:nice_ohoh@163.com
  */
-public class ChatHistoryEntity implements Serializable {
 
-    private  String id;
+public class ChatDBEntity implements Serializable {
 
-    //聊天组ID
-    private  String groupId;
+    private String chatId;
 
-    //发送者ID
-    private  String fromId;
+    private String groupId;
 
+    private String fromId;
 
-    private  String fromNickName;
+    private String fromNickName;
 
+    private String fromHeadImg;
 
-    private  String fromHeadImg;
+    private String receiveId;
 
-    //接受者ID
-    private  String receiveId;
+    private String receiveNickName;
 
+    private String receiveHeadImg;
 
-    private  String receiveNickName;
+    private String msgDetails;
 
+    private String msgType;
 
-    private  String receiveHeadImg;
+    private String account;
 
-    //消息详情
-    private  String msgDetails;
+    private String isFrom;
 
+    private String isRead;
 
-    private  String msgType;
+    private String createTime;
 
-
-    private  String account;
-
-    //是否是发送者
-    private  String isFrom;
-
-
-    private  String isRead;
-
-
-    private  String createTime;
-
-
-    private String isReceive;
-
-    public String getIsReceive() {
-        return isReceive;
+    public String getChatId() {
+        return chatId;
     }
 
-    public void setIsReceive(String isReceive) {
-        this.isReceive = isReceive;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
     }
 
     public String getGroupId() {

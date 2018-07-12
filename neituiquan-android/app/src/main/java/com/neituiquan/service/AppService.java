@@ -2,20 +2,19 @@ package com.neituiquan.service;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
 import com.neituiquan.database.AppDBFactory;
-import com.neituiquan.database.ChatEntity;
+import com.neituiquan.database.AppDBUtils;
+import com.neituiquan.database.ChatDBEntity;
 import com.neituiquan.database.DBConstants;
-import com.neituiquan.database.LocalCacheDAOImpl;
 import com.neituiquan.entity.ChatLoopEntity;
 import com.neituiquan.gson.MsgLoopModel;
 import com.neituiquan.httpEvent.ChatEventModel;
@@ -46,9 +45,11 @@ public class AppService extends Service{
 
     private static final String TAG = "AppService";
 
-    private LocalCacheDAOImpl localCacheDAO;
+    private AppDBUtils dbUtils;
 
     private AppLoop appLoop;
+
+    private String userAccount;
 
     private TaskLooper.TaskCompleteCallback completeCallback;
 
@@ -62,11 +63,16 @@ public class AppService extends Service{
     @Override
     public void onCreate() {
         super.onCreate();
-        localCacheDAO = AppDBFactory.getInstance(this);
         if(App.getAppInstance().getUserInfoUtils().getUserInfo() != null){
+            dbUtils = AppDBFactory.getInstance(this);
             String userId = App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId();
+            userAccount = App.getAppInstance().getUserInfoUtils().getUserInfo().data.getAccount();
             appLoop = new AppLoop(this,userId);
             TaskLooper.bindTask(appLoop,FinalData.LOOP);
+        }else{
+            if(FinalData.DEBUG){
+                ToastUtils.showShort("用户信息为空");
+            }
         }
     }
 
@@ -90,21 +96,28 @@ public class AppService extends Service{
     private void put2db(String response){
         MsgLoopModel model = new Gson().fromJson(response,MsgLoopModel.class);
         for(ChatLoopEntity entity : model.data){
-            ChatEntity chatEntity = new ChatEntity();
-            chatEntity.setId(entity.getId());
-            chatEntity.setGroupId(entity.getFromId());
-            chatEntity.setFromId(entity.getFromId());
-            chatEntity.setCreateTime(entity.getCreateTime());
-            chatEntity.setMsgDetails(entity.getMsgDetails());
-            chatEntity.setIsRead(DBConstants.NO);
+
+            ChatDBEntity dbEntity = new ChatDBEntity();
+            dbEntity.setChatId(entity.getId());
+            dbEntity.setFromId(entity.getFromId());
+            dbEntity.setFromNickName(entity.getFromNickName());
+            dbEntity.setFromHeadImg(entity.getFromHeadImg());
+            dbEntity.setReceiveId(entity.getReceiveId());
+            dbEntity.setReceiveNickName(entity.getReceiveNickName());
+            dbEntity.setReceiveHeadImg(entity.getReceiveHeadImg());
+            dbEntity.setMsgDetails(entity.getMsgDetails());
+            dbEntity.setMsgType(entity.getMsgType());
+            dbEntity.setAccount(userAccount);
+            dbEntity.setCreateTime(entity.getCreateTime());
+            dbEntity.setIsFrom(DBConstants.NO);
             /**
              * 保存消息到本地数据库
              */
-            localCacheDAO.add(chatEntity);
+            dbUtils.addChat(dbEntity);
             /**
              * 通知MessageFragment 接受到新消息
              */
-            EventBus.getDefault().post(new ChatEventModel(chatEntity.getGroupId()));
+            EventBus.getDefault().post(new ChatEventModel(dbEntity.getGroupId()));
             /**
              * 通知服务器已接收到消息
              */

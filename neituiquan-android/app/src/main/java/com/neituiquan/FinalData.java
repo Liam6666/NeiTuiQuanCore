@@ -81,10 +81,6 @@ public class FinalData {
     public static final int ITEM_BANNER = 6;
 
 
-    public static final String MSG_TYPE_CHAT = "聊天信息";
-
-    public static final String MSG_TYPE_NOTIFY = "通知";
-
     /**
      * 轮询效率
      */

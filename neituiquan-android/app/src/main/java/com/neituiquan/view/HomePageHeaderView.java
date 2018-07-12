@@ -17,6 +17,7 @@ import com.neituiquan.FinalData;
 import com.neituiquan.entity.BannerEntity;
 import com.neituiquan.gson.BannerModel;
 import com.neituiquan.httpEvent.BannerEventModel;
+import com.neituiquan.httpEvent.HeaderViewEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.utils.GlideUtils;
 import com.neituiquan.work.CitySelectorActivity;
@@ -109,7 +110,11 @@ public class HomePageHeaderView extends LinearLayout{
         //设置指示器位置（当banner模式中有指示器时）
         view_banner.setIndicatorGravity(BannerConfig.CENTER);
         //banner设置方法全部调用完毕时最后调用
-        view_banner.start();
+        try {
+            view_banner.start();
+        }catch (IllegalArgumentException i){
+
+        }
         view_banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
@@ -120,6 +125,11 @@ public class HomePageHeaderView extends LinearLayout{
                 getContext().startActivity(intent);
             }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void destroyView(HeaderViewEventModel eventModel){
+        view_banner.stopAutoPlay();
     }
 
     private void bindViews() {

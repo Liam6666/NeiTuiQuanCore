@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ImageUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -239,13 +240,17 @@ public class ResumeActivity extends BaseActivity implements View.OnClickListener
         resumeUI_nameTv.setText(userModel.data.getNickName());
         resumeUI_mottoTv.setText(userModel.data.getMotto());
         resumeUI_educationTv.setText(resumeModel.data.getEducation());
-        resumeUI_workAgeTv.setText(resumeModel.data.getWorkAge()+"年");
+        if(!StringUtils.isEmpty(resumeModel.data.getWorkAge())){
+            resumeUI_workAgeTv.setText(resumeModel.data.getWorkAge()+"年");
+        }
         resumeUI_birthdayTv.setText(resumeModel.data.getBirthday());
         resumeUI_targetCity.setText(resumeModel.data.getTargetCity());
         resumeUI_phoneTv.setText(userModel.data.getAccount());
         resumeUI_emailTv.setText(userModel.data.getEmail());
         resumeUI_targetWorkTv.setText(resumeModel.data.getTargetWork());
-        resumeUI_targetSalaryTv.setText(resumeModel.data.getTargetSalary()+"K");
+        if(!StringUtils.isEmpty(resumeModel.data.getTargetSalary())){
+            resumeUI_targetSalaryTv.setText(resumeModel.data.getTargetSalary()+"K");
+        }
         resumeUI_introductionTv.setText(resumeModel.data.getIntroduction());
         resumeUI_PLayout.removeAllViews();
         resumeUI_ALayout.removeAllViews();

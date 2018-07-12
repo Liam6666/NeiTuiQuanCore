@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
-import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,18 +23,24 @@ public class ChatDaoImpl implements ChatDAO {
 
     @Override
     public boolean addMsg(ChatHistoryEntity entity) {
-        String sql = "insert into t_chat_history values (?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into t_chat_history values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         String[] params = new String[]{
-                entity.getId(),entity.getFromId(),entity.getReceiveId(),
-                entity.getGroupId(),entity.getMsgDetails(),entity.getCreateTime(),
-                entity.getIsRead(),entity.getIsReceive(),entity.getIsGroup()
+                entity.getId(),entity.getGroupId(),entity.getFromId(),
+                entity.getFromNickName(),entity.getFromHeadImg(),
+                entity.getReceiveId(),entity.getReceiveNickName(),
+                entity.getReceiveHeadImg(),entity.getMsgDetails(),
+                entity.getMsgType(),entity.getAccount(),entity.getIsFrom(),
+                entity.getIsRead(),entity.getCreateTime(),entity.getIsReceive()
         };
         jdbcTemplate.update(sql,params);
-        sql = "insert into t_chat_loop values (?,?,?,?,?,?,?)";
+        sql = "insert into t_chat_loop values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
         params = new String[]{
-                entity.getId(),entity.getFromId(),entity.getReceiveId(),
-                entity.getGroupId(),entity.getMsgDetails(),entity.getCreateTime(),
-                entity.getIsGroup()
+                entity.getId(),entity.getGroupId(),entity.getFromId(),
+                entity.getFromNickName(),entity.getFromHeadImg(),
+                entity.getReceiveId(),entity.getReceiveNickName(),
+                entity.getReceiveHeadImg(),entity.getMsgDetails(),
+                entity.getMsgType(),entity.getAccount(),entity.getIsFrom(),
+                entity.getCreateTime()
         };
         jdbcTemplate.update(sql,params);
         return true;
@@ -68,11 +73,17 @@ public class ChatDaoImpl implements ChatDAO {
 
     private void setChatLoopValues(ChatLoopEntity entity, ResultSet resultSet) throws SQLException{
         entity.setId(resultSet.getString("id"));
-        entity.setFromId(resultSet.getString("fromId"));
-        entity.setReceiveId(resultSet.getString("receiveId"));
         entity.setGroupId(resultSet.getString("groupId"));
+        entity.setFromId(resultSet.getString("fromId"));
+        entity.setFromNickName(resultSet.getString("fromNickName"));
+        entity.setFromHeadImg(resultSet.getString("fromHeadImg"));
+        entity.setReceiveId(resultSet.getString("receiveId"));
+        entity.setReceiveNickName(resultSet.getString("receiveNickName"));
+        entity.setReceiveHeadImg(resultSet.getString("receiveHeadImg"));
         entity.setMsgDetails(resultSet.getString("msgDetails"));
+        entity.setMsgType(resultSet.getString("msgType"));
+        entity.setAccount(resultSet.getString("account"));
+        entity.setIsFrom(resultSet.getString("isFrom"));
         entity.setCreateTime(resultSet.getString("createTime"));
-        entity.setIsGroup(resultSet.getString("isGroup"));
     }
 }

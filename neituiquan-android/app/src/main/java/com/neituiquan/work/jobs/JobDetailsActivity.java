@@ -107,8 +107,9 @@ public class JobDetailsActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.jobDetailsUI_toChatTv:
                 intent = new Intent(this, ChatActivity.class);
-                intent.putExtra("groupId",userEntity.getId());
-
+                intent.putExtra("otherSideId",userEntity.getId());
+                intent.putExtra("osNickName",userEntity.getNickName());
+                intent.putExtra("osHeadImg",userEntity.getHeadImg());
                 break;
             case R.id.jobDetailsUI_companyLayout:
                 intent = new Intent(this, CompanyDetailsActivity.class);

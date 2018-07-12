@@ -1,7 +1,0 @@
-CREATE TABLE
-    t_chat_group (
-    groupId primary key,
-    headImg,
-    groupName,
-    updateTime
-    );

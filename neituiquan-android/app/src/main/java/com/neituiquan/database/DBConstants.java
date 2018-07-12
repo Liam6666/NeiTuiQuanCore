@@ -16,7 +16,15 @@ public class DBConstants {
 
     public static final String NO = "-1";
 
-    public static final String T_GROUP = "create_chat_group_sql.txt";
+    public static final String T_CHAT_HISTORY = "chat_db_sql.txt";
 
-    public static final String T_CHAT = "create_chat_msg_sql.txt";
+    public static final String T_CHAT_GROUP_HISTORY = "chat_group_db_sql.txt";
+
+    public static final String MSG_TYPE_CHAT = "聊天信息";
+
+    public static final String MSG_TYPE_NOTIFY = "通知";
+
+
+
+
 }

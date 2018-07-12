@@ -100,6 +100,7 @@ public class ReleaseJobListActivity extends BaseActivity implements View.OnClick
     }
 
     private void initValues(){
+        getLoadingDialog().show();
         linearLayoutManager = new LinearLayoutManager(this);
         releaseJobsAdapter = new ReleaseJobsAdapter(this);
         releaseJobsAdapter.setCallBack(this);
@@ -111,6 +112,7 @@ public class ReleaseJobListActivity extends BaseActivity implements View.OnClick
     }
 
     private void loadValues(){
+        getLoadingDialog().show();
         String url = FinalData.BASE_URL +
                 "/findJobsByUserId?userId="+ App.getAppInstance().getUserInfoUtils().getUserId() +"&index="+pageIndex;
         HttpFactory.getHttpUtils().get(url,new ReleaseJobListEventModel(LOAD_MORE));
@@ -118,6 +120,7 @@ public class ReleaseJobListActivity extends BaseActivity implements View.OnClick
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getJobsListResult(ReleaseJobListEventModel eventModel){
+        getLoadingDialog().dismiss();
         if(eventModel.isSuccess){
             switch (eventModel.eventId){
                 case INIT:
@@ -191,6 +194,7 @@ public class ReleaseJobListActivity extends BaseActivity implements View.OnClick
                 intent.putExtra("releaseJobsEntity",entity);
                 break;
             case MenuDialog.DEL:
+                getLoadingDialog().show();
                 String url = FinalData.BASE_URL + "/delJobs?id="+entity.getId();
                 ReleaseJobListEventModel eventModel = new ReleaseJobListEventModel(DEL);
                 eventModel.jobsId = entity.getId();
@@ -218,12 +222,10 @@ public class ReleaseJobListActivity extends BaseActivity implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_CODE_ADD){
-            ReleaseJobsEntity entity;
-            entity = (ReleaseJobsEntity) data.getSerializableExtra("releaseJobsEntity");
+            ReleaseJobsEntity entity = (ReleaseJobsEntity) data.getSerializableExtra("releaseJobsEntity");
             releaseJobsAdapter.addData(entity);
         }else if(resultCode == RESULT_CODE_UPDATE){
-            ReleaseJobsEntity entity;
-            entity = (ReleaseJobsEntity) data.getSerializableExtra("releaseJobsEntity");
+            ReleaseJobsEntity entity = (ReleaseJobsEntity) data.getSerializableExtra("releaseJobsEntity");
             releaseJobsAdapter.update(entity);
         }else if(resultCode ==  RESULT_CODE_DEL){
             String id = data.getStringExtra("id");

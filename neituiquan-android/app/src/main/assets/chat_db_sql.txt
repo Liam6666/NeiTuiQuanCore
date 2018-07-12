@@ -1,0 +1,16 @@
+CREATE TABLE t_chat_history (
+    chatId,
+    groupId,
+    fromId,
+    fromNickName,
+    fromHeadImg,
+    receiveId,
+    receiveNickName,
+    receiveHeadImg,
+    msgDetails,
+    msgType,
+    account,
+    isFrom,
+    isRead,
+    createTime
+    );

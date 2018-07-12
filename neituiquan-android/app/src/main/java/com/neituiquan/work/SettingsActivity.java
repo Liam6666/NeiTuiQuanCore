@@ -11,7 +11,8 @@ import com.blankj.utilcode.util.BarUtils;
 import com.neituiquan.App;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.database.AppDBFactory;
-import com.neituiquan.database.LocalCacheDAOImpl;
+import com.neituiquan.database.AppDBUtils;
+import com.neituiquan.service.AppService;
 import com.neituiquan.utils.PositionUtils;
 import com.neituiquan.work.account.AccountActivity;
 
@@ -29,7 +30,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
     private View settingsUI_statusView;
 
-    private LocalCacheDAOImpl localCacheDAO;
+    private AppDBUtils dbUtils;
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -70,8 +71,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 startActivity(new Intent(SettingsActivity.this, AccountActivity.class));
                 break;
             case R.id.settingsUI_clearLocalDB:
-                localCacheDAO = AppDBFactory.getInstance(this);
-                localCacheDAO.removeAll();
+                dbUtils = AppDBFactory.getInstance(this);
+                dbUtils.removeAll();
                 break;
         }
     }

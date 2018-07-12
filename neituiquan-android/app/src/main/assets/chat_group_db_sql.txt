@@ -1,0 +1,8 @@
+CREATE TABLE t_chat_group (
+    otherSideId,
+    account,
+    osHeadImg,
+    osNickName,
+    notReadCount,
+    lastChatId
+    );

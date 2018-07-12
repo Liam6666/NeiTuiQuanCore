@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/item_contentLayout"
+    android:background="@drawable/selector_item"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -35,7 +37,6 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="title"
                     android:textSize="@dimen/centerText"
                     android:textColor="@color/highTextColor"
                     android:textStyle="bold"/>
@@ -46,7 +47,6 @@
                     android:gravity="bottom"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="7月9日12:54:59"
                     android:textSize="@dimen/smallText"
                     android:textColor="@color/lowTextColor"/>
             </LinearLayout>
@@ -63,7 +63,7 @@
                     android:layout_weight="1"
                     android:textColor="@color/lowTextColor"
                     android:textSize="@dimen/centerText"
-                    android:text="Augustine：Hello！"/>
+                    android:text=""/>
                 <TextView
                     android:layout_marginTop="5dp"
                     android:id="@+id/item_iconTv"
