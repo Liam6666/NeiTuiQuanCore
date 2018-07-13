@@ -12,7 +12,6 @@ import com.neituiquan.App;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.database.AppDBFactory;
 import com.neituiquan.database.AppDBUtils;
-import com.neituiquan.service.AppService;
 import com.neituiquan.utils.PositionUtils;
 import com.neituiquan.work.account.AccountActivity;
 

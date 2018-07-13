@@ -1,19 +1,26 @@
 package com.neituiquan.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.neituiquan.App;
 import com.neituiquan.database.ChatDBEntity;
+import com.neituiquan.database.DBConstants;
 import com.neituiquan.entity.ChatLoopEntity;
+import com.neituiquan.utils.GlideUtils;
 import com.neituiquan.work.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Augustine on 2018/7/9.
@@ -27,8 +34,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemViewHolder
 
     private List<ChatDBEntity> entityList = new ArrayList<>();
 
-    private String selfId = App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId();
-
     private static final int ITEM_TYPE_OTHER = 0;
 
     private static final int ITEM_TYPE_SELF = 1;
@@ -38,7 +43,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemViewHolder
     }
 
     public void addData(ChatDBEntity newData){
-        this.entityList.add(newData);
+        this.entityList.add(0,newData);
         notifyDataSetChanged();
     }
 
@@ -65,8 +70,20 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemViewHolder
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        holder.textView.setText(entityList.get(position).getMsgDetails());
+        ChatDBEntity entity = entityList.get(position);
+        holder.itemChat_contentLayout.removeAllViews();
+        TextView textView = createTextView();
+        holder.itemChat_contentLayout.addView(textView);
+        textView.setText(entity.getMsgDetails());
+        if(entity.getIsFrom().equals(DBConstants.YES)){
+            holder.itemChat_nickNameTv.setText("我");
+            GlideUtils.load(entity.getFromHeadImg(),holder.itemChat_headImg);
+        }else{
+            holder.itemChat_nickNameTv.setText(entity.getFromNickName());
+            GlideUtils.load(entity.getFromHeadImg(),holder.itemChat_headImg);
+        }
     }
+
 
     @Override
     public int getItemCount() {
@@ -75,19 +92,37 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        if(entityList.get(position).getFromId().equals(selfId)){
+        if(entityList.get(position).getIsFrom().equals(DBConstants.YES)){
             return ITEM_TYPE_SELF;
         }
         return ITEM_TYPE_OTHER;
     }
 
-    static class ItemViewHolder extends RecyclerView.ViewHolder{
+    private TextView createTextView(){
+        TextView textView = new TextView(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1,-2);
+        params.rightMargin = 5;
+        params.leftMargin = 5;
+        params.topMargin = 5;
+        params.bottomMargin = 5;
+        textView.setLayoutParams(params);
+        textView.setTextColor(ContextCompat.getColor(context,R.color.highTextColor));
+        textView.setTextSize(15);
+        textView.setGravity(Gravity.CENTER_VERTICAL);
+        return textView;
+    }
 
-        TextView textView;
+    static class ItemViewHolder extends RecyclerView.ViewHolder {
+
+        LinearLayout itemChat_contentLayout;
+        TextView itemChat_nickNameTv;
+        CircleImageView itemChat_headImg;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.textView);
+            itemChat_contentLayout = itemView.findViewById(R.id.itemChat_contentLayout);
+            itemChat_nickNameTv = itemView.findViewById(R.id.itemChat_nickNameTv);
+            itemChat_headImg = itemView.findViewById(R.id.itemChat_headImg);
         }
     }
 }

@@ -71,16 +71,23 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ItemView
                 if(entity.getLastChatEntity().getIsFrom().equals(DBConstants.YES)){
                     holder.item_hintTv.setText("我 : "+entity.getLastChatEntity().getMsgDetails());
                 }else{
-                    holder.item_hintTv.setText(entity.getLastChatEntity().getReceiveNickName() + " : "+entity.getLastChatEntity().getMsgDetails());
+                    holder.item_hintTv.setText(entity.getLastChatEntity().getFromNickName() + " : "+entity.getLastChatEntity().getMsgDetails());
                 }
             }
             holder.item_timeTv.setText(Millis2Date.simpleMillis2Date(entity.getLastChatEntity().getCreateTime()));
-            holder.item_iconTv.setText(entity.getNotReadCount());
+            if(!entity.getNotReadCount().equals("0")){
+                holder.item_iconTv.setText(entity.getNotReadCount());
+                holder.item_iconTv.setVisibility(View.VISIBLE);
+            }else{
+                holder.item_iconTv.setVisibility(View.GONE);
+            }
             holder.item_contentLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ChatActivity.class);
                     intent.putExtra("otherSideId",entity.getOtherSideId());
+                    intent.putExtra("osNickName",entity.getOsNickName());
+                    intent.putExtra("osHeadImg",entity.getOsHeadImg());
                     context.startActivity(intent);
                 }
             });

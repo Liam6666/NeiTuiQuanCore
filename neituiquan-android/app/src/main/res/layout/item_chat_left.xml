@@ -7,6 +7,7 @@
     android:gravity="left">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/itemChat_headImg"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@mipmap/badge"
@@ -23,14 +24,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/itemChat_nickNameTv"
                 android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:text="Nick Name"
                 android:textSize="@dimen/smallText"
                 android:gravity="center_vertical"/>
 
             <LinearLayout
+                android:id="@+id/itemChat_contentLayout"
                 android:layout_marginRight="50dp"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/shape_chat_left"
@@ -41,16 +43,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello worldHello world"/>
             </LinearLayout>
 
         </LinearLayout>
         <ImageView
-            android:layout_marginLeft="3dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="25dp"
             android:layout_width="20dp"
             android:layout_height="20dp"

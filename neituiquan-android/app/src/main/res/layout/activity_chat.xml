@@ -56,12 +56,15 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:orientation="vertical"
             app:srlEnableLoadMore="false"
-            app:srlEnableRefresh="false"
+            app:srlEnableRefresh="true"
             app:srlEnableAutoLoadMore="false"
             app:srlPrimaryColor="@color/lineColor"
             app:srlAccentColor="@color/themeColor"
             app:srlEnablePreviewInEditMode="true"
             app:srlEnableOverScrollDrag="true">
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/chatUI_recyclerView"
                 android:overScrollMode="never"

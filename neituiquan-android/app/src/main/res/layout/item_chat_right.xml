@@ -7,6 +7,7 @@
     android:gravity="right">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/itemChat_headImg"
         android:layout_alignParentRight="true"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -27,14 +28,15 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/itemChat_nickNameTv"
                 android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:text="Nick Name"
                 android:textSize="@dimen/smallText"
                 android:gravity="center_vertical|right"/>
 
             <LinearLayout
+                android:id="@+id/itemChat_contentLayout"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="50dp"
                 android:background="@drawable/shape_chat_right"
@@ -45,16 +47,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hello world！"/>
             </LinearLayout>
 
         </LinearLayout>
         <ImageView
-            android:layout_marginRight="3dp"
+            android:layout_marginRight="5dp"
             android:layout_gravity="right"
             android:layout_marginTop="25dp"
             android:layout_width="20dp"

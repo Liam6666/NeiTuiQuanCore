@@ -29,18 +29,14 @@ import com.neituiquan.httpEvent.GetCodeEventModel;
 import com.neituiquan.httpEvent.RegisterEventModel;
 import com.neituiquan.gson.UserModel;
 import com.neituiquan.net.HttpFactory;
-import com.neituiquan.service.AppService;
 import com.neituiquan.utils.PositionUtils;
 import com.neituiquan.utils.VerificationCodeUtils;
 import com.neituiquan.work.MainActivity;
 import com.neituiquan.work.R;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Augustine on 2018/6/19.
@@ -277,7 +273,6 @@ public class RegisterFragment extends BaseFragment implements View.OnFocusChange
 //                EventBus.getDefault().post(userModel);
                 ((AccountActivity)getContext()).finish();
                 startActivity(new Intent(getContext(), MainActivity.class));
-                getContext().startService(new Intent(getContext(), AppService.class));
             }else{
                 ToastUtils.showShort(userModel.msg);
             }

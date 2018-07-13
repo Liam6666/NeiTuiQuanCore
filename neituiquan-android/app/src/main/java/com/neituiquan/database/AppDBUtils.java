@@ -37,10 +37,10 @@ public class AppDBUtils extends AppDataBase {
     public void addChat(ChatDBEntity chatDBEntity){
         String otherSideId;
         if(chatDBEntity.getIsFrom().equals(DBConstants.YES)){
-            //发送者
+            //当前是发送者
             otherSideId = chatDBEntity.getReceiveId();
         }else{
-            //接受者
+            //当前是接受者
             otherSideId = chatDBEntity.getFromId();
         }
         if(!hasOtherSideId(chatDBEntity)){
@@ -156,6 +156,7 @@ public class AppDBUtils extends AppDataBase {
         while (cursor.moveToNext()){
             ChatGroupDBEntity entity = new ChatGroupDBEntity();
             setGroupValues(entity,cursor);
+            entity.setNotReadCount(getNoReadCount(entity.getOtherSideId())+"");
             ChatDBEntity chatDBEntity = findChatById(entity.getLastChatId());
             entity.setLastChatEntity(chatDBEntity);
             list.add(entity);
@@ -178,19 +179,20 @@ public class AppDBUtils extends AppDataBase {
 
     public int getNoReadCount(String groupId){
         String sql = "select * from t_chat_history where " +
-                "account = ? and groupId = ?";
-        Cursor cursor = db.rawQuery(sql,new String[]{account,groupId});
+                "account = ? and groupId = ? and isRead = ?";
+        Cursor cursor = db.rawQuery(sql,new String[]{account,groupId,DBConstants.NO});
         int count = cursor.getCount();
         cursor.close();
         return count;
     }
 
 
-    public List<ChatDBEntity> getChatList(String groupId){
+    public List<ChatDBEntity> getChatList(String groupId,int index){
         List<ChatDBEntity> list = new ArrayList<>();
         String sql = "select * from t_chat_history where " +
-                "account = ? and groupId = ? order by createTime desc";
-        Cursor cursor = db.rawQuery(sql,new String[]{groupId});
+                "account = ? and groupId = ? order by createTime desc ";
+        sql = PageUtils.limit(sql,index);
+        Cursor cursor = db.rawQuery(sql,new String[]{account,groupId});
         while (cursor.moveToNext()){
             ChatDBEntity entity = new ChatDBEntity();
             setChatValues(entity,cursor);
@@ -198,6 +200,15 @@ public class AppDBUtils extends AppDataBase {
         }
         cursor.close();
         return list;
+    }
+
+    /**
+     * 更新消息状态为已读
+     */
+    public void updateChatState(String groupId){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("isRead",DBConstants.YES);
+        db.update("t_chat_history",contentValues,"groupId = ? and account = ?",new String[]{groupId,account});
     }
 
     public void removeAll(){

@@ -1,5 +1,6 @@
 package com.neituiquan.work;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +18,7 @@ import com.blankj.utilcode.util.PermissionUtils;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.base.BaseFragment;
+import com.neituiquan.service.AppService;
 import com.neituiquan.work.fragment.HomePageFragment;
 import com.neituiquan.work.fragment.MessageFragment;
 import com.neituiquan.work.fragment.UserFragment;
@@ -161,6 +163,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopService(new Intent(this,AppService.class));
+        super.onDestroy();
     }
 
     private FragmentTransaction createTransaction(){

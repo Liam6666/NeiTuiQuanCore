@@ -1,5 +1,6 @@
 package com.neituiquan.httpEvent;
 
+import com.neituiquan.database.ChatDBEntity;
 import com.neituiquan.net.RequestEventModel;
 
 /**
@@ -10,9 +11,9 @@ import com.neituiquan.net.RequestEventModel;
 
 public class ChatEventModel extends RequestEventModel {
 
-    public String groupId;
+    public ChatDBEntity chatDBEntity;
 
-    public ChatEventModel(String groupId){
-        this.groupId = groupId;
+    public ChatEventModel(ChatDBEntity chatDBEntity){
+        this.chatDBEntity = chatDBEntity;
     }
 }

@@ -69,10 +69,6 @@ public class AppService extends Service{
             userAccount = App.getAppInstance().getUserInfoUtils().getUserInfo().data.getAccount();
             appLoop = new AppLoop(this,userId);
             TaskLooper.bindTask(appLoop,FinalData.LOOP);
-        }else{
-            if(FinalData.DEBUG){
-                ToastUtils.showShort("用户信息为空");
-            }
         }
     }
 
@@ -117,7 +113,7 @@ public class AppService extends Service{
             /**
              * 通知MessageFragment 接受到新消息
              */
-            EventBus.getDefault().post(new ChatEventModel(dbEntity.getGroupId()));
+            EventBus.getDefault().post(new ChatEventModel(dbEntity));
             /**
              * 通知服务器已接收到消息
              */

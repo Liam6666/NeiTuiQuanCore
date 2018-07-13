@@ -3,8 +3,6 @@ package com.neituiquan.work;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.SyncStateContract;
-import android.util.Log;
 
 import com.neituiquan.App;
 import com.neituiquan.base.BaseActivity;
@@ -36,7 +34,7 @@ public class LauncherActivity extends BaseActivity {
                     startActivity(new Intent(LauncherActivity.this,AccountActivity.class));
                 }else{
                     startActivity(new Intent(LauncherActivity.this,MainActivity.class));
-                    startService(new Intent(getApplicationContext(), AppService.class));
+                    startService(new Intent(LauncherActivity.this,AppService.class));
                 }
                 finish();
             }
