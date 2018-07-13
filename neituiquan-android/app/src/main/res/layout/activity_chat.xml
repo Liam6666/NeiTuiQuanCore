@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
+        android:id="@+id/chatUI_toolBarLayout"
         android:elevation="3dp"
         android:background="@color/white"
         android:layout_width="match_parent"
@@ -45,9 +46,10 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/chatUI_contentLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:layout_weight="1"
             android:id="@+id/chatUI_refreshLayout"
@@ -74,10 +76,15 @@
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
         <LinearLayout
+            android:background="@color/backgroundColor"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
+
             <LinearLayout
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal">
@@ -89,7 +96,6 @@
                     <EditText
                         android:id="@+id/chatUI_inputTv"
                         android:layout_weight="1"
-                        android:text="ccc"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null" />
@@ -115,16 +121,37 @@
                     android:gravity="center"/>
             </LinearLayout>
             <LinearLayout
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@mipmap/time"/>
+                    android:id="@+id/chatUI_photoImg"
+                    android:padding="5dp"
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/photo_full"/>
+                <ImageView
+                    android:id="@+id/chatUI_cameraImg"
+                    android:padding="6dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/camera_full"/>
+
+                <ImageView
+                    android:id="@+id/chatUI_emjoyImg"
+                    android:padding="7dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/emjoy_full"/>
             </LinearLayout>
+            <FrameLayout
+                android:id="@+id/chatUI_frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></FrameLayout>
         </LinearLayout>
-
     </LinearLayout>
-
 </LinearLayout>

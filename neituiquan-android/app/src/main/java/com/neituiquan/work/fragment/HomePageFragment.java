@@ -3,6 +3,7 @@ package com.neituiquan.work.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.neituiquan.httpEvent.GetJobListEventModel;
 import com.neituiquan.httpEvent.HeaderViewEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.popwindow.HomePageMorePop;
+import com.neituiquan.utils.ChatNotifyUtils;
 import com.neituiquan.utils.PositionUtils;
 import com.neituiquan.view.AutoLoadRecyclerView;
 import com.neituiquan.view.HomePageHeaderView;
@@ -87,9 +89,16 @@ public class HomePageFragment extends BaseFragment implements OnRefreshListener,
     private PositionUtils.PositionCallBack positionCallBack = new PositionUtils.PositionCallBack() {
         @Override
         public void mapLocation(PositionUtils.LocationEntity locationEntity) {
-            city = locationEntity.getCity();
-            title = "";
-            pageIndex = 0;
+            if(locationEntity.getErrorCode().equals("0")){
+                city = locationEntity.getCity();
+                title = "";
+                pageIndex = 0;
+            }else{
+                city = "北京市";
+                title = "";
+                pageIndex = 0;
+                ToastUtils.showShort("定位失败，请手动切换位置信息");
+            }
             initValues();
         }
     };
@@ -245,6 +254,5 @@ public class HomePageFragment extends BaseFragment implements OnRefreshListener,
         homePageUI_refreshLayout.setOnRefreshListener(this);
         homePageUI_recyclerView.setOnLoadMoreCallBack(this);
     }
-
 
 }

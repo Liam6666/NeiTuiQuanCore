@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:background="@color/backgroundColor"
+<LinearLayout android:background="@color/backgroundColor"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
         android:elevation="3dp"
         android:background="@color/white"
@@ -49,7 +49,42 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
+            <RelativeLayout
+                android:paddingLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center_vertical">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="接受消息通知"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/centerText"
+                        android:textColor="@color/highTextColor"/>
+                    <TextView
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/lowTextColor"
+                        android:textSize="@dimen/smallText"
+                        android:text="关闭无法及时收到消息通知，谨慎操作"/>
+                </LinearLayout>
+                <com.suke.widget.SwitchButton
+                    android:layout_margin="5dp"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/settingsUI_notifyBtn"
+                    android:layout_gravity="center_vertical"
+                    app:sb_checked="true"
+                    app:sb_show_indicator="false"
+                    app:sb_checked_color="@color/themeColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
             <TextView
                 android:id="@+id/settingsUI_outLogin"
                 android:layout_margin="10dp"

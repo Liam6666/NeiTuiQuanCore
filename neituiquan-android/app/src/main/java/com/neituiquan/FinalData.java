@@ -2,6 +2,7 @@ package com.neituiquan;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.neituiquan.gson.UserResumeModel;
 
@@ -26,7 +27,7 @@ public class FinalData {
      */
     public static final String UDT = "http://193.112.17.87:80";
 
-    public static final String BASE_URL = UAT;
+    public static final String BASE_URL = UDT;
 
 //    public static final String UAT = "http://192.168.0.105:8080";
 
@@ -93,10 +94,32 @@ public class FinalData {
 
     public static final String NO_VERIFY = "-2";//未审核通过
 
-    static class FinalDataController{
+    public static final String SRC_IMG = "img/";
+
+    public static final String SRC_VIDEO = "video/";
+
+    /**
+     * settings
+     */
+
+    //是否开启消息通知
+    public static boolean IS_OPEN_NOTIFY = true;
+
+    public static class FinalDataController{
+
+        static final String SETTING_FILE = "setting-file";
+
+        static SharedPreferences preferences;
 
         public static void init(Context context){
-
+            preferences = context.getSharedPreferences(SETTING_FILE,Context.MODE_PRIVATE);
+            IS_OPEN_NOTIFY = preferences.getBoolean("notify",true);
         }
+
+        public static void chatNotify(boolean open){
+            preferences.edit().putBoolean("notify",open).commit();
+            IS_OPEN_NOTIFY = open;
+        }
+
     }
 }

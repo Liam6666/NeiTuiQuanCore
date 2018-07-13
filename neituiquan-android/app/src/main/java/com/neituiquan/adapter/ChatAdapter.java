@@ -7,13 +7,16 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.neituiquan.App;
 import com.neituiquan.database.ChatDBEntity;
 import com.neituiquan.database.DBConstants;
 import com.neituiquan.entity.ChatLoopEntity;
+import com.neituiquan.utils.ChatUtils;
 import com.neituiquan.utils.GlideUtils;
 import com.neituiquan.work.R;
 
@@ -72,9 +75,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemViewHolder
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         ChatDBEntity entity = entityList.get(position);
         holder.itemChat_contentLayout.removeAllViews();
-        TextView textView = createTextView();
-        holder.itemChat_contentLayout.addView(textView);
-        textView.setText(entity.getMsgDetails());
+        if(ChatUtils.isImg(entity.getMsgDetails())){
+            ImageView imageView = createImg();
+            Glide.with(context).load(entity.getMsgDetails()).into(imageView);
+            holder.itemChat_contentLayout.addView(imageView);
+        }else{
+            TextView textView = createTextView();
+            textView.setText(entity.getMsgDetails());
+            holder.itemChat_contentLayout.addView(textView);
+        }
         if(entity.getIsFrom().equals(DBConstants.YES)){
             holder.itemChat_nickNameTv.setText("我");
             GlideUtils.load(entity.getFromHeadImg(),holder.itemChat_headImg);
@@ -101,15 +110,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemViewHolder
     private TextView createTextView(){
         TextView textView = new TextView(context);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1,-2);
-        params.rightMargin = 5;
-        params.leftMargin = 5;
-        params.topMargin = 5;
-        params.bottomMargin = 5;
         textView.setLayoutParams(params);
         textView.setTextColor(ContextCompat.getColor(context,R.color.highTextColor));
         textView.setTextSize(15);
         textView.setGravity(Gravity.CENTER_VERTICAL);
         return textView;
+    }
+
+    private ImageView createImg(){
+        ImageView imageView = new ImageView(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2,-2);
+        imageView.setLayoutParams(params);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        return imageView;
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {

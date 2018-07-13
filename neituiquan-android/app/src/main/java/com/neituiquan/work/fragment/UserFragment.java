@@ -243,7 +243,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
                 userFG_commentLayout.setVisibility(View.GONE);
                 userFG_bindCompanyLayout.setVisibility(View.GONE);
                 userFG_bindCompanyTv.setVisibility(View.GONE);
-                userFG_intentionLayout.setVisibility(View.VISIBLE);
+                userFG_intentionLayout.setVisibility(View.GONE);
                 userFG_myResumeLayout.setVisibility(View.VISIBLE);
                 userFG_blackHouseLayout.setVisibility(View.VISIBLE);
                 userFG_historyLayout.setVisibility(View.VISIBLE);

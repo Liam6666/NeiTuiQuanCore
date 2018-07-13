@@ -51,4 +51,5 @@ dependencies {
     compile 'com.just.agentweb:agentweb:4.0.2'
     compile 'com.just.agentweb:download:4.0.2'
     compile 'com.just.agentweb:filechooser:4.0.2'
+    compile 'com.tencent.qcloud:cos-android-sdk:5.4.3'
 }

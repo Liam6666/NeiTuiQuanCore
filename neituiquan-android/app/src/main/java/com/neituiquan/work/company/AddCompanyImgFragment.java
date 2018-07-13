@@ -143,7 +143,7 @@ public class AddCompanyImgFragment extends BaseFragment implements View.OnClickL
     }
 
     private void save(){
-        String url = FinalData.BASE_URL + "/uploadImg";
+        String url = FinalData.BASE_URL + "/upload";
         for(String filePath : imgPathList){
             File file = new File(filePath);
             HttpFactory.getHttpUtils().uploadMultiFile(file,url,new UploadCompanyImgEventModel());

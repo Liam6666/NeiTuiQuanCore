@@ -19,6 +19,7 @@ import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.base.BaseFragment;
 import com.neituiquan.service.AppService;
+import com.neituiquan.utils.ChatNotifyUtils;
 import com.neituiquan.work.fragment.HomePageFragment;
 import com.neituiquan.work.fragment.MessageFragment;
 import com.neituiquan.work.fragment.UserFragment;
@@ -166,9 +167,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
-    protected void onDestroy() {
-        stopService(new Intent(this,AppService.class));
-        super.onDestroy();
+    protected void onResume() {
+        super.onResume();
+        ChatNotifyUtils.CURRENT_STATE = ChatNotifyUtils.ACTIVITY;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ChatNotifyUtils.CURRENT_STATE = ChatNotifyUtils.NO_VISIBLE;
+    }
+
+    @Override
+    protected void onStop() {
+        ChatNotifyUtils.CURRENT_STATE = ChatNotifyUtils.PAUSE;
+        super.onStop();
     }
 
     private FragmentTransaction createTransaction(){

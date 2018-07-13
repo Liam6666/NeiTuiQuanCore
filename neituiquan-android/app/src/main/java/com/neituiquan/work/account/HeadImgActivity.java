@@ -15,8 +15,6 @@ import android.widget.LinearLayout;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.blankj.utilcode.util.UriUtils;
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;
@@ -24,10 +22,15 @@ import com.neituiquan.base.BaseActivity;
 import com.neituiquan.dialog.EditHeadImgMenuDialog;
 import com.neituiquan.gson.UserModel;
 import com.neituiquan.httpEvent.UploadHeadImgEventModel;
-import com.neituiquan.net.HttpFactory;
 import com.neituiquan.utils.GlideUtils;
-import com.neituiquan.utils.URI2FilePath;
+import com.neituiquan.utils.TecentetOOSUtils;
 import com.neituiquan.work.R;
+import com.tencent.cos.xml.exception.CosXmlClientException;
+import com.tencent.cos.xml.exception.CosXmlServiceException;
+import com.tencent.cos.xml.listener.CosXmlProgressListener;
+import com.tencent.cos.xml.listener.CosXmlResultListener;
+import com.tencent.cos.xml.model.CosXmlRequest;
+import com.tencent.cos.xml.model.CosXmlResult;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -101,8 +104,34 @@ public class HeadImgActivity extends BaseActivity implements View.OnClickListene
             ToastUtils.showShort("文件不能超过2MB");
             return;
         }
-        String url = FinalData.BASE_URL + "/updateHeadImg?id="+ App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId();
-        HttpFactory.getHttpUtils().uploadMultiFile(file,url,new UploadHeadImgEventModel());
+        TecentetOOSUtils.upload(FinalData.SRC_IMG,filePath,
+                new CosXmlProgressListener() {
+                    @Override
+                    public void onProgress(long complete, long target) {
+                        if(FinalData.DEBUG){
+                            if(complete == target){
+                                Log.e("TecentetOOSUtils","上传成功");
+                            }
+                        }
+                    }
+                },new CosXmlResultListener(){
+
+                    @Override
+                    public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                        if(result.httpCode == 200){
+                            if(FinalData.DEBUG){
+                                Log.e("TecentetOOSUtils","result.httpCode:"+result.accessUrl);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFail(CosXmlRequest request, CosXmlClientException exception, CosXmlServiceException serviceException) {
+
+                    }
+                });
+//        String url = FinalData.BASE_URL + "/updateHeadImg?id="+ App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId();
+//        HttpFactory.getHttpUtils().uploadMultiFile(file,url,new UploadHeadImgEventModel());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

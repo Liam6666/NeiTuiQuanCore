@@ -35,7 +35,6 @@
                 android:id="@+id/releaseJobUI_addImg"
                 android:layout_width="@dimen/toolBarHeight"
                 android:layout_height="match_parent"
-                android:src="@mipmap/add"
                 android:padding="15dp"/>
         </LinearLayout>
     </LinearLayout>

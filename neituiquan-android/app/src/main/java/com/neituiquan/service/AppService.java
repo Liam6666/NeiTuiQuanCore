@@ -2,10 +2,14 @@ package com.neituiquan.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
@@ -19,6 +23,7 @@ import com.neituiquan.entity.ChatLoopEntity;
 import com.neituiquan.gson.MsgLoopModel;
 import com.neituiquan.httpEvent.ChatEventModel;
 import com.neituiquan.net.HttpFactory;
+import com.neituiquan.utils.ChatNotifyUtils;
 import com.neituiquan.utils.TaskLooper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,6 +58,10 @@ public class AppService extends Service{
 
     private TaskLooper.TaskCompleteCallback completeCallback;
 
+    private AppHandler appHandler;
+
+    private static final int NOTIFY = 2332;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -63,12 +72,18 @@ public class AppService extends Service{
     @Override
     public void onCreate() {
         super.onCreate();
+        appHandler = new AppHandler(this);
         if(App.getAppInstance().getUserInfoUtils().getUserInfo() != null){
             dbUtils = AppDBFactory.getInstance(this);
             String userId = App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId();
             userAccount = App.getAppInstance().getUserInfoUtils().getUserInfo().data.getAccount();
             appLoop = new AppLoop(this,userId);
-            TaskLooper.bindTask(appLoop,FinalData.LOOP);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    TaskLooper.bindTask(appLoop,FinalData.LOOP);
+                }
+            }, FinalData.LOOP);
         }
     }
 
@@ -119,6 +134,17 @@ public class AppService extends Service{
              */
             String url = FinalData.BASE_URL + "/updateChatState?id="+entity.getId();
             HttpFactory.getHttpUtils().getNoCall(url);
+
+            if(FinalData.IS_OPEN_NOTIFY){
+                Message msg = Message.obtain();
+                msg.what = NOTIFY;
+                Bundle bundle = new Bundle();
+                bundle.putString("msg_",entity.getMsgDetails());
+                bundle.putString("fromNickName",entity.getFromNickName());
+                bundle.putString("fromHeadImg",entity.getFromHeadImg());
+                msg.setData(bundle);
+                appHandler.sendMessage(msg);
+            }
         }
         /**
          * 完成
@@ -167,6 +193,32 @@ public class AppService extends Service{
                             appService.put2db(response.body().string());
                         }
                     });
+        }
+    }
+
+    private static class AppHandler extends Handler{
+
+        private AppService service;
+
+        public AppHandler(AppService service){
+            this.service = service;
+        }
+
+        @Override
+        public void dispatchMessage(Message msg) {
+            super.dispatchMessage(msg);
+            if(service == null){
+                return;
+            }
+            switch (msg.what){
+                case NOTIFY:
+                    Bundle bundle = msg.getData();
+                    String msg_ = bundle.getString("msg_");
+                    String fromNickName = bundle.getString("fromNickName");
+                    String fromHeadImg = bundle.getString("fromHeadImg");
+                    ChatNotifyUtils.chatNotify(service,msg_,fromNickName,fromHeadImg);
+                    return;
+            }
         }
     }
 

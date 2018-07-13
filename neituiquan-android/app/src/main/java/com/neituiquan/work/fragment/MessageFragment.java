@@ -99,7 +99,6 @@ public class MessageFragment extends BaseFragment implements OnRefreshListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void newChatNotify(ChatEventModel eventModel){
-        ToastUtils.showShort("接受到新消息");
         messageList = dbUtils.getGroupList();
         messageAdapter.refresh(messageList);
     }
