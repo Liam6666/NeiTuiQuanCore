@@ -41,6 +41,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemViewHolder
 
     private static final int ITEM_TYPE_SELF = 1;
 
+    public static final int CHAT_TYPE_NOT = -1;
+
+    public static final int CHAT_TYPE_TEXT = 0;
+
+    public static final int CHAT_TYPE_IMG = 1;
+
     public ChatAdapter(Context context) {
         this.context = context;
     }
@@ -75,14 +81,26 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemViewHolder
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         ChatDBEntity entity = entityList.get(position);
         holder.itemChat_contentLayout.removeAllViews();
-        if(ChatUtils.isImg(entity.getMsgDetails())){
-            ImageView imageView = createImg();
-            Glide.with(context).load(entity.getMsgDetails()).into(imageView);
-            holder.itemChat_contentLayout.addView(imageView);
-        }else{
+        if(entity.getChatType() == CHAT_TYPE_NOT){
+            if(ChatUtils.isImg(entity.getMsgDetails())){
+                ImageView imageView = createImg();
+                Glide.with(context).load(entity.getMsgDetails()).into(imageView);
+                holder.itemChat_contentLayout.addView(imageView);
+                entity.setChatType(CHAT_TYPE_IMG);
+            }else{
+                TextView textView = createTextView();
+                textView.setText(entity.getMsgDetails());
+                holder.itemChat_contentLayout.addView(textView);
+                entity.setChatType(CHAT_TYPE_TEXT);
+            }
+        }else if(entity.getChatType() == CHAT_TYPE_TEXT){
             TextView textView = createTextView();
             textView.setText(entity.getMsgDetails());
             holder.itemChat_contentLayout.addView(textView);
+        }else if(entity.getChatType() == CHAT_TYPE_IMG){
+            ImageView imageView = createImg();
+            Glide.with(context).load(entity.getMsgDetails()).into(imageView);
+            holder.itemChat_contentLayout.addView(imageView);
         }
         if(entity.getIsFrom().equals(DBConstants.YES)){
             holder.itemChat_nickNameTv.setText("我");

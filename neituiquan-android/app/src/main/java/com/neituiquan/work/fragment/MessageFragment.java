@@ -1,5 +1,6 @@
 package com.neituiquan.work.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ServiceUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.neituiquan.App;
 import com.neituiquan.adapter.MessageAdapter;
@@ -19,6 +21,7 @@ import com.neituiquan.database.AppDBUtils;
 import com.neituiquan.database.ChatGroupDBEntity;
 import com.neituiquan.entity.MessageEntity;
 import com.neituiquan.httpEvent.ChatEventModel;
+import com.neituiquan.service.AppService;
 import com.neituiquan.view.AutoLoadRecyclerView;
 import com.neituiquan.work.R;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -92,6 +95,9 @@ public class MessageFragment extends BaseFragment implements OnRefreshListener {
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        if(!ServiceUtils.isServiceRunning(AppService.class)){
+            getContext().startService(new Intent(getContext(),AppService.class));
+        }
         messageList = dbUtils.getGroupList();
         messageAdapter.refresh(messageList);
         messageFG_refreshLayout.finishRefresh();

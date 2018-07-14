@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
+import com.blankj.utilcode.util.ServiceUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.neituiquan.App;
@@ -147,6 +148,10 @@ public class LoginFragment extends BaseFragment implements View.OnFocusChangeLis
                 startActivity(new Intent(getContext(), MainActivity.class));
 
                 getContext().startService(new Intent(getContext(), AppService.class));
+
+                if(!ServiceUtils.isServiceRunning(AppService.class)){
+                    getContext().startService(new Intent(getContext(),AppService.class));
+                }
             }else{
                 ToastUtils.showShort(userModel.msg);
             }

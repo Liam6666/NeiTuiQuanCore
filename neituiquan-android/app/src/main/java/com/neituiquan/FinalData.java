@@ -85,7 +85,7 @@ public class FinalData {
     /**
      * 轮询效率
      */
-    public static final long LOOP = 2000L;
+    public static long LOOP = 2000L;
 
 
     public static final String VERIFY = "0";//审核通过
@@ -105,15 +105,24 @@ public class FinalData {
     //是否开启消息通知
     public static boolean IS_OPEN_NOTIFY = true;
 
+    //省电模式
+    public static boolean IS_OPEN_POWER_SAVING = false;
+
     public static class FinalDataController{
 
-        static final String SETTING_FILE = "setting-file";
+        static final String SETTING_FILE = "SettingFile";
 
         static SharedPreferences preferences;
 
         public static void init(Context context){
             preferences = context.getSharedPreferences(SETTING_FILE,Context.MODE_PRIVATE);
             IS_OPEN_NOTIFY = preferences.getBoolean("notify",true);
+            IS_OPEN_POWER_SAVING = preferences.getBoolean("powerSaving",false);
+            if(IS_OPEN_POWER_SAVING){
+                LOOP = 3000L;
+            }else{
+                LOOP = 2000L;
+            }
         }
 
         public static void chatNotify(boolean open){
@@ -121,5 +130,15 @@ public class FinalData {
             IS_OPEN_NOTIFY = open;
         }
 
+
+        public static void powerSaving(boolean open){
+            preferences.edit().putBoolean("powerSaving",open).commit();
+            IS_OPEN_POWER_SAVING = open;
+            if(open){
+                LOOP = 3000L;
+            }else{
+                LOOP = 2000L;
+            }
+        }
     }
 }

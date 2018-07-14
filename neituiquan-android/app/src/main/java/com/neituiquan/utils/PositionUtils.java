@@ -34,7 +34,7 @@ public class PositionUtils {
 
     public static final String LOCATION_TAG = "PositionUtils";
 
-    private static final String FILE_NAME = "location-info";
+    private static final String FILE_NAME = "LocationInfo";
 
     private static final String KEY_NAME = "location";
 

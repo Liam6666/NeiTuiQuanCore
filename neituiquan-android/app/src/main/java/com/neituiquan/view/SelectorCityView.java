@@ -67,7 +67,7 @@ public class SelectorCityView extends FrameLayout implements RightSelectorView.O
         expandableListView.setDivider(null);
         expandableListView.setGroupIndicator(null);
         rightSelectorView = new RightSelectorView(getContext());
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(100,-1);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(70,-1);
         params.gravity = Gravity.RIGHT;
         rightSelectorView.setLayoutParams(params);
         addView(expandableListView);

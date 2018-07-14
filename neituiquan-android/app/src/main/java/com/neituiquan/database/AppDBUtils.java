@@ -218,6 +218,12 @@ public class AppDBUtils extends AppDataBase {
         db.execSQL(sql);
     }
 
+    public void destroy(){
+        if(db != null){
+            db.close();
+        }
+    }
+
     private void setChatValues(ChatDBEntity entity,Cursor cursor){
         entity.setChatId(cursor.getString(cursor.getColumnIndex("chatId")));
         entity.setGroupId(cursor.getString(cursor.getColumnIndex("groupId")));

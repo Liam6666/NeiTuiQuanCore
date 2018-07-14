@@ -70,7 +70,7 @@ public class ChatNotifyUtils {
 
     private static void playVibrator(){
         Vibrator vibrator = (Vibrator) App.getAppInstance().getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(500);
+        vibrator.vibrate(200);
     }
 
 

@@ -46,8 +46,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private UserFragment userFragment;
     private MessageFragment messageFragment;
 
-    private BaseFragment currentFragment;
-
     @Override
     public void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
@@ -108,6 +106,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mainUI_messageTv.setTextColor(ContextCompat.getColor(this,R.color.lowTextColor));
         mainUI_meIcon.setImageResource(R.mipmap.my);
         mainUI_meTv.setTextColor(ContextCompat.getColor(this,R.color.lowTextColor));
+        createTransaction()
+                .hide(homePageFragment)
+                .hide(messageFragment)
+                .hide(userFragment)
+                .commit();
         switch (index){
             case 1:
                 if(!homePageFragment.isAdded()){
@@ -118,10 +121,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }else{
                     createTransaction()
                             .show(homePageFragment)
-                            .hide(currentFragment)
                             .commit();
                 }
-                currentFragment = homePageFragment;
                 mainUI_homePageIcon.setImageResource(R.mipmap.home_fill);
                 mainUI_homePageTv.setTextColor(ContextCompat.getColor(this,R.color.themeColor));
                 break;
@@ -136,10 +137,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }else{
                     createTransaction()
                             .show(messageFragment)
-                            .hide(currentFragment)
                             .commit();
                 }
-                currentFragment = messageFragment;
                 break;
             case 3:
                 mainUI_foundIcon.setImageResource(R.mipmap.form_fill);
@@ -154,10 +153,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }else{
                     createTransaction()
                             .show(userFragment)
-                            .hide(currentFragment)
                             .commit();
                 }
-                currentFragment = userFragment;
                 mainUI_meIcon.setImageResource(R.mipmap.my_fill);
                 mainUI_meTv.setTextColor(ContextCompat.getColor(this,R.color.themeColor));
                 break;

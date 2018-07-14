@@ -17,7 +17,7 @@ public class UserInfoUtils {
     private SharedPreferences sharedPreferences;
 
 
-    public static final String KEY_NAME = "USER-INFO";
+    public static final String KEY_NAME = "UserInfo";
 
     public UserInfoUtils(Context context){
         sharedPreferences = context.getSharedPreferences("UserInfoUtils",Context.MODE_PRIVATE);

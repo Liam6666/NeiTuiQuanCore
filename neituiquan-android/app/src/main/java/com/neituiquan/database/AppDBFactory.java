@@ -18,4 +18,14 @@ public class AppDBFactory {
         }
         return appDBUtils;
     }
+
+
+    public static void destroy(){
+        if(appDBUtils == null){
+            return;
+        }
+        appDBUtils.destroy();
+        appDBUtils.close();
+        appDBUtils = null;
+    }
 }

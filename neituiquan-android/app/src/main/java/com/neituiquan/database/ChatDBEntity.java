@@ -38,6 +38,21 @@ public class ChatDBEntity implements Serializable {
 
     private String createTime;
 
+    /**
+     *  -1 代表未判断
+     *  0 文字
+     *  1 图片
+     */
+    private int  chatType = -1;
+
+    public int getChatType() {
+        return chatType;
+    }
+
+    public void setChatType(int chatType) {
+        this.chatType = chatType;
+    }
+
     public String getChatId() {
         return chatId;
     }

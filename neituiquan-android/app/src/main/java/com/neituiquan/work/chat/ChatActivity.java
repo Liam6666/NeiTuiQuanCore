@@ -38,6 +38,7 @@ import com.neituiquan.net.HttpFactory;
 import com.neituiquan.work.R;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -105,6 +106,17 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     private ChatEmotionFragment chatEmotionFragment;
 
     private boolean emotionIsShow = false;
+
+
+    {
+        ClassicsHeader.REFRESH_HEADER_PULLING = "下拉可以加载更多聊天记录";//"下拉可以刷新";
+        ClassicsHeader.REFRESH_HEADER_REFRESHING = "正在加载...";//"正在刷新...";
+        ClassicsHeader.REFRESH_HEADER_LOADING = "正在加载...";//"正在加载...";
+        ClassicsHeader.REFRESH_HEADER_RELEASE = "释放立即加载";//"释放立即刷新";
+        ClassicsHeader.REFRESH_HEADER_FINISH = "加载完成";//"刷新完成";
+        ClassicsHeader.REFRESH_HEADER_FAILED = "加载失败";//"刷新失败";
+        ClassicsHeader.REFRESH_HEADER_SECONDARY = "";//"释放进入二楼";
+    }
 
     @Override
     public void initView(Bundle savedInstanceState) {
@@ -186,6 +198,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 }else{
                     showEmotion();
                 }
+                break;
+            case R.id.chatUI_backImg:
+                finish();
                 break;
         }
     }
@@ -354,6 +369,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         chatUI_contentLayout = findViewById(R.id.chatUI_contentLayout);
         chatUI_frameLayout = findViewById(R.id.chatUI_frameLayout);
         chatUI_sendTv.setOnClickListener(this);
+        chatUI_backImg.setOnClickListener(this);
         chatUI_emjoyImg.setOnClickListener(this);
         chatUI_refreshLayout.setOnRefreshListener(this);
         chatUI_inputTv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
