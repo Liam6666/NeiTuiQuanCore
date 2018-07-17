@@ -14,15 +14,12 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.PermissionUtils;
-import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseActivity;
-import com.neituiquan.base.BaseFragment;
-import com.neituiquan.service.AppService;
 import com.neituiquan.utils.ChatNotifyUtils;
 import com.neituiquan.work.fragment.HomePageFragment;
 import com.neituiquan.work.fragment.MessageFragment;
 import com.neituiquan.work.fragment.UserFragment;
+import com.neituiquan.work.widgets.PhotoExtractActivity;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -77,6 +74,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.mainUI_foundLayout:
                 showHindFragment(3);
+                startActivity(new Intent(this,PhotoExtractActivity.class));
                 break;
             case R.id.mainUI_meLayout:
                 showHindFragment(4);

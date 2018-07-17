@@ -130,6 +130,7 @@ public class AppDBUtils extends AppDataBase {
             cursor = db.rawQuery(sql,new String[]{account,chatDBEntity.getFromId()});
         }
         int count = cursor.getCount();
+        cursor.close();
         if(count == 0){
             return false;
         }

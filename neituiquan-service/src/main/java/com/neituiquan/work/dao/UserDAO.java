@@ -41,4 +41,5 @@ public interface UserDAO {
     int getUserCount();
 
     List<UserEntity> getUserList(String index);
+
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/item_contentLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="100dp"
+    android:layout_height="140dp"
+    android:background="@color/black">
+
+    <ImageView
+        android:layout_gravity="center"
+        android:id="@+id/item_imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+    <View
+        android:id="@+id/item_coverView"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#30000000"/>
+
+    <View
+        android:id="@+id/item_selectView"
+        android:layout_gravity="right"
+        android:layout_margin="5dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@mipmap/select"/>
+
+</FrameLayout>

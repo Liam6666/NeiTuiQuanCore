@@ -39,6 +39,12 @@ public class UserController {
         return service.login(entity);
     }
 
+    @RequestMapping(method = RequestMethod.POST,path = "/updateHeadImgSimple")
+    public AbsEntity updateHeadImgSimple(@RequestParam String id,@RequestParam String headImg){
+        return service.updateHeadImg(id,headImg);
+    }
+
+
     @RequestMapping(method = RequestMethod.POST,path = "/updateHeadImg")
     public AbsEntity updateHeadImg(@RequestParam("file") MultipartFile multipartFile,String id){
         AbsEntity absEntity = new AbsEntity();

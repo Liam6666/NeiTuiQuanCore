@@ -13,11 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationListener;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SizeUtils;
-import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.neituiquan.App;
@@ -30,9 +27,8 @@ import com.neituiquan.gson.UserResumeModel;
 import com.neituiquan.httpEvent.UpdateResumeEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.utils.PositionUtils;
-import com.neituiquan.work.CitySelectorActivity;
+import com.neituiquan.work.widgets.CitySelectorActivity;
 import com.neituiquan.work.R;
-import com.weigan.loopview.OnItemSelectedListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

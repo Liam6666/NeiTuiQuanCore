@@ -186,6 +186,11 @@ public class CompanyDetailsActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        companyDetailsFG_banner.stopAutoPlay();
+        super.onDestroy();
+    }
 
     private void initStatusBar() {
         new Handler().post(new Runnable() {

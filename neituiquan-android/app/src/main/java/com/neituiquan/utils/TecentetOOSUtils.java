@@ -1,9 +1,7 @@
 package com.neituiquan.utils;
 
-import android.content.Context;
 
 import com.neituiquan.App;
-import com.neituiquan.FinalData;
 import com.tencent.cos.xml.CosXmlService;
 import com.tencent.cos.xml.CosXmlServiceConfig;
 import com.tencent.cos.xml.listener.CosXmlProgressListener;

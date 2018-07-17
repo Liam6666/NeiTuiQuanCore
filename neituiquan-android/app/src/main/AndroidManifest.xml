@@ -102,18 +102,21 @@
             android:screenOrientation="portrait"
             android:configChanges="screenSize|keyboardHidden|orientation"/>
 
-        <activity android:name=".WebActivity"
+        <activity android:name=".widgets.WebActivity"
             android:screenOrientation="portrait"
             android:configChanges="screenSize|keyboardHidden|orientation"/>
         <activity android:name=".chat.ChatActivity"
             android:screenOrientation="portrait"
             android:configChanges="screenSize|keyboardHidden|orientation"/>
-        <activity android:name=".CitySelectorActivity"
+        <activity android:name=".widgets.CitySelectorActivity"
             android:screenOrientation="portrait"
             android:configChanges="screenSize|keyboardHidden|orientation"/>
         <activity android:name=".jobs.JobDetailsActivity"
             android:screenOrientation="portrait"
             android:configChanges="screenSize|keyboardHidden|orientation" />
+        <activity android:name=".widgets.PhotoExtractActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|keyboardHidden|orientation"/>
         <meta-data android:name="com.amap.api.v2.apikey"
             android:value="de807fabe463ea4be0a5b02706d47e7e">
         </meta-data>

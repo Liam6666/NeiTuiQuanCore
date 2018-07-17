@@ -3,7 +3,6 @@ package com.neituiquan.work.company;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationListener;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.google.gson.Gson;
@@ -29,8 +26,7 @@ import com.neituiquan.gson.CompanyModel;
 import com.neituiquan.httpEvent.AddCompanyEventModel;
 import com.neituiquan.net.HttpFactory;
 import com.neituiquan.utils.PositionUtils;
-import com.neituiquan.view.SelectorCityView;
-import com.neituiquan.work.CitySelectorActivity;
+import com.neituiquan.work.widgets.CitySelectorActivity;
 import com.neituiquan.work.R;
 
 import org.greenrobot.eventbus.Subscribe;

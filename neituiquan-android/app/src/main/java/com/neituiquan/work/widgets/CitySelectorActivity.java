@@ -1,4 +1,4 @@
-package com.neituiquan.work;
+package com.neituiquan.work.widgets;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import com.blankj.utilcode.util.BarUtils;
 import com.neituiquan.base.BaseActivity;
 import com.neituiquan.view.SelectorCityView;
+import com.neituiquan.work.R;
 
 
 /**

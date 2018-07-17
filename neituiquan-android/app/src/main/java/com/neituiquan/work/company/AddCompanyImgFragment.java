@@ -15,13 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.neituiquan.FinalData;
 import com.neituiquan.base.BaseFragment;
 import com.neituiquan.entity.CompanyEntity;
 import com.neituiquan.entity.CompanyImgEntity;
-import com.neituiquan.gson.AbsModel;
 import com.neituiquan.gson.StringModel;
 import com.neituiquan.httpEvent.AddCompanyEventModel;
 import com.neituiquan.httpEvent.UploadCompanyImgEventModel;

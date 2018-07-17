@@ -15,13 +15,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.StringUtils;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 import com.neituiquan.App;
 import com.neituiquan.FinalData;

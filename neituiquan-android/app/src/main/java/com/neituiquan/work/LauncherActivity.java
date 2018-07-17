@@ -30,15 +30,16 @@ public class LauncherActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(App.getAppInstance().getUserInfoUtils().getUserInfo() == null){
-                    startActivity(new Intent(LauncherActivity.this,AccountActivity.class));
-                }else{
-                    startActivity(new Intent(LauncherActivity.this,MainActivity.class));
-                    startService(new Intent(LauncherActivity.this,AppService.class));
-                }
-                finish();
+
             }
         },1000);
+        if(App.getAppInstance().getUserInfoUtils().getUserInfo() == null){
+            startActivity(new Intent(LauncherActivity.this,AccountActivity.class));
+        }else{
+            startActivity(new Intent(LauncherActivity.this,MainActivity.class));
+            startService(new Intent(LauncherActivity.this,AppService.class));
+        }
+        finish();
     }
 
 

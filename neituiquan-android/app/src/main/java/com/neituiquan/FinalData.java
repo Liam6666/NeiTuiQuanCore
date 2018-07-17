@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import com.neituiquan.gson.UserResumeModel;
 
 import java.lang.ref.SoftReference;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Augustine on 2018/6/15.
@@ -97,6 +99,14 @@ public class FinalData {
     public static final String SRC_IMG = "img/";
 
     public static final String SRC_VIDEO = "video/";
+
+
+    public static final List<String> FEED_BACK_TYPE = new ArrayList<>();
+    static {
+        FEED_BACK_TYPE.add("举报信息");
+        FEED_BACK_TYPE.add("吐槽");
+        FEED_BACK_TYPE.add("建议");
+    }
 
     /**
      * settings

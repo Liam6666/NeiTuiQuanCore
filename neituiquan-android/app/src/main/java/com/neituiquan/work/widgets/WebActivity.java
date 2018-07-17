@@ -1,4 +1,4 @@
-package com.neituiquan.work;
+package com.neituiquan.work.widgets;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -11,6 +11,7 @@ import com.blankj.utilcode.util.BarUtils;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebClient;
 import com.neituiquan.base.BaseActivity;
+import com.neituiquan.work.R;
 
 /**
  * Created by Augustine on 2018/7/5.

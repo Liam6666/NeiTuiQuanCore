@@ -22,6 +22,7 @@ import com.neituiquan.base.BaseActivity;
 import com.neituiquan.dialog.EditHeadImgMenuDialog;
 import com.neituiquan.gson.UserModel;
 import com.neituiquan.httpEvent.UploadHeadImgEventModel;
+import com.neituiquan.net.HttpFactory;
 import com.neituiquan.utils.GlideUtils;
 import com.neituiquan.utils.TecentetOOSUtils;
 import com.neituiquan.work.R;
@@ -37,6 +38,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.util.HashMap;
 
 /**
  * Created by Augustine on 2018/6/21.
@@ -119,6 +121,11 @@ public class HeadImgActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onSuccess(CosXmlRequest request, CosXmlResult result) {
                         if(result.httpCode == 200){
+                            String url = FinalData.BASE_URL + "/updateHeadImgSimple";
+                            HashMap<String,String> params = new HashMap<>();
+                            params.put("id",App.getAppInstance().getUserInfoUtils().getUserId());
+                            params.put("headImg",result.accessUrl);
+                            HttpFactory.getHttpUtils().post(params,url,new UploadHeadImgEventModel());
                             if(FinalData.DEBUG){
                                 Log.e("TecentetOOSUtils","result.httpCode:"+result.accessUrl);
                             }
@@ -127,11 +134,9 @@ public class HeadImgActivity extends BaseActivity implements View.OnClickListene
 
                     @Override
                     public void onFail(CosXmlRequest request, CosXmlClientException exception, CosXmlServiceException serviceException) {
-
+                        ToastUtils.showShort("上传失败");
                     }
                 });
-//        String url = FinalData.BASE_URL + "/updateHeadImg?id="+ App.getAppInstance().getUserInfoUtils().getUserInfo().data.getId();
-//        HttpFactory.getHttpUtils().uploadMultiFile(file,url,new UploadHeadImgEventModel());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

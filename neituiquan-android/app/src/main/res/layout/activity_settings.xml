@@ -129,7 +129,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/lowTextColor"
                             android:textSize="@dimen/smallText"
-                            android:text="有助于节省电量，以及无限流量，建议在无WIFI状态打开"/>
+                            android:text="有助于节省电量、流量，建议在无wifi状态打开"/>
                     </LinearLayout>
                     <com.suke.widget.SwitchButton
                         android:layout_marginTop="10dp"
