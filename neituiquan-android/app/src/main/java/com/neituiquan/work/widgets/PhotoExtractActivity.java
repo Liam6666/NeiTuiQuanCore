@@ -1,5 +1,6 @@
 package com.neituiquan.work.widgets;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.neituiquan.base.BaseActivity;
@@ -57,10 +59,17 @@ public class PhotoExtractActivity extends BaseActivity implements View.OnClickLi
     private AutoLoadRecyclerView photoExtractUI_recyclerView;
     private FrameLayout photoExtractUI_frameLayout;
     private LinearLayout photoExtractUI_pathLayout;
+    private TextView photoExtractUI_doneTv;
 
     private static final int NO_SELECT = 0;
 
     private static final int SELECT = 1;
+
+    public static final int RESULT_CODE = 89481;
+
+    private int maxCount = 1;
+
+    private List<String> selectList = new ArrayList<>();
 
     private int spanCount = 4;
 
@@ -177,9 +186,17 @@ public class PhotoExtractActivity extends BaseActivity implements View.OnClickLi
                 @Override
                 public void onClick(View v) {
                     if(entity.isSelect == NO_SELECT){
-                        entity.isSelect = SELECT;
+                        if(selectList.size() < maxCount){
+                            entity.isSelect = SELECT;
+                            if(!selectList.contains(entity.fullPath)){
+                                selectList.add(entity.fullPath);
+                            }
+                        }else {
+                            ToastUtils.showShort("最多只能选择"+maxCount+"张");
+                        }
                     }else{
                         entity.isSelect = NO_SELECT;
+                        selectList.remove(entity.fullPath);
                     }
                     notifyItemChanged(position);
                 }
@@ -234,6 +251,8 @@ public class PhotoExtractActivity extends BaseActivity implements View.OnClickLi
         initStatusBar();
         initValues();
         listDialog = new ListDialog(this);
+
+        maxCount = getIntent().getIntExtra("maxCount",1);
     }
 
     @Override
@@ -401,6 +420,12 @@ public class PhotoExtractActivity extends BaseActivity implements View.OnClickLi
             case R.id.photoExtractUI_pathLayout:
                 listDialog.show();
                 break;
+            case R.id.photoExtractUI_doneTv:
+                Intent intent = new Intent();
+                intent.putStringArrayListExtra("selectList", (ArrayList<String>) selectList);
+                setResult(RESULT_CODE,intent);
+                finish();
+                break;
         }
     }
 
@@ -420,10 +445,11 @@ public class PhotoExtractActivity extends BaseActivity implements View.OnClickLi
         photoExtractUI_recyclerView = (com.neituiquan.view.AutoLoadRecyclerView) findViewById(R.id.photoExtractUI_recyclerView);
         photoExtractUI_frameLayout = (FrameLayout) findViewById(R.id.photoExtractUI_frameLayout);
         photoExtractUI_pathLayout = findViewById(R.id.photoExtractUI_pathLayout);
+        photoExtractUI_doneTv = findViewById(R.id.photoExtractUI_doneTv);
 
         photoExtractUI_backImg.setOnClickListener(this);
         photoExtractUI_pathLayout.setOnClickListener(this);
-
+        photoExtractUI_doneTv.setOnClickListener(this);
         photoExtractUI_refreshLayout.setOnRefreshListener(this);
     }
 

@@ -28,6 +28,7 @@ import com.neituiquan.net.RequestEventModel;
 import com.neituiquan.utils.GlideUtils;
 import com.neituiquan.utils.URI2FilePath;
 import com.neituiquan.work.R;
+import com.neituiquan.work.widgets.PhotoExtractActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -120,13 +121,17 @@ public class AddCompanyImgFragment extends BaseFragment implements View.OnClickL
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case BindCompanyActivity.REQUEST_CODE_PICK_IMAGE:
-                if (resultCode == BindCompanyActivity.RESULT_OK) {
+                if (resultCode == PhotoExtractActivity.RESULT_CODE) {
                     try {
-                        Uri uri = data.getData();
-                        String filePath = URI2FilePath.getRealPathFromUri(getContext(),uri);
-                        Bitmap bit = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(uri));
-                        bindCompanyFG_imgLayout.removeView(emptyItemView);
-                        bindCompanyFG_imgLayout.addView(createItemsForPhoto(bit,filePath));
+                        ArrayList<String> selectList = data.getStringArrayListExtra("selectList");
+                        if(selectList.size() == 0){
+                            return;
+                        }
+                        for(String filePath : selectList){
+                            Bitmap bit = BitmapFactory.decodeFile(filePath);
+                            bindCompanyFG_imgLayout.removeView(emptyItemView);
+                            bindCompanyFG_imgLayout.addView(createItemsForPhoto(bit,filePath));
+                        }
                     } catch (Exception e) {
                         ToastUtils.showShort("失败了");
                     }
@@ -202,10 +207,13 @@ public class AddCompanyImgFragment extends BaseFragment implements View.OnClickL
         /**
          * 打开选择图片的界面
          */
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");//相片类型
-        startActivityForResult(intent, BindCompanyActivity.REQUEST_CODE_PICK_IMAGE);
+//        Intent intent = new Intent(Intent.ACTION_PICK);
+//        intent.setType("image/*");//相片类型
+//        startActivityForResult(intent, BindCompanyActivity.REQUEST_CODE_PICK_IMAGE);
 
+        Intent intent = new Intent(getContext(), PhotoExtractActivity.class);
+        intent.putExtra("maxCount",6);
+        startActivityForResult(intent,BindCompanyActivity.REQUEST_CODE_PICK_IMAGE);
     }
 
     private FrameLayout createItemsForPhoto(Bitmap bit, final String filePath){

@@ -29,7 +29,6 @@
                 android:src="@mipmap/back_left"
                 android:padding="15dp"/>
             <LinearLayout
-                android:layout_marginRight="@dimen/toolBarHeight"
                 android:layout_weight="1"
                 android:id="@+id/photoExtractUI_pathLayout"
                 android:orientation="horizontal"
@@ -50,6 +49,14 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/down"/>
             </LinearLayout>
+            <TextView
+                android:id="@+id/photoExtractUI_doneTv"
+                android:layout_width="@dimen/toolBarHeight"
+                android:layout_height="match_parent"
+                android:textColor="@color/themeColor"
+                android:textSize="@dimen/centerText"
+                android:text="完成"
+                android:gravity="center"/>
         </LinearLayout>
     </LinearLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout

@@ -1,7 +1,9 @@
 package com.neituiquan;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 
+import com.blankj.utilcode.util.CrashUtils;
 import com.blankj.utilcode.util.Utils;
 import com.neituiquan.utils.UserInfoUtils;
 

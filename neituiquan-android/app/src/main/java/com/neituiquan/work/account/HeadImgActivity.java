@@ -26,6 +26,7 @@ import com.neituiquan.net.HttpFactory;
 import com.neituiquan.utils.GlideUtils;
 import com.neituiquan.utils.TecentetOOSUtils;
 import com.neituiquan.work.R;
+import com.neituiquan.work.widgets.PhotoExtractActivity;
 import com.tencent.cos.xml.exception.CosXmlClientException;
 import com.tencent.cos.xml.exception.CosXmlServiceException;
 import com.tencent.cos.xml.listener.CosXmlProgressListener;
@@ -38,6 +39,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -90,10 +92,13 @@ public class HeadImgActivity extends BaseActivity implements View.OnClickListene
         /**
          * 打开选择图片的界面
          */
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");//相片类型
-        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
+//        Intent intent = new Intent(Intent.ACTION_PICK);
+//        intent.setType("image/*");//相片类型
+//        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
 
+        Intent intent = new Intent(this, PhotoExtractActivity.class);
+        intent.putExtra("maxCount",1);
+        startActivityForResult(intent,REQUEST_CODE_PICK_IMAGE);
     }
 
     private void upload(){
@@ -161,18 +166,14 @@ public class HeadImgActivity extends BaseActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_CODE_PICK_IMAGE:
-                if (resultCode == RESULT_OK) {
+                if (resultCode == PhotoExtractActivity.RESULT_CODE) {
                     try {
-                        Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
-                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                        Cursor cursor = getContentResolver().query(selectedImage,
-                                filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
-                        cursor.moveToFirst();
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        filePath = cursor.getString(columnIndex);  //获取照片路径
-                        cursor.close();
-                        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-                        editHeadUI_headImg.setImageBitmap(bitmap);
+                        ArrayList<String> selectList = data.getStringArrayListExtra("selectList");
+                        if(selectList.size() > 0){
+                            filePath = selectList.get(0);
+                            Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+                            editHeadUI_headImg.setImageBitmap(bitmap);
+                        }
                     } catch (Exception e) {
                         ToastUtils.showShort("失败了");
                     }
